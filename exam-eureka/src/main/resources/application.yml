@@ -15,3 +15,27 @@ eureka:
   server:
     enable-self-preservation: false # 开发阶段关闭保护模式
     eviction-interval-timer-in-ms: 5000 # client 清理时间
+
+---
+spring:
+  profiles: master
+server:
+  port: 10010
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:10011/eureka/
+
+---
+spring:
+  profiles: slave
+server:
+  port: 10011
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:10010/eureka/

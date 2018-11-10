@@ -77,3 +77,55 @@
 				  server:
 				    enable-self-preservation: false # 开发阶段关闭保护模式
 				    eviction-interval-timer-in-ms: 5000 # client 清理时间 
+4. 通过profiles简化高可用配置：    
+    1. 通过Spring提供的profiles来处理多环境配置(同一的注册中心，配置不同而已)
+
+			# default配置
+	    	server:
+			  port: 10010
+			spring:
+			  application:
+			    name: exam-eureka
+			eureka:
+			  instance:
+			    hostname: localhost
+			    appname: exam-eureka
+			  client:
+			    registerWithEureka: false
+			    fetchRegistry: false
+			    serviceUrl:
+			      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+			  server:
+			    enable-self-preservation: false # 开发阶段关闭保护模式
+			    eviction-interval-timer-in-ms: 5000 # client 清理时间
+			
+			# master配置
+			---
+			spring:
+			  profiles: master
+			server:
+			  port: 10010
+			eureka:
+			  client:
+			    registerWithEureka: true
+			    fetchRegistry: true
+			    serviceUrl:
+			      defaultZone: http://${eureka.instance.hostname}:10011/eureka/
+			
+			# slave配置
+			---
+			spring:
+			  profiles: slave
+			server:
+			  port: 10011
+			eureka:
+			  client:
+			    registerWithEureka: true
+			    fetchRegistry: true
+			    serviceUrl:
+			      defaultZone: http://${eureka.instance.hostname}:10010/eureka/
+  2. 说明
+  		1. 激活多环境，通过启动参数`spring.profiles.active`设置环境
+
+  				java -jar exam-eureka-1.0.0.jar --spring.profiles.active=slave
+  		2. 配置说明：默认的配置会继续派生到每个环境中，可以在各个环境中覆盖原有的默认配置 
