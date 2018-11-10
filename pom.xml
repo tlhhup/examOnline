@@ -17,6 +17,11 @@
         <version>2.0.1.RELEASE</version>
     </parent>
 
+    <properties>
+        <docker.prefix>exam</docker.prefix>
+        <docker.plugin.version>1.2.0</docker.plugin.version>
+    </properties>
+
     <dependencyManagement>
         <dependencies>
             <dependency>

@@ -129,3 +129,47 @@
 
   				java -jar exam-eureka-1.0.0.jar --spring.profiles.active=slave
   		2. 配置说明：默认的配置会继续派生到每个环境中，可以在各个环境中覆盖原有的默认配置 
+5. 通过docker-maven插件构建docker镜像
+	1. 添加插件
+
+			<build>
+		        <plugins>
+		            <plugin>
+		                <groupId>com.spotify</groupId>
+		                <artifactId>docker-maven-plugin</artifactId>
+		                <version>${docker.plugin.version}</version>
+		                <configuration>
+		                    <!-- 设置image的名称 -->
+		                    <imageName>${docker.prefix}/${project.artifactId}</imageName>
+		                    <!-- 设置Dockerfile文件路径 -->
+		                    <dockerDirectory>${project.basedir}/src/main/docker</dockerDirectory>
+		                    <resources>
+		                        <resource>
+		                            <targetPath>/</targetPath>
+		                            <directory>${project.build.directory}</directory>
+		                            <include>${project.build.finalName}.jar</include>
+		                        </resource>
+		                    </resources>
+		                </configuration>
+		            </plugin>
+		        </plugins>
+		    </build>
+	2. 编写Dockerfile文件：在src/main/docker文件夹下创建Dockerfile文件，其内容如下
+
+			# 基础镜像
+			FROM livingobjects/jre8
+			
+			# 卷
+			VOLUME /tmp
+			
+			# copy file
+			ADD exam-eureka-1.0.0.jar app.jar
+			RUN bash -c 'touch /app.jar'
+			
+			# 容器在运行时监听的端口号，用于docker容器间的通信
+			EXPOSE 10010
+			
+			ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+	3. 执行命令  
+
+			mvn clean package docker:build
