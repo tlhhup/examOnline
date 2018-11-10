@@ -7,6 +7,9 @@
     <groupId>org.tlh</groupId>
     <artifactId>examonline</artifactId>
     <version>1.0.0</version>
+    <modules>
+        <module>exam-eureka</module>
+    </modules>
     <packaging>pom</packaging>
     <parent>
         <groupId>org.springframework.boot</groupId>
