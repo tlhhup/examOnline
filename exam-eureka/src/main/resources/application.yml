@@ -6,7 +6,7 @@ spring:
 eureka:
   instance:
     hostname: localhost
-    app-group-name: exam-eureka
+    appname: exam-eureka
   client:
     registerWithEureka: false
     fetchRegistry: false
