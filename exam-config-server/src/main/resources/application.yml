@@ -17,11 +17,6 @@ spring:
           order: 0
   application:
     name: exam-config-server
-  rabbitmq:
-    host: localhost
-    port: 5672
-    password: guest
-    username: guest
 eureka:
   client:
     service-url:
