@@ -1,5 +1,5 @@
 server:
-  port: 10010
+  port: 10011
 spring:
   application:
     name: exam-eureka
@@ -20,22 +20,22 @@ eureka:
 spring:
   profiles: master
 server:
-  port: 10010
-eureka:
-  client:
-    registerWithEureka: true
-    fetchRegistry: true
-    serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:10011/eureka/
-
----
-spring:
-  profiles: slave
-server:
   port: 10011
 eureka:
   client:
     registerWithEureka: true
     fetchRegistry: true
     serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:10010/eureka/
+      defaultZone: http://${eureka.instance.hostname}:10012/eureka/
+
+---
+spring:
+  profiles: slave
+server:
+  port: 10012
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:10011/eureka/

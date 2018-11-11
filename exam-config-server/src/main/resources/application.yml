@@ -1,0 +1,34 @@
+server:
+  port: 10013
+spring:
+  datasource:
+    url: jdbc:mysql:///exam_config
+    driver-class-name: org.gjt.mm.mysql.Driver
+    username: root
+    password: 123456
+    type: org.springframework.jdbc.datasource.DriverManagerDataSource
+  profiles:
+    active: jdbc # 激活config-DB方式
+  cloud:
+    config:
+      server:
+        jdbc:
+          sql: select p.p_key as `KEY`,p.p_value as 'VALUE' from property p inner join env e on e.id=p.env_id inner join project pt on pt.id=p.project_id inner join label l on l.id=p.label_id where pt.name=? and e.name=? and l.name=?
+          order: 0
+  application:
+    name: exam-config-server
+  rabbitmq:
+    host: localhost
+    port: 5672
+    password: guest
+    username: guest
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:10011/eureka/
+    healthcheck:
+      enabled: true
+  instance:
+    appname: exam-config-server
+    lease-expiration-duration-in-seconds: 5
+    lease-renewal-interval-in-seconds: 5

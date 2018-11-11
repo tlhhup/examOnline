@@ -9,6 +9,7 @@
     <version>1.0.0</version>
     <modules>
         <module>exam-eureka</module>
+        <module>exam-config-server</module>
     </modules>
     <packaging>pom</packaging>
     <parent>
