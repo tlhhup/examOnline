@@ -31,11 +31,6 @@
         </dependency>
         <dependency>
             <groupId>com.didispace</groupId>
-            <artifactId>scca-ui</artifactId>
-            <version>${scca.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.didispace</groupId>
             <artifactId>scca-discovery-eureka</artifactId>
             <version>${scca.version}</version>
         </dependency>
