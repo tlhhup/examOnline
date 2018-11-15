@@ -11,6 +11,7 @@
         <module>exam-eureka</module>
         <module>exam-config-server</module>
         <module>exam-config-admin</module>
+        <module>exam-admin</module>
     </modules>
     <packaging>pom</packaging>
     <parent>
