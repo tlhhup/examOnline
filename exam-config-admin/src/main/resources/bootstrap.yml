@@ -1,0 +1,14 @@
+spring:
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: exam-config-server
+eureka:
+ client:
+   service-url:
+     defaultZone: http://localhost:10011/eureka/
+ instance:
+   appname: exam-config-admin
+   lease-expiration-duration-in-seconds: 5
+   lease-renewal-interval-in-seconds: 5
