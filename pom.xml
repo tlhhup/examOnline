@@ -12,6 +12,7 @@
         <module>exam-config-server</module>
         <module>exam-config-admin</module>
         <module>exam-admin</module>
+        <module>exam-auth</module>
     </modules>
     <packaging>pom</packaging>
     <parent>

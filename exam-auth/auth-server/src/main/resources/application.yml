@@ -1,0 +1,26 @@
+server:
+  port: 10016
+spring:
+  application:
+    name: exam-auth-server
+  datasource:
+    url: jdbc:mysql:///exam_auth
+    driver-class-name: org.gjt.mm.mysql.Driver
+    username: root
+    password: 123456
+    type: org.springframework.jdbc.datasource.DriverManagerDataSource
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQL57InnoDBDialect
+eureka:
+  instance:
+    appname: exam-auth-server
+    lease-expiration-duration-in-seconds: 5
+    lease-renewal-interval-in-seconds: 5
+  client:
+    service-url:
+      defaultZone: http://localhost:10011/eureka/
+logging:
+  level:
+    org.hibernate: debug
