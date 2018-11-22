@@ -27,3 +27,6 @@ logging:
 swagger:
   enabled: true
   title: 授权中心
+exam:
+  auth:
+    secret: 123456
