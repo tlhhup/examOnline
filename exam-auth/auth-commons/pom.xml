@@ -11,5 +11,23 @@
 
     <artifactId>auth-commons</artifactId>
 
+    <properties>
+        <swagger.version>1.5.20</swagger.version>
+        <jackson.version>2.9.5</jackson.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+    </dependencies>
+
 
 </project>

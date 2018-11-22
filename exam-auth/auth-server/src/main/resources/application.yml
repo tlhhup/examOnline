@@ -24,3 +24,6 @@ eureka:
 logging:
   level:
     org.hibernate: debug
+swagger:
+  enabled: true
+  title: 授权中心

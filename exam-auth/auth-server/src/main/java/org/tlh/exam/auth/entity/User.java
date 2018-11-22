@@ -1,6 +1,7 @@
 package org.tlh.exam.auth.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -20,6 +21,10 @@ public class User extends BaseEntity {
     private Integer userType;
     private Boolean isActive;
     private Date createTime;
+
+
+    @UpdateTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
     private Date updateTime;
 
     @ManyToMany(targetEntity = Role.class)
