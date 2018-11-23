@@ -10,7 +10,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "auth_roles")
-public class Role extends BaseEntity{
+public class Role extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,6 +18,7 @@ public class Role extends BaseEntity{
     private String roleName;
     private String description;
     private Integer roleValue;
+    private String creator;
     private Boolean isActive;
     private Date createTime;
 

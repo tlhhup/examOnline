@@ -5,8 +5,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.tlh.exam.auth.model.UserDto;
-import org.tlh.exam.auth.model.UserResDto;
+import org.tlh.exam.auth.model.UserAddDto;
+import org.tlh.exam.auth.model.UserRespDto;
 import org.tlh.exam.auth.service.UserService;
 
 import java.util.List;
@@ -21,8 +21,8 @@ public class UserController {
 
     @PostMapping("/add")
     @ApiOperation("添加用户")
-    public ResponseEntity<Boolean> addUser(@RequestBody UserDto userDto) {
-        boolean flag = this.userService.saveUser(userDto);
+    public ResponseEntity<Boolean> addUser(@RequestBody UserAddDto userAddDto) {
+        boolean flag = this.userService.saveUser(userAddDto);
         return ResponseEntity.ok(flag);
     }
 
@@ -49,13 +49,13 @@ public class UserController {
 
     @GetMapping("/list")
     @ApiOperation(value = "用户列表")
-    public List<UserResDto> findUserInfo(){
+    public List<UserRespDto> findUserInfo(){
         return this.userService.findAll();
     }
 
     @GetMapping("/detail/{id}")
     @ApiOperation(value = "用户详情")
-    public UserResDto getUserDetail(@PathVariable("id") int id){
+    public UserRespDto getUserDetail(@PathVariable("id") int id){
         return this.userService.findUserDetail(id);
     }
 

@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.tlh.exam.auth.entity.User;
 import org.tlh.exam.auth.enums.UserType;
-import org.tlh.exam.auth.model.UserDto;
-import org.tlh.exam.auth.model.UserResDto;
+import org.tlh.exam.auth.model.UserAddDto;
+import org.tlh.exam.auth.model.UserRespDto;
 import org.tlh.exam.auth.repository.UserRepository;
 
 import java.util.List;
@@ -28,14 +28,14 @@ public class UserService {
     private Pbkdf2PasswordEncoder passwordEncoder;
 
     @Transactional
-    public boolean saveUser(UserDto userDto) {
+    public boolean saveUser(UserAddDto userAddDto) {
         try {
             User user=new User();
-            user.setUserName(userDto.getUserName());
-            user.setPassword(this.passwordEncoder.encode(userDto.getPassword()));
-            user.setUserType(userDto.getUserType().getCode());
-            user.setIsActive(userDto.isActive());
-            user.setCreateTime(userDto.getCreateTime());
+            user.setUserName(userAddDto.getUserName());
+            user.setPassword(this.passwordEncoder.encode(userAddDto.getPassword()));
+            user.setUserType(userAddDto.getUserType().getCode());
+            user.setIsActive(userAddDto.isActive());
+            user.setCreateTime(userAddDto.getCreateTime());
             this.userRepository.save(user);
             return true;
         } catch (Exception e) {
@@ -65,28 +65,29 @@ public class UserService {
         return this.userRepository.updateUserActiveById(id,active)>0;
     }
 
-    public List<UserResDto> findAll() {
+    public List<UserRespDto> findAll() {
         List<User> users = this.userRepository.findAll();
-        List<UserResDto> collect = Optional.ofNullable(users).orElse(Lists.newArrayList()).stream()//
+        List<UserRespDto> collect = Optional.ofNullable(users).orElse(Lists.newArrayList()).stream()//
             .map(user -> dealUserInfo(user)).collect(Collectors.toList());
         return collect;
     }
 
-    public UserResDto findUserDetail(int id){
+    public UserRespDto findUserDetail(int id){
         Optional<User> user = this.userRepository.findById(id);
-        if(user.isPresent()){
+        if(!user.isPresent()){
             return null;
         }
         return dealUserInfo(user.get());
     }
 
-    private UserResDto dealUserInfo(User user) {
-        UserDto userDto = new UserDto();
-        userDto.setUserName(user.getUserName());
-        userDto.setActive(user.getIsActive());
-        userDto.setCreateTime(user.getCreateTime());
-        userDto.setUserType(UserType.getUserTypeByCode(user.getUserType()));
-        return userDto;
+    private UserRespDto dealUserInfo(User user) {
+        UserRespDto userRespDto = new UserRespDto();
+        userRespDto.setId(user.getId());
+        userRespDto.setUserName(user.getUserName());
+        userRespDto.setActive(user.getIsActive());
+        userRespDto.setCreateTime(user.getCreateTime());
+        userRespDto.setUserType(UserType.getUserTypeByCode(user.getUserType()));
+        return userRespDto;
     }
 
 }

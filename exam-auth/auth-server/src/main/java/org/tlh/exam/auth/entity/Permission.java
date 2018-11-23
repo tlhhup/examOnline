@@ -20,6 +20,7 @@ public class Permission extends BaseEntity{
     private Integer sort;
     private Boolean isActive;
     private Date createTime;
+    private String creator;
 
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
