@@ -1,5 +1,6 @@
 package org.tlh.exam.auth.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -9,18 +10,21 @@ import org.tlh.exam.auth.enums.UserType;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * Created by 离歌笑tlh/hu ping on 2018/11/23
+ * <p>
+ * Github: https://github.com/tlhhup
+ */
 @Data
-@ApiModel("用户添加实体")
+@ApiModel("用户实体")
 public class UserResDto implements Serializable{
 
     @JsonProperty("username")
     @ApiModelProperty(value = "用户名",required = true)
     private String userName;
 
-    @ApiModelProperty(value = "密码",required = true)
-    private String password;
-
     @JsonProperty("user_type")
+    @JsonFormat(shape = JsonFormat.Shape.NUMBER)
     @ApiModelProperty(value = "用户类型",required = true)
     private UserType userType;
 

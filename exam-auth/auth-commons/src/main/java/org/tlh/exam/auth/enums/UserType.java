@@ -1,5 +1,7 @@
 package org.tlh.exam.auth.enums;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 /**
  * Created by 离歌笑tlh/hu ping on 2018/11/22
  * <p>
@@ -30,11 +32,24 @@ public enum UserType {
         this.value = value;
     }
 
+    @JsonValue
     public int getCode() {
         return code;
     }
 
     public String getValue() {
         return value;
+    }
+
+    public static UserType getUserTypeByCode(int code){
+        UserType result=null;
+        UserType[] values = values();
+        for (UserType userType : values) {
+            if(userType.code==code){
+                result=userType;
+                break;
+            }
+        }
+        return result;
     }
 }
