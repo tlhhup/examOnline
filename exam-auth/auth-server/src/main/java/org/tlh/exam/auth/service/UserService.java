@@ -1,15 +1,17 @@
 package org.tlh.exam.auth.service;
 
-import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.tlh.exam.auth.entity.User;
 import org.tlh.exam.auth.enums.UserType;
-import org.tlh.exam.auth.model.UserAddDto;
-import org.tlh.exam.auth.model.UserRespDto;
+import org.tlh.exam.auth.model.req.UserAddDto;
+import org.tlh.exam.auth.model.resp.UserRespDto;
 import org.tlh.exam.auth.repository.UserRepository;
 
 import java.util.List;
@@ -65,11 +67,10 @@ public class UserService {
         return this.userRepository.updateUserActiveById(id,active)>0;
     }
 
-    public List<UserRespDto> findAll() {
-        List<User> users = this.userRepository.findAll();
-        List<UserRespDto> collect = Optional.ofNullable(users).orElse(Lists.newArrayList()).stream()//
-            .map(user -> dealUserInfo(user)).collect(Collectors.toList());
-        return collect;
+    public Page<UserRespDto> findAll(Pageable pageable) {
+        Page<User> userPage = this.userRepository.findAll(pageable);
+        List<UserRespDto> collect = userPage.stream().map(user -> dealUserInfo(user)).collect(Collectors.toList());
+        return new PageImpl<>(collect,pageable,userPage.getTotalElements());
     }
 
     public UserRespDto findUserDetail(int id){

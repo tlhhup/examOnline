@@ -1,13 +1,15 @@
 package org.tlh.exam.auth.service;
 
-import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.tlh.exam.auth.entity.Role;
-import org.tlh.exam.auth.model.RoleRespDto;
-import org.tlh.exam.auth.model.RoleReqDto;
+import org.tlh.exam.auth.model.req.RoleReqDto;
+import org.tlh.exam.auth.model.resp.RoleRespDto;
 import org.tlh.exam.auth.repository.RoleRepository;
 
 import java.util.List;
@@ -56,10 +58,10 @@ public class RoleService {
         return this.roleRepository.updateRole(role)>0;
     }
 
-    public List<RoleRespDto> findAll(){
-        List<Role> roles = this.roleRepository.findAll();
-        return Optional.ofNullable(roles).orElse(Lists.newArrayList()).parallelStream().map(role -> role2RoleResp(role))
-                .collect(Collectors.toList());
+    public Page<RoleRespDto> findAll(Pageable pageable){
+        Page<Role> rolePage = this.roleRepository.findAll(pageable);
+        List<RoleRespDto> collect = rolePage.stream().map(role -> role2RoleResp(role)).collect(Collectors.toList());
+        return new PageImpl<>(collect,pageable,rolePage.getTotalElements());
     }
 
     public RoleRespDto findRoleDetail(int id){
@@ -76,7 +78,7 @@ public class RoleService {
         role.setRoleValue(roleReqDto.getRoleValue());
         role.setDescription(roleReqDto.getDescription());
         role.setIsActive(roleReqDto.getIsActive());
-        role.setCreateTime(role.getCreateTime());
+        role.setCreateTime(roleReqDto.getCreateTime());
         return role;
     }
 

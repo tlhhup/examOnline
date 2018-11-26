@@ -3,10 +3,12 @@ package org.tlh.exam.auth.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.tlh.exam.auth.model.RoleReqDto;
-import org.tlh.exam.auth.model.RoleRespDto;
+import org.tlh.exam.auth.model.req.RoleReqDto;
+import org.tlh.exam.auth.model.resp.RoleRespDto;
 import org.tlh.exam.auth.service.RoleService;
 
 import java.util.List;
@@ -47,8 +49,8 @@ public class RoleController {
 
     @GetMapping("/list")
     @ApiOperation(value = "角色列表")
-    public List<RoleRespDto> findAll(){
-        return this.roleService.findAll();
+    public Page<RoleRespDto> findAll(Pageable pageable){
+        return this.roleService.findAll(pageable);
     }
 
     @GetMapping("/detail/{id}")

@@ -3,10 +3,12 @@ package org.tlh.exam.auth.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.tlh.exam.auth.model.UserAddDto;
-import org.tlh.exam.auth.model.UserRespDto;
+import org.tlh.exam.auth.model.req.UserAddDto;
+import org.tlh.exam.auth.model.resp.UserRespDto;
 import org.tlh.exam.auth.service.UserService;
 
 import java.util.List;
@@ -49,8 +51,8 @@ public class UserController {
 
     @GetMapping("/list")
     @ApiOperation(value = "用户列表")
-    public List<UserRespDto> findUserInfo(){
-        return this.userService.findAll();
+    public Page<UserRespDto> findUserInfo(Pageable pageable){
+        return this.userService.findAll(pageable);
     }
 
     @GetMapping("/detail/{id}")

@@ -1,8 +1,9 @@
-package org.tlh.exam.auth.model;
+package org.tlh.exam.auth.model.req;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.tlh.exam.auth.model.UserDto;
 
 @Data
 @ApiModel("用户添加实体")

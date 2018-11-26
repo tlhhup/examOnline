@@ -17,6 +17,7 @@ public class Permission extends BaseEntity{
 
     private String name;
     private String url;
+    private String permission;
     private Integer sort;
     private Boolean isActive;
     private Date createTime;
@@ -28,6 +29,6 @@ public class Permission extends BaseEntity{
 
     @ManyToOne
     @JoinColumn(name = "pid")
-    private Permission permission;
+    private Permission parent;
 
 }
