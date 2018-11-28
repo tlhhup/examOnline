@@ -20,6 +20,8 @@ import java.util.Map;
  */
 public class RsaKeyHelper {
 
+    private static final int KEY_SIZE = 2048;
+
     /**
      * 获取公钥
      *
@@ -94,7 +96,7 @@ public class RsaKeyHelper {
     public void generateKey(String publicKeyFilename, String privateKeyFilename, String password) throws IOException, NoSuchAlgorithmException {
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
         SecureRandom secureRandom = new SecureRandom(password.getBytes());
-        keyPairGenerator.initialize(1024, secureRandom);
+        keyPairGenerator.initialize(KEY_SIZE, secureRandom);
         KeyPair keyPair = keyPairGenerator.genKeyPair();
         byte[] publicKeyBytes = keyPair.getPublic().getEncoded();
         FileOutputStream fos = new FileOutputStream(publicKeyFilename);
@@ -116,7 +118,7 @@ public class RsaKeyHelper {
     public static byte[] generatePublicKey(String password) throws IOException, NoSuchAlgorithmException {
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
         SecureRandom secureRandom = new SecureRandom(password.getBytes());
-        keyPairGenerator.initialize(1024, secureRandom);
+        keyPairGenerator.initialize(KEY_SIZE, secureRandom);
         KeyPair keyPair = keyPairGenerator.genKeyPair();
         return keyPair.getPublic().getEncoded();
     }
@@ -131,7 +133,7 @@ public class RsaKeyHelper {
     public static byte[] generatePrivateKey(String password) throws IOException, NoSuchAlgorithmException {
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
         SecureRandom secureRandom = new SecureRandom(password.getBytes());
-        keyPairGenerator.initialize(1024, secureRandom);
+        keyPairGenerator.initialize(KEY_SIZE, secureRandom);
         KeyPair keyPair = keyPairGenerator.genKeyPair();
         return keyPair.getPrivate().getEncoded();
     }
@@ -146,7 +148,7 @@ public class RsaKeyHelper {
     public static Map<String, byte[]> generateKey(String password) throws IOException, NoSuchAlgorithmException {
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
         SecureRandom secureRandom = new SecureRandom(password.getBytes());
-        keyPairGenerator.initialize(1024, secureRandom);
+        keyPairGenerator.initialize(KEY_SIZE, secureRandom);
         KeyPair keyPair = keyPairGenerator.genKeyPair();
         byte[] publicKeyBytes = keyPair.getPublic().getEncoded();
         byte[] privateKeyBytes = keyPair.getPrivate().getEncoded();

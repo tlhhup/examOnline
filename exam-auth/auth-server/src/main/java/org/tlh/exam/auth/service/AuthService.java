@@ -42,12 +42,11 @@ public class AuthService {
     public JwtAuthenticationResponse authentication(JwtAuthenticationRequest jwtAuthenticationRequest) {
         User user=new User();
         user.setUserName(jwtAuthenticationRequest.getUserName());
-        user.setPassword(this.passwordEncoder.encode(jwtAuthenticationRequest.getPassword()));
         user.setUserType(jwtAuthenticationRequest.getUserType().getCode());
         Example<User> userExample = Example.of(user);
         Optional<User> one = this.userRepository.findOne(userExample);
         //用户不存在
-        if (!one.isPresent()){
+        if (!one.isPresent()||!this.passwordEncoder.matches(jwtAuthenticationRequest.getPassword(),one.get().getPassword())){
             throw new JwtAuthException(this.messageResource.getMessage("auth.user.not.found"));
         }
         //用户被禁用
