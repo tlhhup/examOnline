@@ -14,4 +14,10 @@ public class ExamAuthServerProperties {
 
     private String secret;
 
+    private int jwtExpire = 30 * 60;
+
+    private String serverRsaSecret;
+
+    private String clientRsaSecret;
+
 }

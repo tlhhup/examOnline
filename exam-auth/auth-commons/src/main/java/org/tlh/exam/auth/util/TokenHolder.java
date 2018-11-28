@@ -1,7 +1,5 @@
 package org.tlh.exam.auth.util;
 
-import lombok.extern.slf4j.Slf4j;
-
 import java.util.Optional;
 
 /**
@@ -9,7 +7,6 @@ import java.util.Optional;
  * <p>
  * Github: https://github.com/tlhhup
  */
-@Slf4j
 public final class TokenHolder {
 
     private TokenHolder() {

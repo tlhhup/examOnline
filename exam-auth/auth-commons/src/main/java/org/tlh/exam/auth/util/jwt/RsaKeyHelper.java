@@ -136,6 +136,13 @@ public class RsaKeyHelper {
         return keyPair.getPrivate().getEncoded();
     }
 
+    /***
+     * 生成RSA密钥对
+     * @param password
+     * @return
+     * @throws IOException
+     * @throws NoSuchAlgorithmException
+     */
     public static Map<String, byte[]> generateKey(String password) throws IOException, NoSuchAlgorithmException {
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
         SecureRandom secureRandom = new SecureRandom(password.getBytes());
