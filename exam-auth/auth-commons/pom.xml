@@ -46,10 +46,17 @@
             <version>${jwt.versoin}</version>
             <scope>runtime</scope>
         </dependency>
+
+        <!-- joda -->
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
-            <version>2.9.5</version>
+        </dependency>
+
+        <!-- validation -->
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
         </dependency>
     </dependencies>
 

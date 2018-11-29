@@ -12,6 +12,8 @@ import org.tlh.exam.auth.model.req.JwtAuthenticationRequest;
 import org.tlh.exam.auth.model.resp.JwtAuthenticationResponse;
 import org.tlh.exam.auth.service.AuthService;
 
+import javax.validation.Valid;
+
 /**
  * Created by 离歌笑tlh/hu ping on 2018/11/28
  * <p>
@@ -27,7 +29,7 @@ public class AuthController {
 
     @PostMapping("/login")
     @ApiOperation(value = "用户登陆")
-    public ResponseEntity<JwtAuthenticationResponse> createAuthenticationToken(@RequestBody JwtAuthenticationRequest jwtAuthenticationRequest){
+    public ResponseEntity<JwtAuthenticationResponse> createAuthenticationToken(@Valid @RequestBody JwtAuthenticationRequest jwtAuthenticationRequest){
         JwtAuthenticationResponse token=this.authService.authentication(jwtAuthenticationRequest);
         return ResponseEntity.ok(token);
     }

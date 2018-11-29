@@ -2,7 +2,6 @@ package org.tlh.exam.auth.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,17 +39,13 @@ public class AuthService {
     private JwtTokenUtil jwtTokenUtil;
 
     public JwtAuthenticationResponse authentication(JwtAuthenticationRequest jwtAuthenticationRequest) {
-        User user=new User();
-        user.setUserName(jwtAuthenticationRequest.getUserName());
-        user.setUserType(jwtAuthenticationRequest.getUserType().getCode());
-        Example<User> userExample = Example.of(user);
-        Optional<User> one = this.userRepository.findOne(userExample);
+        Optional<User> one = this.userRepository.findOneByUserNameAndUserType(jwtAuthenticationRequest.getUserName(),jwtAuthenticationRequest.getUserType().getCode());
         //用户不存在
         if (!one.isPresent()||!this.passwordEncoder.matches(jwtAuthenticationRequest.getPassword(),one.get().getPassword())){
             throw new JwtAuthException(this.messageResource.getMessage("auth.user.not.found"));
         }
         //用户被禁用
-        user=one.get();
+        User user=one.get();
         if (!user.getIsActive()){
             throw new JwtAuthException(this.messageResource.getMessage("auth.user.locked"));
         }

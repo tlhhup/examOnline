@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.tlh.exam.auth.enums.UserType;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -16,12 +17,15 @@ import java.io.Serializable;
 @ApiModel(value = "用户认证")
 public class JwtAuthenticationRequest implements Serializable{
 
+    @NotNull
     @ApiModelProperty(value = "用户名")
     private String userName;
 
+    @NotNull
     @ApiModelProperty(value = "密码")
     private String password;
 
+    @NotNull
     @ApiModelProperty(value = "用户类型")
     private UserType userType;
 

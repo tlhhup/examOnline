@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 import org.tlh.exam.auth.entity.User;
 
+import java.util.Optional;
+
 public interface UserRepository extends JpaRepository<User,Integer>{
 
     @Modifying
@@ -17,4 +19,6 @@ public interface UserRepository extends JpaRepository<User,Integer>{
     @Transactional
     @Query("update User set isActive=?2 where id=?1")
     int updateUserActiveById(int id, boolean active);
+
+    Optional<User> findOneByUserNameAndUserType(String userName,int userType);
 }
