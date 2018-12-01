@@ -1,5 +1,6 @@
 package org.tlh.exam.auth.service;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
@@ -12,6 +13,7 @@ import org.tlh.exam.auth.model.resp.JwtAuthenticationResponse;
 import org.tlh.exam.auth.repository.UserRepository;
 import org.tlh.exam.auth.util.JwtTokenUtil;
 import org.tlh.exam.auth.util.LocaleMessageResource;
+import org.tlh.exam.auth.util.jwt.IJWTInfo;
 import org.tlh.exam.auth.util.jwt.JWTInfo;
 
 import java.util.Optional;
@@ -56,5 +58,38 @@ public class AuthService {
         } catch (Exception e) {
             throw new JwtAuthException(this.messageResource.getMessage("auth.token.create.error"));
         }
+    }
+
+    public IJWTInfo validation(String token){
+        try {
+            IJWTInfo info = this.jwtTokenUtil.getInfoFromToken(token);
+            return info;
+        } catch (ExpiredJwtException e){
+            throw new JwtAuthException(this.messageResource.getMessage("auth.token.validate.expired"));
+        }catch (Exception e) {
+            throw new JwtAuthException(this.messageResource.getMessage("auth.token.validate.error"));
+        }
+    }
+
+    public JwtAuthenticationResponse refreshToken(String oldToken) {
+        //1.先校验之前的token是否有效
+        IJWTInfo info = this.validation(oldToken);
+        try {
+            //2.将旧的token设置是失效
+            this.invalidate(oldToken);
+            //3.生成新的token
+            String token = jwtTokenUtil.generateToken(new JWTInfo(info.getUniqueName(), info.getId(), info.getName()));
+            return new JwtAuthenticationResponse(token);
+        } catch (Exception e) {
+            throw new JwtAuthException(this.messageResource.getMessage("auth.token.refresh"));
+        }
+    }
+
+    public boolean invalidate(String token){
+        //1.先校验之前的token是否有效
+        IJWTInfo info = this.validation(token);
+        //2.将该token设置为失效
+
+        return false;
     }
 }

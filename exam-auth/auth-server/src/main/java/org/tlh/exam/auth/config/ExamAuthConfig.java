@@ -4,6 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.tlh.exam.auth.interceptor.AuthorizeInterceptor;
+import org.tlh.exam.auth.service.AuthService;
 
 /**
  * Created by 离歌笑tlh/hu ping on 2018/11/22
@@ -22,4 +26,27 @@ public class ExamAuthConfig {
         passwordEncoder.setAlgorithm(Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA1);
         return passwordEncoder;
     }
+
+    @Bean
+    public AuthorizeInterceptor authorizeInterceptor(AuthService authService){
+        AuthorizeInterceptor authorizeInterceptor=new AuthorizeInterceptor();
+        authorizeInterceptor.setAuthService(authService);
+        authorizeInterceptor.setExamAuthServerProperties(examAuthServerProperties);
+        return authorizeInterceptor;
+    }
+
+    @Configuration
+    public class WebMvcConfig implements WebMvcConfigurer{
+
+        @Autowired
+        private AuthorizeInterceptor authorizeInterceptor;
+
+        @Override
+        public void addInterceptors(InterceptorRegistry registry) {
+            registry.addInterceptor(authorizeInterceptor).addPathPatterns("/*")//
+                    .excludePathPatterns("/swagger-resources/**")//
+                    .excludePathPatterns("/swagger-ui.html");
+        }
+    }
+
 }
