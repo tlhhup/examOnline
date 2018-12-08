@@ -35,7 +35,7 @@ public class ExamAuthConfig {
         return authorizeInterceptor;
     }
 
-    @Configuration
+    //@Configuration
     public class WebMvcConfig implements WebMvcConfigurer{
 
         @Autowired
