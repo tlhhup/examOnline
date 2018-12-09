@@ -45,7 +45,7 @@
 	在前后分离开发中，前端主要透过官网来访问后端服务，而网关也一般部署在一台或多台不同于前端的物理机中，这个时候就会出现跨域的问题。在gateway中提供了两种方式来处理改问题，一个基础yml配置的方式(方便、灵活)，一种是基于WebFilter代码的方式来处理。
 	1. 配置文件处理
 
-		通过GlobalCorsProperties配置属性来完成跨域的配置，处理一个URL地址和一个CorsConfiguration之间的映射。
+		通过GlobalCorsProperties配置属性来完成跨域的配置，处理一个URL地址和一个CorsConfiguration之间的映射。其逻辑处理在org.springframework.web.cors.reactive.DefaultCorsProcessor#handleInternal该方法中完成。
 	
 			spring:
 			  cloud:
@@ -54,6 +54,7 @@
 			        cors-configurations:
 			          '[/**]':
 			            allowedOrigins: "http://localhost:9527" # 前端服务器域名地址
+			            allowedHeaders: "*"
 			            allowedMethods:
 			              - GET
 			              - DELETE
