@@ -6,3 +6,4 @@
 3. exam-config-admin：基于数据库的配置中心的rest服务，提供UI管理接口
 4. exam-admin：后端管理平台
 5. exam-auth：授权中心
+6. exam-gateway：网关

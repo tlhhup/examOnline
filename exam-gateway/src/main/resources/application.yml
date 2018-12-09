@@ -10,6 +10,17 @@ spring:
           uri: lb://exam-auth-server
           predicates:
             - Path=/auth/**     # /auth开头的请求都路由到exam-auth-server中
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:9527"
+            allowedMethods:
+              - GET
+              - DELETE
+              - POST
+              - PUT
+              - OPTIONS
+
 eureka:
   instance:
     appname: exam-gateway
