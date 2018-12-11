@@ -10,10 +10,10 @@ import java.io.Serializable;
 public class JWTInfo implements Serializable,IJWTInfo {
 
     private String username;
-    private String userId;
+    private Integer userId;
     private String name;
 
-    public JWTInfo(String username, String userId, String name) {
+    public JWTInfo(String username, Integer userId, String name) {
         this.username = username;
         this.userId = userId;
         this.name = name;
@@ -29,11 +29,11 @@ public class JWTInfo implements Serializable,IJWTInfo {
     }
 
     @Override
-    public String getId() {
+    public Integer getId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 

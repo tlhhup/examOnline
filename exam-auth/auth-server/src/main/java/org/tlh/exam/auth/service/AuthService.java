@@ -10,12 +10,14 @@ import org.tlh.exam.auth.entity.User;
 import org.tlh.exam.auth.exception.JwtAuthException;
 import org.tlh.exam.auth.model.req.JwtAuthenticationRequest;
 import org.tlh.exam.auth.model.resp.JwtAuthenticationResponse;
+import org.tlh.exam.auth.model.resp.UserInfoRespDto;
 import org.tlh.exam.auth.repository.UserRepository;
 import org.tlh.exam.auth.util.JwtTokenUtil;
 import org.tlh.exam.auth.util.LocaleMessageResource;
 import org.tlh.exam.auth.util.jwt.IJWTInfo;
 import org.tlh.exam.auth.util.jwt.JWTInfo;
 
+import java.util.Arrays;
 import java.util.Optional;
 
 /**
@@ -53,7 +55,7 @@ public class AuthService {
         }
         //生成token
         try {
-            String token = jwtTokenUtil.generateToken(new JWTInfo(user.getUserName(), user.getId() + "", user.getUserName()));
+            String token = jwtTokenUtil.generateToken(new JWTInfo(user.getUserName(), user.getId(), user.getUserName()));
             return new JwtAuthenticationResponse(token);
         } catch (Exception e) {
             throw new JwtAuthException(this.messageResource.getMessage("auth.token.create.error"));
@@ -68,6 +70,23 @@ public class AuthService {
             throw new JwtAuthException(this.messageResource.getMessage("auth.token.validate.expired"));
         }catch (Exception e) {
             throw new JwtAuthException(this.messageResource.getMessage("auth.token.validate.error"));
+        }
+    }
+
+    public UserInfoRespDto getUserInfo(String token) {
+        IJWTInfo info = this.validation(token);
+        Optional<User> user = this.userRepository.findById(info.getId());
+        if (user.isPresent()){
+            User userInfo = user.get();
+            UserInfoRespDto result=new UserInfoRespDto();
+            result.setName(userInfo.getUserName());
+            // todo 以下数据处理
+            result.setAvatar("hh");
+            result.setIntroduction("管理员");
+            result.setRoles(Arrays.asList("admin"));
+            return result;
+        }else{
+            throw new JwtAuthException(this.messageResource.getMessage("auth.user.info.error"));
         }
     }
 
@@ -89,7 +108,8 @@ public class AuthService {
         //1.先校验之前的token是否有效
         IJWTInfo info = this.validation(token);
         //2.将该token设置为失效
-
+        // todo 刷新token
         return false;
     }
+
 }

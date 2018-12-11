@@ -17,7 +17,7 @@ public interface IJWTInfo {
      * 获取用户ID
      * @return
      */
-    String getId();
+    Integer getId();
 
     /**
      * 获取名称

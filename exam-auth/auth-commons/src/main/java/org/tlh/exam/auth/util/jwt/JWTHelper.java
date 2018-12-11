@@ -91,7 +91,7 @@ public class JWTHelper {
     public static IJWTInfo getInfoFromToken(String token, String pubKeyPath) throws Exception {
         Jws<Claims> claimsJws = parserToken(token, pubKeyPath);
         Claims body = claimsJws.getBody();
-        return new JWTInfo(body.getSubject(), getObjectValue(body.get(CommonConstants.JWT_KEY_USER_ID)), getObjectValue(body.get(CommonConstants.JWT_KEY_NAME)));
+        return new JWTInfo(body.getSubject(), Integer.valueOf(getObjectValue(body.get(CommonConstants.JWT_KEY_USER_ID))), getObjectValue(body.get(CommonConstants.JWT_KEY_NAME)));
     }
 
     /**
@@ -105,7 +105,7 @@ public class JWTHelper {
     public static IJWTInfo getInfoFromToken(String token, byte[] pubKey) throws Exception {
         Jws<Claims> claimsJws = parserToken(token, pubKey);
         Claims body = claimsJws.getBody();
-        return new JWTInfo(body.getSubject(), getObjectValue(body.get(CommonConstants.JWT_KEY_USER_ID)), getObjectValue(body.get(CommonConstants.JWT_KEY_NAME)));
+        return new JWTInfo(body.getSubject(), Integer.valueOf(getObjectValue(body.get(CommonConstants.JWT_KEY_USER_ID))), getObjectValue(body.get(CommonConstants.JWT_KEY_NAME)));
     }
 
     private static String getObjectValue(Object obj) {
