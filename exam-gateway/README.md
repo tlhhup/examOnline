@@ -43,7 +43,7 @@
 3. 跨域处理
 
 	在前后分离开发中，前端主要透过官网来访问后端服务，而网关也一般部署在一台或多台不同于前端的物理机中，这个时候就会出现跨域的问题。在gateway中提供了两种方式来处理改问题，一个基础yml配置的方式(方便、灵活)，一种是基于WebFilter代码的方式来处理。
-	1. 配置文件处理
+	1. 配置文件处理(该配置方式**对路由后端服务的跨域有效**，对gateway本身的controller无效)
 
 		通过GlobalCorsProperties配置属性来完成跨域的配置，处理一个URL地址和一个CorsConfiguration之间的映射。其逻辑处理在org.springframework.web.cors.reactive.DefaultCorsProcessor#handleInternal该方法中完成。
 	
@@ -61,8 +61,8 @@
 			              - POST
 			              - PUT
 			              - OPTIONS		# 该请求用于获取服务器支持的HTTP请求方式，为跨域请求的预检请求，其目的是为了判断实际发送的请求是否是安全的
-	2. 配置类处理(过滤器) 
-
+	2. 配置类处理(过滤器) :对路由到后端的服务和gateway
+本身的controller都有效
 			@Configuration
 			public class GatewayConfig {
 			
@@ -98,3 +98,18 @@
 			    }
 	
 			}
+	3. gateway本服务的跨域配置(参照WebFlux的官方文档):解决在网关处处理登出的逻辑
+
+			@Configuration
+		    public class WebConfig implements WebFluxConfigurer {
+		
+		        @Override
+		        public void addCorsMappings(CorsRegistry registry) {
+		
+		            registry.addMapping("/**")
+		                    .allowedOrigins("http://localhost:9527")
+		                    .allowedHeaders("*")
+		                    .allowedMethods("PUT", "DELETE","DELETE","OPTIONS","POST");
+		        }
+		    }
+	4. **综上**：如果需要实现网关跨域的完全配置，需要1+3组合或者直接采用2的方式(推荐)

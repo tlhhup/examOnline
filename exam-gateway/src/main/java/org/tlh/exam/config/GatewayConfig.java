@@ -1,6 +1,8 @@
 package org.tlh.exam.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.reactive.config.CorsRegistry;
+import org.springframework.web.reactive.config.WebFluxConfigurer;
 
 /**
  * Created by 离歌笑tlh/hu ping on 2018/12/9
@@ -44,4 +46,19 @@ public class GatewayConfig {
         };
     }
      */
+
+    //对自身服务的跨域配置
+    @Configuration
+    public class WebConfig implements WebFluxConfigurer {
+
+        @Override
+        public void addCorsMappings(CorsRegistry registry) {
+
+            registry.addMapping("/**")
+                    .allowedOrigins("http://localhost:9527")
+                    .allowedHeaders("*")
+                    .allowedMethods("PUT", "DELETE","DELETE","OPTIONS","POST");
+        }
+    }
+
 }
