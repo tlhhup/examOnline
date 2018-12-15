@@ -17,7 +17,6 @@ import org.tlh.exam.auth.util.LocaleMessageResource;
 import org.tlh.exam.auth.util.jwt.IJWTInfo;
 import org.tlh.exam.auth.util.jwt.JWTInfo;
 
-import java.util.Arrays;
 import java.util.Optional;
 
 /**
@@ -38,6 +37,9 @@ public class AuthService {
 
     @Autowired
     private LocaleMessageResource messageResource;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -75,19 +77,7 @@ public class AuthService {
 
     public UserInfoRespDto getUserInfo(String token) {
         IJWTInfo info = this.validation(token);
-        Optional<User> user = this.userRepository.findById(info.getId());
-        if (user.isPresent()){
-            User userInfo = user.get();
-            UserInfoRespDto result=new UserInfoRespDto();
-            result.setName(userInfo.getUserName());
-            // todo 以下数据处理
-            result.setAvatar("hh");
-            result.setIntroduction("管理员");
-            result.setRoles(Arrays.asList("admin"));
-            return result;
-        }else{
-            throw new JwtAuthException(this.messageResource.getMessage("auth.user.info.error"));
-        }
+        return this.userService.findUserInfoById(info.getId());
     }
 
     public JwtAuthenticationResponse refreshToken(String oldToken) {

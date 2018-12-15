@@ -3,6 +3,10 @@ package org.tlh.exam.auth.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.cache.RedisCacheConfiguration;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializationContext;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -33,6 +37,15 @@ public class ExamAuthConfig {
         authorizeInterceptor.setAuthService(authService);
         authorizeInterceptor.setExamAuthServerProperties(examAuthServerProperties);
         return authorizeInterceptor;
+    }
+
+    @Bean
+    public RedisCacheConfiguration redisCacheConfiguration() {
+        //配置
+        RedisCacheConfiguration cacheConfiguration=RedisCacheConfiguration.defaultCacheConfig();
+        cacheConfiguration=cacheConfiguration.serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()));
+        cacheConfiguration=cacheConfiguration.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()));
+        return cacheConfiguration;
     }
 
     //@Configuration

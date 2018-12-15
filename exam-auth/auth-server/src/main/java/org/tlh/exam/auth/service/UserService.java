@@ -2,18 +2,25 @@ package org.tlh.exam.auth.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.tlh.exam.auth.constatns.CommonConstants;
 import org.tlh.exam.auth.entity.User;
 import org.tlh.exam.auth.enums.UserType;
+import org.tlh.exam.auth.exception.JwtAuthException;
 import org.tlh.exam.auth.model.req.UserAddDto;
+import org.tlh.exam.auth.model.resp.UserInfoRespDto;
 import org.tlh.exam.auth.model.resp.UserRespDto;
 import org.tlh.exam.auth.repository.UserRepository;
+import org.tlh.exam.auth.util.LocaleMessageResource;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,6 +35,9 @@ public class UserService {
 
     @Autowired
     private Pbkdf2PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private LocaleMessageResource messageResource;
 
     @Transactional
     public boolean saveUser(UserAddDto userAddDto) {
@@ -47,6 +57,7 @@ public class UserService {
     }
 
     @Transactional
+    @CacheEvict(value = CommonConstants.AUTH,key = "#id")
     public boolean deleteUser(int id){
         try {
             this.userRepository.deleteById(id);
@@ -58,11 +69,13 @@ public class UserService {
     }
 
     @Transactional
+    @CacheEvict(value = CommonConstants.AUTH,key = "#id")
     public boolean modifyPassword(int id,String password){
         return this.userRepository.updatePasswordById(id,this.passwordEncoder.encode(password))>0;
     }
 
     @Transactional
+    @CacheEvict(value = CommonConstants.AUTH,key = "#id")
     public boolean modifyUserStatus(int id, boolean active) {
         return this.userRepository.updateUserActiveById(id,active)>0;
     }
@@ -73,12 +86,30 @@ public class UserService {
         return new PageImpl<>(collect,pageable,userPage.getTotalElements());
     }
 
+    @Cacheable(value = CommonConstants.AUTH,key = "'id:'+#id")
     public UserRespDto findUserDetail(int id){
         Optional<User> user = this.userRepository.findById(id);
         if(!user.isPresent()){
             return null;
         }
         return dealUserInfo(user.get());
+    }
+
+    @Cacheable(value = CommonConstants.AUTH,key = "#id")
+    public UserInfoRespDto findUserInfoById(int id) {
+        Optional<User> user = this.userRepository.findById(id);
+        if (user.isPresent()){
+            User userInfo = user.get();
+            UserInfoRespDto result=new UserInfoRespDto();
+            result.setName(userInfo.getUserName());
+            // todo 以下数据处理
+            result.setAvatar("https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
+            result.setIntroduction("管理员");
+            result.setRoles(Arrays.asList("admin","editor"));
+            return result;
+        }else{
+            throw new JwtAuthException(this.messageResource.getMessage("auth.user.info.error"));
+        }
     }
 
     private UserRespDto dealUserInfo(User user) {
