@@ -57,7 +57,7 @@ public class UserService {
     }
 
     @Transactional
-    @CacheEvict(value = CommonConstants.AUTH,key = "#id")
+    @CacheEvict(value = CommonConstants.AUTH,key = "'user:'+#id")
     public boolean deleteUser(int id){
         try {
             this.userRepository.deleteById(id);
@@ -69,13 +69,13 @@ public class UserService {
     }
 
     @Transactional
-    @CacheEvict(value = CommonConstants.AUTH,key = "#id")
+    @CacheEvict(value = CommonConstants.AUTH,key = "'user:'+#id")
     public boolean modifyPassword(int id,String password){
         return this.userRepository.updatePasswordById(id,this.passwordEncoder.encode(password))>0;
     }
 
     @Transactional
-    @CacheEvict(value = CommonConstants.AUTH,key = "#id")
+    @CacheEvict(value = CommonConstants.AUTH,key = "'user:'+#id")
     public boolean modifyUserStatus(int id, boolean active) {
         return this.userRepository.updateUserActiveById(id,active)>0;
     }
@@ -86,7 +86,7 @@ public class UserService {
         return new PageImpl<>(collect,pageable,userPage.getTotalElements());
     }
 
-    @Cacheable(value = CommonConstants.AUTH,key = "'id:'+#id")
+    @Cacheable(value = CommonConstants.AUTH,key = "'user:'+#id")
     public UserRespDto findUserDetail(int id){
         Optional<User> user = this.userRepository.findById(id);
         if(!user.isPresent()){
@@ -95,7 +95,7 @@ public class UserService {
         return dealUserInfo(user.get());
     }
 
-    @Cacheable(value = CommonConstants.AUTH,key = "#id")
+    @Cacheable(value = CommonConstants.AUTH,key = "'info:'+#id")
     public UserInfoRespDto findUserInfoById(int id) {
         Optional<User> user = this.userRepository.findById(id);
         if (user.isPresent()){

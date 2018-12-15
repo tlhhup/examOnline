@@ -17,7 +17,8 @@
 		            <artifactId>spring-boot-starter-data-redis</artifactId>
 		        </dependency>
 		2. 编写RedisConfiguration(这个和Spring boot2.0之前存在的差异,不过在官方文档中有说明) 	
-		
+				
+				1. 第一种配置方式 
 				@Bean
 			    public RedisCacheConfiguration redisCacheConfiguration() {
 			        //配置
@@ -25,6 +26,21 @@
 			        cacheConfiguration=cacheConfiguration.serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()));
 			        cacheConfiguration=cacheConfiguration.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()));
 			        return cacheConfiguration;
+			    }
+			    2. 第二种配置方式(推荐使用)
+			    @Bean
+			    public RedisCacheConfiguration redisCacheConfiguration() {
+			        //配置
+			        RedisCacheConfiguration config=RedisCacheConfiguration.defaultCacheConfig();
+			        config=config.serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()));
+			        //value序列化
+			        Jackson2JsonRedisSerializer valueSerializer=new Jackson2JsonRedisSerializer(Object.class);
+			        ObjectMapper mapper=new ObjectMapper();
+			        mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
+			        mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
+			        valueSerializer.setObjectMapper(mapper);
+			        config=config.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(valueSerializer));
+			        return config;
 			    }
 2. auth-client：授权中心客户端
 3. 注意事项
