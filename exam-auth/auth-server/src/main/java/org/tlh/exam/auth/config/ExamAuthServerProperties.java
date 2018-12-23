@@ -38,10 +38,4 @@ public class ExamAuthServerProperties {
      * 无需登陆验证路径
      */
     private List<String> ignorePath;
-
-    /**
-     * header中token的名称
-     */
-    private String headerToken;
-
 }

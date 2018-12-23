@@ -38,6 +38,5 @@ exam:
     secret: 123456
     server-rsa-secret: 123456
     client-rsa-secret: 123456
-    header-token: X-AUTH-TOKEN
     ignore-path:
       - /auth/*

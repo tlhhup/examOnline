@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class AuthorizeInterceptor implements HandlerInterceptor{
 
+    private static final String AUTH="X-Auth-Token";
+
     private AuthService authService;
 
     private ExamAuthServerProperties examAuthServerProperties;
@@ -36,10 +38,10 @@ public class AuthorizeInterceptor implements HandlerInterceptor{
             return true;
         }
         //校验token
-        String token = request.getHeader(this.examAuthServerProperties.getHeaderToken());
+        String token = request.getHeader(AUTH);
         if (StringUtils.isEmpty(token)){
             String message="The Request header:{%s} is mission!";
-            throw new JwtAuthException(String.format(message, this.examAuthServerProperties.getHeaderToken()));
+            throw new JwtAuthException(String.format(message,AUTH));
         }
         //todo 后续的权限校验该放在这里?
         return true;

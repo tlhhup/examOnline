@@ -10,17 +10,8 @@ spring:
           uri: lb://exam-auth-server
           predicates:
             - Path=/auth/**     # /auth开头的请求都路由到exam-auth-server中
-      globalcors:
-        cors-configurations:
-          '[/**]':
-            allowedOrigins: "http://localhost:9527"
-            allowedHeaders: "*"
-            allowedMethods:
-              - GET
-              - DELETE
-              - POST
-              - PUT
-              - OPTIONS
+          filters:
+            - AuthPost=true
 
 eureka:
   instance:
@@ -30,3 +21,7 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:10011/eureka/
+exam:
+  gateway:
+    ignore-Paths:
+      - /auth/auth/

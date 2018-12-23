@@ -1,8 +1,17 @@
 package org.tlh.exam.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.reactive.config.CorsRegistry;
-import org.springframework.web.reactive.config.WebFluxConfigurer;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.http.server.reactive.ServerHttpResponse;
+import org.springframework.web.cors.reactive.CorsUtils;
+import org.springframework.web.server.ServerWebExchange;
+import org.springframework.web.server.WebFilter;
+import org.springframework.web.server.WebFilterChain;
+import reactor.core.publisher.Mono;
 
 /**
  * Created by 离歌笑tlh/hu ping on 2018/12/9
@@ -11,9 +20,6 @@ import org.springframework.web.reactive.config.WebFluxConfigurer;
  */
 @Configuration
 public class GatewayConfig {
-
-    /**
-     跨域处理
 
     private static final String ALL = "*";
     private static final String MAX_AGE = "18000L";
@@ -44,21 +50,6 @@ public class GatewayConfig {
             }
             return chain.filter(ctx);
         };
-    }
-     */
-
-    //对自身服务的跨域配置
-    @Configuration
-    public class WebConfig implements WebFluxConfigurer {
-
-        @Override
-        public void addCorsMappings(CorsRegistry registry) {
-
-            registry.addMapping("/**")
-                    .allowedOrigins("http://localhost:9527")
-                    .allowedHeaders("*")
-                    .allowedMethods("PUT", "DELETE","DELETE","OPTIONS","POST");
-        }
     }
 
 }
