@@ -2,11 +2,14 @@ package org.tlh.exam.filter;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
+import org.tlh.exam.commons.GatewayConstants;
 import reactor.core.publisher.Mono;
 
 import java.util.Arrays;
@@ -22,6 +25,9 @@ import java.util.List;
 @Component
 public class AuthPostGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthPostGatewayFilterFactory.Config> {
 
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+
     public AuthPostGatewayFilterFactory() {
         // 该构造函数必须创建，初始化配置类，默认为object
         super(Config.class);
@@ -31,10 +37,15 @@ public class AuthPostGatewayFilterFactory extends AbstractGatewayFilterFactory<A
     public GatewayFilter apply(Config config) {
         return (exchange, chain) -> {
             return chain.filter(exchange).then(Mono.fromRunnable(() -> {
-                ServerHttpResponse response = exchange.getResponse();
-                HttpHeaders headers = response.getHeaders();
-                // todo 解析token的值 存入redis中
-                String token=headers.getFirst("X-Auth-Token");
+                String path = exchange.getRequest().getURI().getPath();
+                //如果是登陆请求
+                if(path.endsWith("login")){
+                    ServerHttpResponse response = exchange.getResponse();
+                    HttpHeaders headers = response.getHeaders();
+                    //解析token的值 存入redis中
+                    String token=headers.getFirst("X-Auth-Token");
+                    this.redisTemplate.opsForSet().add(GatewayConstants.GATEWAY_TOKEN,token);
+                }
             }));
         };
     }

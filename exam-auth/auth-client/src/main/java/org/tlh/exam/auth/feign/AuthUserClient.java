@@ -1,10 +1,10 @@
 package org.tlh.exam.auth.feign;
 
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.tlh.exam.auth.fallback.AuthUserClientFallback;
 import org.tlh.exam.auth.model.req.UserAddDto;
+import org.tlh.exam.auth.model.resp.ResponseDto;
 import org.tlh.exam.auth.model.resp.UserRespDto;
 
 /**
@@ -21,7 +21,7 @@ public interface AuthUserClient {
      * @return
      */
     @PostMapping("/add")
-    ResponseEntity<Boolean> addUser(@RequestBody UserAddDto userAddDto);
+    ResponseDto<Boolean> addUser(@RequestBody UserAddDto userAddDto);
 
     /**
      * 删除用户
@@ -29,7 +29,7 @@ public interface AuthUserClient {
      * @return
      */
     @DeleteMapping("/delete/{id}")
-    ResponseEntity<Boolean> deleteUser(@PathVariable("id") int id);
+    ResponseDto<Boolean> deleteUser(@PathVariable("id") int id);
 
     /**
      * 修改密码
@@ -38,7 +38,7 @@ public interface AuthUserClient {
      * @return
      */
     @PutMapping("/modify/{id}/pwd")
-    ResponseEntity<Boolean> modifyPassword(@PathVariable("id") int id, @RequestParam("password") String password);
+    ResponseDto<Boolean> modifyPassword(@PathVariable("id") int id, @RequestParam("password") String password);
 
     /**
      * 激活(禁用)用户
@@ -47,7 +47,7 @@ public interface AuthUserClient {
      * @return
      */
     @PutMapping("/modify/{id}/active")
-    ResponseEntity<Boolean> activeUser(@PathVariable("id") int id, @RequestParam("active") boolean active);
+    ResponseDto<Boolean> activeUser(@PathVariable("id") int id, @RequestParam("active") boolean active);
 
     /**
      * 用户详情
@@ -55,6 +55,6 @@ public interface AuthUserClient {
      * @return
      */
     @GetMapping("/detail/{id}")
-    UserRespDto getUserDetail(@PathVariable("id") int id);
+    ResponseDto<UserRespDto> getUserDetail(@PathVariable("id") int id);
 
 }

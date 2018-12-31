@@ -2,10 +2,10 @@ package org.tlh.exam.auth.feign;
 
 import io.swagger.annotations.ApiOperation;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.tlh.exam.auth.fallback.AuthRoleClientFallback;
 import org.tlh.exam.auth.model.req.RoleReqDto;
+import org.tlh.exam.auth.model.resp.ResponseDto;
 import org.tlh.exam.auth.model.resp.RoleRespDto;
 
 /**
@@ -22,7 +22,7 @@ public interface AuthRoleClient {
      * @return
      */
     @PostMapping("/create")
-     ResponseEntity<Boolean> addRole(@RequestBody RoleReqDto roleReqDto);
+    ResponseDto<Boolean> addRole(@RequestBody RoleReqDto roleReqDto);
 
     /**
      * 删除角色
@@ -30,7 +30,7 @@ public interface AuthRoleClient {
      * @return
      */
     @DeleteMapping("/delete/{id}")
-     ResponseEntity<Boolean> deleteRole(@PathVariable("id")int id);
+    ResponseDto<Boolean> deleteRole(@PathVariable("id")int id);
 
     /**
      * 修改角色
@@ -39,7 +39,7 @@ public interface AuthRoleClient {
      * @return
      */
     @PutMapping("/modify/{id}")
-     ResponseEntity<Boolean> updateRole(@PathVariable("id")int id,@RequestBody RoleReqDto roleReqDto);
+    ResponseDto<Boolean> updateRole(@PathVariable("id")int id,@RequestBody RoleReqDto roleReqDto);
 
     /**
      * 角色详情
@@ -48,6 +48,6 @@ public interface AuthRoleClient {
      */
     @GetMapping("/detail/{id}")
     @ApiOperation(value = "")
-    RoleRespDto findRoleDetail(int id);
+    ResponseDto<RoleRespDto> findRoleDetail(int id);
 
 }

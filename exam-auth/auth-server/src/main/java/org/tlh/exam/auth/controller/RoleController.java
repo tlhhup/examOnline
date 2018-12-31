@@ -5,13 +5,11 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.tlh.exam.auth.model.resp.ResponseDto;
 import org.tlh.exam.auth.model.req.RoleReqDto;
 import org.tlh.exam.auth.model.resp.RoleRespDto;
 import org.tlh.exam.auth.service.RoleService;
-
-import java.util.List;
 
 /**
  * Created by 离歌笑tlh/hu ping on 2018/11/23
@@ -28,23 +26,23 @@ public class RoleController {
 
     @PostMapping("/create")
     @ApiOperation(value = "添加角色")
-    public ResponseEntity<Boolean> addRole(@RequestBody RoleReqDto roleReqDto){
+    public ResponseDto<Boolean> addRole(@RequestBody RoleReqDto roleReqDto){
         boolean flag = this.roleService.createRole(roleReqDto);
-        return ResponseEntity.ok(flag);
+        return ResponseDto.ok(flag);
     }
 
     @DeleteMapping("/delete/{id}")
     @ApiOperation(value = "删除角色")
-    public ResponseEntity<Boolean> deleteRole(@PathVariable("id")int id){
+    public ResponseDto<Boolean> deleteRole(@PathVariable("id")int id){
         boolean flag = this.roleService.deleteRole(id);
-        return ResponseEntity.ok(flag);
+        return ResponseDto.ok(flag);
     }
 
     @PutMapping("/modify/{id}")
     @ApiOperation(value = "修改角色")
-    public ResponseEntity<Boolean> updateRole(@PathVariable("id")int id,@RequestBody RoleReqDto roleReqDto){
+    public ResponseDto<Boolean> updateRole(@PathVariable("id")int id,@RequestBody RoleReqDto roleReqDto){
         boolean flag = this.roleService.updateRole(id, roleReqDto);
-        return ResponseEntity.ok(flag);
+        return ResponseDto.ok(flag);
     }
 
     @GetMapping("/list")
@@ -55,8 +53,8 @@ public class RoleController {
 
     @GetMapping("/detail/{id}")
     @ApiOperation(value = "角色详情")
-    public RoleRespDto findRoleDetail(int id){
-        return this.roleService.findRoleDetail(id);
+    public ResponseDto<RoleRespDto> findRoleDetail(int id){
+        return ResponseDto.ok(this.roleService.findRoleDetail(id));
     }
 
 }

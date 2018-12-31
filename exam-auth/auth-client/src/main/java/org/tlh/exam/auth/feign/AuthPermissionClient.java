@@ -2,11 +2,11 @@ package org.tlh.exam.auth.feign;
 
 import io.swagger.annotations.ApiOperation;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.tlh.exam.auth.fallback.AuthPermissionClientFallback;
 import org.tlh.exam.auth.model.req.PermissionReqDto;
 import org.tlh.exam.auth.model.resp.PermissionRespDto;
+import org.tlh.exam.auth.model.resp.ResponseDto;
 
 /**
  * Created by 离歌笑tlh/hu ping on 2018/12/23
@@ -24,7 +24,7 @@ public interface AuthPermissionClient {
      */
     @PostMapping("/create")
     @ApiOperation(value = "")
-    ResponseEntity<Boolean> createPermission(@RequestBody PermissionReqDto permissionReqDto);
+    ResponseDto<Boolean> createPermission(@RequestBody PermissionReqDto permissionReqDto);
 
     /**
      * 删除权限
@@ -34,7 +34,7 @@ public interface AuthPermissionClient {
      */
     @DeleteMapping("/delete/{id}")
     @ApiOperation(value = "")
-    ResponseEntity<Boolean> deletePermission(@PathVariable("id") int id);
+    ResponseDto<Boolean> deletePermission(@PathVariable("id") int id);
 
     /**
      * 禁用(启用)权限
@@ -44,7 +44,7 @@ public interface AuthPermissionClient {
      * @return
      */
     @PostMapping("/modify/{id}/active")
-    ResponseEntity<Boolean> permissionActive(@PathVariable("id") int id,
+    ResponseDto<Boolean> permissionActive(@PathVariable("id") int id,
                                              @RequestParam("active") boolean active);
 
     /**
@@ -55,7 +55,7 @@ public interface AuthPermissionClient {
      * @return
      */
     @PostMapping("/modify/{id}")
-    ResponseEntity<Boolean> permissionUpdate(@PathVariable("id") int id,
+    ResponseDto<Boolean> permissionUpdate(@PathVariable("id") int id,
                                              @RequestBody PermissionReqDto permissionReqDto);
 
     /**
@@ -65,6 +65,6 @@ public interface AuthPermissionClient {
      * @return
      */
     @GetMapping("/detail/{id}")
-    PermissionRespDto permissionDetail(@PathVariable("id") int id);
+    ResponseDto<PermissionRespDto> permissionDetail(@PathVariable("id") int id);
 
 }

@@ -1,7 +1,6 @@
 package org.tlh.exam.auth.feign;
 
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.tlh.exam.auth.fallback.AuthClientFallback;
 import org.tlh.exam.auth.model.req.JwtAuthenticationRequest;
 import org.tlh.exam.auth.model.resp.JwtAuthenticationResponse;
+import org.tlh.exam.auth.model.resp.ResponseDto;
 import org.tlh.exam.auth.model.resp.UserInfoRespDto;
 
 import javax.validation.Valid;
@@ -27,7 +27,7 @@ public interface AuthClient {
      * @return
      */
     @PostMapping("/login")
-    ResponseEntity<JwtAuthenticationResponse> createAuthenticationToken(
+    ResponseDto<JwtAuthenticationResponse> createAuthenticationToken(
             @Valid @RequestBody JwtAuthenticationRequest jwtAuthenticationRequest);
 
     /**
@@ -36,7 +36,7 @@ public interface AuthClient {
      * @return
      */
     @PostMapping("/validation")
-    ResponseEntity<Boolean> validationToken(@RequestHeader("X-Auth-Token")String token);
+    ResponseDto<Boolean> validationToken(@RequestHeader("X-Auth-Token")String token);
 
     /**
      * 刷新token
@@ -44,7 +44,7 @@ public interface AuthClient {
      * @return
      */
     @PostMapping("/refresh")
-    ResponseEntity<JwtAuthenticationResponse> refreshToken(@RequestHeader("X-Auth-Token")String oldToken);
+    ResponseDto<JwtAuthenticationResponse> refreshToken(@RequestHeader("X-Auth-Token")String oldToken);
 
     /**
      * token失效，登出
@@ -53,7 +53,7 @@ public interface AuthClient {
      */
     @Deprecated
     @PostMapping("/invalidate")
-    ResponseEntity<Boolean> invalidate(@RequestHeader("X-Auth-Token")String token);
+    ResponseDto<Boolean> invalidate(@RequestHeader("X-Auth-Token")String token);
 
     /**
      * 获取用户信息
@@ -61,6 +61,6 @@ public interface AuthClient {
      * @return
      */
     @GetMapping("/user/info")
-    ResponseEntity<UserInfoRespDto> getUserInfo(@RequestHeader("X-Auth-Token")String token);
+    ResponseDto<UserInfoRespDto> getUserInfo(@RequestHeader("X-Auth-Token")String token);
 
 }

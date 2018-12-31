@@ -1,9 +1,9 @@
 package org.tlh.exam.auth.fallback;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.tlh.exam.auth.feign.AuthUserClient;
 import org.tlh.exam.auth.model.req.UserAddDto;
+import org.tlh.exam.auth.model.resp.ResponseDto;
 import org.tlh.exam.auth.model.resp.UserRespDto;
 
 /**
@@ -14,27 +14,27 @@ import org.tlh.exam.auth.model.resp.UserRespDto;
 @Component
 public class AuthUserClientFallback implements AuthUserClient{
     @Override
-    public ResponseEntity<Boolean> addUser(UserAddDto userAddDto) {
+    public ResponseDto<Boolean> addUser(UserAddDto userAddDto) {
         return null;
     }
 
     @Override
-    public ResponseEntity<Boolean> deleteUser(int id) {
+    public ResponseDto<Boolean> deleteUser(int id) {
         return null;
     }
 
     @Override
-    public ResponseEntity<Boolean> modifyPassword(int id, String password) {
+    public ResponseDto<Boolean> modifyPassword(int id, String password) {
         return null;
     }
 
     @Override
-    public ResponseEntity<Boolean> activeUser(int id, boolean active) {
+    public ResponseDto<Boolean> activeUser(int id, boolean active) {
         return null;
     }
 
     @Override
-    public UserRespDto getUserDetail(int id) {
+    public ResponseDto<UserRespDto> getUserDetail(int id) {
         return null;
     }
 }

@@ -3,10 +3,10 @@ package org.tlh.exam.auth.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.tlh.exam.auth.model.resp.ResponseDto;
 import org.tlh.exam.auth.model.req.JwtAuthenticationRequest;
 import org.tlh.exam.auth.model.resp.JwtAuthenticationResponse;
 import org.tlh.exam.auth.model.resp.UserInfoRespDto;
@@ -31,37 +31,37 @@ public class AuthController {
 
     @PostMapping("/login")
     @ApiOperation(value = "用户登陆")
-    public ResponseEntity<JwtAuthenticationResponse> createAuthenticationToken(
+    public ResponseDto<JwtAuthenticationResponse> createAuthenticationToken(
             @Valid @RequestBody JwtAuthenticationRequest jwtAuthenticationRequest) {
         JwtAuthenticationResponse token = this.authService.authentication(jwtAuthenticationRequest);
         //设置响应头
         HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
-        response.setHeader("X-AUTH-TOKEN", token.getToken());
-        return ResponseEntity.ok(token);
+        response.setHeader("X-Auth-Token", token.getToken());
+        return ResponseDto.ok(token);
     }
 
     @PostMapping("/validation")
     @ApiOperation(value = "校验token")
-    public ResponseEntity<Boolean> validationToken(@RequestHeader("X-Auth-Token") String token) {
+    public ResponseDto<Boolean> validationToken(@RequestHeader("X-Auth-Token") String token) {
         IJWTInfo info = this.authService.validation(token);
-        return ResponseEntity.ok(info != null);
+        return ResponseDto.ok(info != null);
     }
 
     @PostMapping("/refresh")
     @ApiOperation(value = "刷新token")
-    public ResponseEntity<JwtAuthenticationResponse> refreshToken(@RequestHeader("X-Auth-Token") String oldToken) {
+    public ResponseDto<JwtAuthenticationResponse> refreshToken(@RequestHeader("X-Auth-Token") String oldToken) {
         JwtAuthenticationResponse token = this.authService.refreshToken(oldToken);
-        return ResponseEntity.ok(token);
+        return ResponseDto.ok(token);
     }
 
     @PostMapping("/invalidate")
-    public ResponseEntity<Boolean> invalidate(@RequestHeader("X-Auth-Token") String token) {
-        return ResponseEntity.ok(this.authService.invalidate(token));
+    public ResponseDto<Boolean> invalidate(@RequestHeader("X-Auth-Token") String token) {
+        return ResponseDto.ok(this.authService.invalidate(token));
     }
 
     @GetMapping("/user/info")
-    public ResponseEntity<UserInfoRespDto> getUserInfo(@RequestHeader("X-Auth-Token") String token) {
-        return ResponseEntity.ok(this.authService.getUserInfo(token));
+    public ResponseDto<UserInfoRespDto> getUserInfo(@RequestHeader("X-Auth-Token") String token) {
+        return ResponseDto.ok(this.authService.getUserInfo(token));
     }
 
 }

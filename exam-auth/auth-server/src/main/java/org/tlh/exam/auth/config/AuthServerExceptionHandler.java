@@ -8,7 +8,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.tlh.exam.auth.exception.JwtAuthException;
-import org.tlh.exam.auth.model.ResponseDto;
+import org.tlh.exam.auth.model.resp.ResponseDto;
 
 import java.util.List;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package org.tlh.exam.auth.model;
+package org.tlh.exam.auth.model.resp;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,6 +28,14 @@ public class ResponseDto<T> {
 
     public static ResponseDto ok(int code, String message) {
         return new ResponseDto(code, null, message);
+    }
+
+    public static <T> ResponseDto ok(T data, String message) {
+        return new ResponseDto(ok, data, message);
+    }
+
+    public static <T> ResponseDto ok(T data) {
+        return ok(data, null);
     }
 
 }

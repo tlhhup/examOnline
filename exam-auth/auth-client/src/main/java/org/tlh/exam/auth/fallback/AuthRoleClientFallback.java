@@ -1,9 +1,9 @@
 package org.tlh.exam.auth.fallback;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.tlh.exam.auth.feign.AuthRoleClient;
 import org.tlh.exam.auth.model.req.RoleReqDto;
+import org.tlh.exam.auth.model.resp.ResponseDto;
 import org.tlh.exam.auth.model.resp.RoleRespDto;
 
 /**
@@ -14,22 +14,22 @@ import org.tlh.exam.auth.model.resp.RoleRespDto;
 @Component
 public class AuthRoleClientFallback implements AuthRoleClient{
     @Override
-    public ResponseEntity<Boolean> addRole(RoleReqDto roleReqDto) {
+    public ResponseDto<Boolean> addRole(RoleReqDto roleReqDto) {
         return null;
     }
 
     @Override
-    public ResponseEntity<Boolean> deleteRole(int id) {
+    public ResponseDto<Boolean> deleteRole(int id) {
         return null;
     }
 
     @Override
-    public ResponseEntity<Boolean> updateRole(int id, RoleReqDto roleReqDto) {
+    public ResponseDto<Boolean> updateRole(int id, RoleReqDto roleReqDto) {
         return null;
     }
 
     @Override
-    public RoleRespDto findRoleDetail(int id) {
+    public ResponseDto<RoleRespDto> findRoleDetail(int id) {
         return null;
     }
 }

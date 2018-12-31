@@ -1,10 +1,10 @@
 package org.tlh.exam.auth.fallback;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.tlh.exam.auth.feign.AuthClient;
 import org.tlh.exam.auth.model.req.JwtAuthenticationRequest;
 import org.tlh.exam.auth.model.resp.JwtAuthenticationResponse;
+import org.tlh.exam.auth.model.resp.ResponseDto;
 import org.tlh.exam.auth.model.resp.UserInfoRespDto;
 
 import javax.validation.Valid;
@@ -18,28 +18,28 @@ import javax.validation.Valid;
 public class AuthClientFallback implements AuthClient{
 
     @Override
-    public ResponseEntity<JwtAuthenticationResponse> createAuthenticationToken(
+    public ResponseDto<JwtAuthenticationResponse> createAuthenticationToken(
             @Valid JwtAuthenticationRequest jwtAuthenticationRequest) {
         return null;
     }
 
     @Override
-    public ResponseEntity<Boolean> validationToken(String token) {
+    public ResponseDto<Boolean> validationToken(String token) {
         return null;
     }
 
     @Override
-    public ResponseEntity<JwtAuthenticationResponse> refreshToken(String oldToken) {
+    public ResponseDto<JwtAuthenticationResponse> refreshToken(String oldToken) {
         return null;
     }
 
     @Override
-    public ResponseEntity<Boolean> invalidate(String token) {
+    public ResponseDto<Boolean> invalidate(String token) {
         return null;
     }
 
     @Override
-    public ResponseEntity<UserInfoRespDto> getUserInfo(String token) {
+    public ResponseDto<UserInfoRespDto> getUserInfo(String token) {
         return null;
     }
 }
