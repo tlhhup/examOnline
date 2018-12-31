@@ -3,6 +3,7 @@ package org.tlh.exam.auth.util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
+import org.tlh.exam.auth.holder.LocaleHolder;
 
 import java.util.Locale;
 
@@ -22,7 +23,7 @@ public class LocaleMessageResource {
     }
 
     public String getMessage(String code,Object[] args){
-        return this.getMessage(code, args,Locale.getDefault());
+        return this.getMessage(code, args, LocaleHolder.getLocal());
     }
 
     public String getMessage(String code, Object[] args, Locale locale){

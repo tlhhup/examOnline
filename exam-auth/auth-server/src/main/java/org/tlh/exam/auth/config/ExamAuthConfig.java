@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.tlh.exam.auth.interceptor.AuthorizeInterceptor;
+import org.tlh.exam.auth.interceptor.LocaleInterceptor;
 import org.tlh.exam.auth.service.AuthService;
 
 /**
@@ -57,7 +58,7 @@ public class ExamAuthConfig {
         return config;
     }
 
-    //@Configuration
+    @Configuration
     public class WebMvcConfig implements WebMvcConfigurer{
 
         @Autowired
@@ -65,9 +66,12 @@ public class ExamAuthConfig {
 
         @Override
         public void addInterceptors(InterceptorRegistry registry) {
-            registry.addInterceptor(authorizeInterceptor).addPathPatterns("/*")//
+            //1.权限过滤
+            /*registry.addInterceptor(authorizeInterceptor).addPathPatterns("/*")//
                     .excludePathPatterns("/swagger-resources/**")//
-                    .excludePathPatterns("/swagger-ui.html");
+                    .excludePathPatterns("/swagger-ui.html");*/
+            //2.国际化
+            registry.addInterceptor(new LocaleInterceptor()).addPathPatterns("/**");
         }
     }
 
