@@ -13,4 +13,6 @@ public interface GatewayConstants {
 
     int ERROR_HEADER=400;
 
+    int BAD_GATEWAY=502;
+
 }

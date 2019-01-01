@@ -8,6 +8,7 @@ import org.springframework.cloud.gateway.support.NotFoundException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.reactive.function.server.*;
+import org.tlh.exam.commons.GatewayConstants;
 import org.tlh.exam.exceptions.IllegalRequestException;
 
 import java.util.HashMap;
@@ -37,6 +38,9 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler{
         }
         if (error instanceof IllegalRequestException){
             code=((IllegalRequestException) error).getCode();
+        }
+        if (error instanceof IllegalStateException){
+            code= GatewayConstants.BAD_GATEWAY;
         }
         return response(code, this.buildMessage(request, error));
     }

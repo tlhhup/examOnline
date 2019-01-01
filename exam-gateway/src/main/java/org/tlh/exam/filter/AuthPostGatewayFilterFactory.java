@@ -9,6 +9,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.tlh.exam.commons.GatewayConstants;
 import reactor.core.publisher.Mono;
 
@@ -44,6 +45,9 @@ public class AuthPostGatewayFilterFactory extends AbstractGatewayFilterFactory<A
                     HttpHeaders headers = response.getHeaders();
                     //解析token的值 存入redis中
                     String token=headers.getFirst("X-Auth-Token");
+                    if (StringUtils.isEmpty(token)){
+                        throw new IllegalStateException();
+                    }
                     this.redisTemplate.opsForSet().add(GatewayConstants.GATEWAY_TOKEN,token);
                 }
             }));
