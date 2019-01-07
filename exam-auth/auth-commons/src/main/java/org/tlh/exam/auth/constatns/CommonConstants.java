@@ -25,4 +25,6 @@ public class CommonConstants {
 
     public static final String AUTH="exam:auth";
 
+    public static final String TOKEN_KEY_PREFIX="auth:";
+
 }

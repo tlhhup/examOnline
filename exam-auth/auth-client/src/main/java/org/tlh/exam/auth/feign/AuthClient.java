@@ -51,7 +51,6 @@ public interface AuthClient {
      * @param token
      * @return
      */
-    @Deprecated
     @PostMapping("/invalidate")
     ResponseDto<Boolean> invalidate(@RequestHeader("X-Auth-Token")String token);
 
