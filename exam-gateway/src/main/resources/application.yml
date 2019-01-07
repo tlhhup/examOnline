@@ -10,11 +10,6 @@ spring:
           uri: lb://exam-auth-server
           predicates:
             - Path=/auth/**     # /auth开头的请求都路由到exam-auth-server中
-          filters:
-            - AuthPost=true
-  redis:
-    database: 11
-
 eureka:
   instance:
     appname: exam-gateway

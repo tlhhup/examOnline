@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -32,9 +31,6 @@ public class TokenPreFilter implements GlobalFilter, Ordered {
     @Autowired
     private AuthClient authClient;
 
-    @Autowired
-    private StringRedisTemplate redisTemplate;
-
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         //1.获取请求的uri地址
@@ -45,20 +41,13 @@ public class TokenPreFilter implements GlobalFilter, Ordered {
             //3.获取token
             String token = request.getHeaders().getFirst("X-Auth-Token");
             if (StringUtils.hasText(token)) {
-                //4.先查看登陆的token中是否存在
-                Boolean member = this.redisTemplate.opsForSet().isMember(GatewayConstants.GATEWAY_TOKEN, token);
-                if (member) {
-                    ResponseDto<Boolean> data = this.authClient.validationToken(token);
-                    if (data!=null&&data.getData()!=null&&!data.getData()) {
-                        log.error("token validate error!");
-                        this.redisTemplate.opsForSet().remove(GatewayConstants.GATEWAY_TOKEN, token);
-                        throw new IllegalRequestException(data.getMessage(),GatewayConstants.RE_LOGIN);
-                    }
-                }else{
-                    throw new IllegalRequestException("请重新登陆",GatewayConstants.RE_LOGIN);
+                ResponseDto<Boolean> data = this.authClient.validationToken(token);
+                if (data != null && data.getData() != null && !data.getData()) {
+                    log.error("token validate error!");
+                    throw new IllegalRequestException(data.getMessage(), GatewayConstants.RE_LOGIN);
                 }
             } else {
-                throw new IllegalRequestException("非法的请求头",GatewayConstants.ERROR_HEADER);
+                throw new IllegalRequestException("非法的请求头", GatewayConstants.ERROR_HEADER);
             }
         }
         return chain.filter(exchange);
