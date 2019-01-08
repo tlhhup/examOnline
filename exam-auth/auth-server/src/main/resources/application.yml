@@ -1,5 +1,7 @@
 server:
   port: 10016
+  servlet:
+    context-path: /auth
 spring:
   application:
     name: exam-auth-server
@@ -37,4 +39,4 @@ exam:
     server-rsa-secret: 123456
     client-rsa-secret: 123456
     ignore-path:
-      - /auth/*
+      - /auth/auth*

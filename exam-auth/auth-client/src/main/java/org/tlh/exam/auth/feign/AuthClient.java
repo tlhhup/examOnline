@@ -18,7 +18,7 @@ import javax.validation.Valid;
  * <p>
  * Github: https://github.com/tlhhup
  */
-@FeignClient(name = "exam-auth-server",path = "/auth",fallback = AuthClientFallback.class)
+@FeignClient(name = "exam-auth-server",path = "/auth/auth",fallback = AuthClientFallback.class)
 public interface AuthClient {
 
     /**

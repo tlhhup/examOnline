@@ -21,4 +21,4 @@ eureka:
 exam:
   gateway:
     ignore-Paths:
-      - /auth/
+      - /auth/auth/

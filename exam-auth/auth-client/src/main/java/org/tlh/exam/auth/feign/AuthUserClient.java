@@ -12,7 +12,7 @@ import org.tlh.exam.auth.model.resp.UserRespDto;
  * <p>
  * Github: https://github.com/tlhhup
  */
-@FeignClient(name = "exam-auth-server", path = "/authUser",fallback = AuthUserClientFallback.class)
+@FeignClient(name = "exam-auth-server", path = "/auth/authUser",fallback = AuthUserClientFallback.class)
 public interface AuthUserClient {
 
     /**
