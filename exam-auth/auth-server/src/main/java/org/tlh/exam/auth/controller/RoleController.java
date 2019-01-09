@@ -6,8 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-import org.tlh.exam.auth.model.resp.ResponseDto;
 import org.tlh.exam.auth.model.req.RoleReqDto;
+import org.tlh.exam.auth.model.resp.PageInfo;
+import org.tlh.exam.auth.model.resp.ResponseDto;
 import org.tlh.exam.auth.model.resp.RoleRespDto;
 import org.tlh.exam.auth.service.RoleService;
 
@@ -47,8 +48,10 @@ public class RoleController {
 
     @GetMapping("/list")
     @ApiOperation(value = "角色列表")
-    public Page<RoleRespDto> findAll(Pageable pageable){
-        return this.roleService.findAll(pageable);
+    public ResponseDto findAll(Pageable pageable){
+        Page<RoleRespDto> page = this.roleService.findAll(pageable);
+        PageInfo<RoleRespDto> pageInfo=new PageInfo<>(page.getContent(),page.getTotalElements());
+        return ResponseDto.ok(pageInfo);
     }
 
     @GetMapping("/detail/{id}")
