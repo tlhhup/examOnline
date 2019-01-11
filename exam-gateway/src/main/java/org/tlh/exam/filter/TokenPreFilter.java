@@ -42,7 +42,7 @@ public class TokenPreFilter implements GlobalFilter, Ordered {
             String token = request.getHeaders().getFirst("X-Auth-Token");
             if (StringUtils.hasText(token)) {
                 ResponseDto<Boolean> data = this.authClient.validationToken(token);
-                if (data != null && data.getData() != null && !data.getData()) {
+                if (data == null || data.getData() == null || !data.getData()) {
                     log.error("token validate error!");
                     throw new IllegalRequestException(data.getMessage(), GatewayConstants.RE_LOGIN);
                 }
