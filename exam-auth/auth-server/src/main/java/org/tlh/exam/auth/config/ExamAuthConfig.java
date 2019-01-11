@@ -67,9 +67,7 @@ public class ExamAuthConfig {
         @Override
         public void addInterceptors(InterceptorRegistry registry) {
             //1.权限过滤
-            /*registry.addInterceptor(authorizeInterceptor).addPathPatterns("/*")//
-                    .excludePathPatterns("/swagger-resources/**")//
-                    .excludePathPatterns("/swagger-ui.html");*/
+            registry.addInterceptor(authorizeInterceptor).addPathPatterns("/**");
             //2.国际化
             registry.addInterceptor(new LocaleInterceptor()).addPathPatterns("/**");
         }

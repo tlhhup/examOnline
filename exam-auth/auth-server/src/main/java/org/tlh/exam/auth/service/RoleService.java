@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.tlh.exam.auth.entity.Role;
+import org.tlh.exam.auth.holder.JwtInfoHolder;
 import org.tlh.exam.auth.model.req.RoleReqDto;
 import org.tlh.exam.auth.model.resp.RoleRespDto;
 import org.tlh.exam.auth.repository.RoleRepository;
@@ -79,6 +80,7 @@ public class RoleService {
         role.setDescription(roleReqDto.getDescription());
         role.setIsActive(roleReqDto.getIsActive());
         role.setCreateTime(roleReqDto.getCreateTime());
+        role.setCreator(JwtInfoHolder.getIJWTInfo().getName());
         return role;
     }
 

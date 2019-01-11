@@ -1,10 +1,13 @@
 package org.tlh.exam.auth.interceptor;
 
+import org.springframework.lang.Nullable;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.tlh.exam.auth.config.ExamAuthServerProperties;
 import org.tlh.exam.auth.exception.JwtAuthException;
+import org.tlh.exam.auth.holder.JwtInfoHolder;
 import org.tlh.exam.auth.service.AuthService;
+import org.tlh.exam.auth.util.jwt.IJWTInfo;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,9 +17,9 @@ import javax.servlet.http.HttpServletResponse;
  * <p>
  * Github: https://github.com/tlhhup
  */
-public class AuthorizeInterceptor implements HandlerInterceptor{
+public class AuthorizeInterceptor implements HandlerInterceptor {
 
-    private static final String AUTH="X-Auth-Token";
+    private static final String AUTH = "X-Auth-Token";
 
     private AuthService authService;
 
@@ -34,23 +37,31 @@ public class AuthorizeInterceptor implements HandlerInterceptor{
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String uri = request.getRequestURI();
         //认证的请求，放过
-        if(isIgnorePath(uri)){
+        if (isIgnorePath(uri)) {
             return true;
         }
         //校验token
         String token = request.getHeader(AUTH);
-        if (StringUtils.isEmpty(token)){
-            String message="The Request header:{%s} is mission!";
-            throw new JwtAuthException(String.format(message,AUTH));
+        if (StringUtils.isEmpty(token)) {
+            String message = "The Request header:{%s} is mission!";
+            throw new JwtAuthException(String.format(message, AUTH));
         }
-        //todo 后续的权限校验该放在这里?
+        //解析登陆用户信息
+        IJWTInfo info = this.authService.validation(token);
+        JwtInfoHolder.setIJWTInfo(info);
         return true;
     }
 
-    private boolean isIgnorePath(String uri){
+    @Override
+    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable Exception ex) throws Exception {
+        //清空
+        JwtInfoHolder.resetIJWTInfo();
+    }
+
+    private boolean isIgnorePath(String uri) {
         if (uri.equals("/"))
             return true;
-        return this.examAuthServerProperties.getIgnorePath().parallelStream().anyMatch((t)->t.matches(uri));
+        return this.examAuthServerProperties.getIgnorePath().parallelStream().anyMatch((t) -> t.equalsIgnoreCase(uri));
     }
 
 }
