@@ -27,36 +27,38 @@ public class RoleController {
 
     @PostMapping("/create")
     @ApiOperation(value = "添加角色")
-    public ResponseDto<Boolean> addRole(@RequestBody RoleReqDto roleReqDto){
+    public ResponseDto<Boolean> addRole(@RequestBody RoleReqDto roleReqDto) {
         boolean flag = this.roleService.createRole(roleReqDto);
         return ResponseDto.ok(flag);
     }
 
     @DeleteMapping("/delete/{id}")
     @ApiOperation(value = "删除角色")
-    public ResponseDto<Boolean> deleteRole(@PathVariable("id")int id){
+    public ResponseDto<Boolean> deleteRole(@PathVariable("id") int id) {
         boolean flag = this.roleService.deleteRole(id);
         return ResponseDto.ok(flag);
     }
 
     @PutMapping("/modify/{id}")
     @ApiOperation(value = "修改角色")
-    public ResponseDto<Boolean> updateRole(@PathVariable("id")int id,@RequestBody RoleReqDto roleReqDto){
+    public ResponseDto<Boolean> updateRole(@PathVariable("id") int id, @RequestBody RoleReqDto roleReqDto) {
         boolean flag = this.roleService.updateRole(id, roleReqDto);
         return ResponseDto.ok(flag);
     }
 
     @GetMapping("/list")
     @ApiOperation(value = "角色列表")
-    public ResponseDto findAll(Pageable pageable){
-        Page<RoleRespDto> page = this.roleService.findAll(pageable);
-        PageInfo<RoleRespDto> pageInfo=new PageInfo<>(page.getContent(),page.getTotalElements());
+    public ResponseDto findAll(Pageable pageable,
+                               @RequestParam(value = "roleName", required = false) String roleName,
+                               @RequestParam(value = "creator", required = false) String creator) {
+        Page<RoleRespDto> page = this.roleService.findAll(roleName, creator, pageable);
+        PageInfo<RoleRespDto> pageInfo = new PageInfo<>(page.getContent(), page.getTotalElements());
         return ResponseDto.ok(pageInfo);
     }
 
     @GetMapping("/detail/{id}")
     @ApiOperation(value = "角色详情")
-    public ResponseDto<RoleRespDto> findRoleDetail(int id){
+    public ResponseDto<RoleRespDto> findRoleDetail(int id) {
         return ResponseDto.ok(this.roleService.findRoleDetail(id));
     }
 

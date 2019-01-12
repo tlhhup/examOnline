@@ -2,9 +2,7 @@ package org.tlh.exam.auth.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.tlh.exam.auth.entity.Role;
@@ -31,50 +29,57 @@ public class RoleService {
     private RoleRepository roleRepository;
 
     @Transactional
-    public boolean createRole(RoleReqDto roleReqDto){
+    public boolean createRole(RoleReqDto roleReqDto) {
         try {
             this.roleRepository.save(roleDto2Role(roleReqDto));
             return true;
         } catch (Exception e) {
-            log.error("add role error",e.getMessage());
+            log.error("add role error", e.getMessage());
         }
         return false;
     }
 
     @Transactional
-    public boolean deleteRole(int id){
+    public boolean deleteRole(int id) {
         try {
             this.roleRepository.deleteById(id);
             return true;
         } catch (Exception e) {
-            log.error("delete role error",e.getMessage());
+            log.error("delete role error", e.getMessage());
         }
         return false;
     }
 
     @Transactional
-    public boolean updateRole(int id,RoleReqDto roleReqDto){
+    public boolean updateRole(int id, RoleReqDto roleReqDto) {
         Role role = roleDto2Role(roleReqDto);
         role.setId(id);
-        return this.roleRepository.updateRole(role)>0;
+        return this.roleRepository.updateRole(role) > 0;
     }
 
-    public Page<RoleRespDto> findAll(Pageable pageable){
-        Page<Role> rolePage = this.roleRepository.findAll(pageable);
+    public Page<RoleRespDto> findAll(String roleName, String creator, Pageable pageable) {
+        Role query = new Role();
+        query.setRoleName(roleName);
+        query.setCreator(creator);
+        ExampleMatcher matcher = ExampleMatcher.matching()//
+                .withMatcher("roleName", match->match.startsWith())
+                .withMatcher("creator", matcher1 -> matcher1.storeDefaultMatching());
+        Example<Role> example = Example.of(query, matcher);
+        Page<Role> rolePage = this.roleRepository.findAll(example,pageable);
         List<RoleRespDto> collect = rolePage.stream().map(role -> role2RoleResp(role)).collect(Collectors.toList());
-        return new PageImpl<>(collect,pageable,rolePage.getTotalElements());
+        return new PageImpl<>(collect, pageable, rolePage.getTotalElements());
     }
 
-    public RoleRespDto findRoleDetail(int id){
+    public RoleRespDto findRoleDetail(int id) {
         Optional<Role> role = this.roleRepository.findById(id);
-        if(!role.isPresent()){
+        if (!role.isPresent()) {
             return null;
         }
         return role2RoleResp(role.get());
     }
 
-    private Role roleDto2Role(RoleReqDto roleReqDto){
-        Role role=new Role();
+    private Role roleDto2Role(RoleReqDto roleReqDto) {
+        Role role = new Role();
         role.setRoleName(roleReqDto.getRoleName());
         role.setRoleValue(roleReqDto.getRoleValue());
         role.setDescription(roleReqDto.getDescription());
@@ -84,8 +89,8 @@ public class RoleService {
         return role;
     }
 
-    private RoleRespDto role2RoleResp(Role role){
-        RoleRespDto roleRespDto=new RoleRespDto();
+    private RoleRespDto role2RoleResp(Role role) {
+        RoleRespDto roleRespDto = new RoleRespDto();
         roleRespDto.setId(role.getId());
         roleRespDto.setRoleName(role.getRoleName());
         roleRespDto.setRoleValue(role.getRoleValue());
