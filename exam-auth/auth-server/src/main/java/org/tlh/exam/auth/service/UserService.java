@@ -4,9 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -80,8 +78,15 @@ public class UserService {
         return this.userRepository.updateUserActiveById(id,active)>0;
     }
 
-    public Page<UserRespDto> findAll(Pageable pageable) {
-        Page<User> userPage = this.userRepository.findAll(pageable);
+    public Page<UserRespDto> findAll(String userName, Integer userType, Pageable pageable) {
+        User query=new User();
+        query.setUserType(userType);
+        query.setUserName(userName);
+        ExampleMatcher matcher = ExampleMatcher.matching()//
+                .withMatcher("userName", match->match.startsWith())
+                .withMatcher("userType", matcher1 -> matcher1.storeDefaultMatching());
+        Example<User> example = Example.of(query, matcher);
+        Page<User> userPage = this.userRepository.findAll(example,pageable);
         List<UserRespDto> collect = userPage.stream().map(user -> dealUserInfo(user)).collect(Collectors.toList());
         return new PageImpl<>(collect,pageable,userPage.getTotalElements());
     }

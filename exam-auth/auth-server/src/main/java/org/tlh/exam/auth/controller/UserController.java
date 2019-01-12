@@ -6,8 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-import org.tlh.exam.auth.model.resp.ResponseDto;
 import org.tlh.exam.auth.model.req.UserAddDto;
+import org.tlh.exam.auth.model.resp.PageInfo;
+import org.tlh.exam.auth.model.resp.ResponseDto;
 import org.tlh.exam.auth.model.resp.UserRespDto;
 import org.tlh.exam.auth.service.UserService;
 
@@ -49,8 +50,12 @@ public class UserController {
 
     @GetMapping("/list")
     @ApiOperation(value = "用户列表")
-    public Page<UserRespDto> findUserInfo(Pageable pageable){
-        return this.userService.findAll(pageable);
+    public ResponseDto findUserInfo(Pageable pageable,
+                                    @RequestParam(value = "userName",required = false) String userName,
+                                    @RequestParam(value = "userType",required = false) Integer userType){
+        Page<UserRespDto> page = this.userService.findAll(userName,userType,pageable);
+        PageInfo<UserRespDto> pageInfo = new PageInfo<>(page.getContent(), page.getTotalElements());
+        return ResponseDto.ok(pageInfo);
     }
 
     @GetMapping("/detail/{id}")
