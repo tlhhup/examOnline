@@ -31,6 +31,7 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler{
      */
     @Override
     protected Map<String, Object> getErrorAttributes(ServerRequest request, boolean includeStackTrace) {
+        // todo 该部分异常信息的处理，和其他类型异常的数据
         int code = 500;
         Throwable error = super.getError(request);
         if (error instanceof NotFoundException) {

@@ -7,11 +7,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+import org.tlh.exam.auth.model.req.ChangePwdReqDto;
 import org.tlh.exam.auth.model.req.UserAddDto;
 import org.tlh.exam.auth.model.resp.PageInfo;
 import org.tlh.exam.auth.model.resp.ResponseDto;
 import org.tlh.exam.auth.model.resp.UserRespDto;
 import org.tlh.exam.auth.service.UserService;
+
+import javax.validation.Valid;
 
 @Api
 @RestController
@@ -35,10 +38,18 @@ public class UserController {
         return ResponseDto.ok(flag);
     }
 
+    @PostMapping("/checkPassword")
+    @ApiOperation(value = "密码校验")
+    public ResponseDto<Boolean> checkPassword(@Valid @RequestBody ChangePwdReqDto changePwdReqDto) {
+        boolean flag = this.userService.checkPassword(changePwdReqDto.getId(), changePwdReqDto.getPassword());
+        return ResponseDto.ok(flag);
+    }
+
     @PutMapping("/modify/{id}/pwd")
     @ApiOperation(value = "修改密码")
-    public ResponseDto<Boolean> modifyPassword(@PathVariable("id") int id, @RequestParam("password") String password) {
-        boolean flag = this.userService.modifyPassword(id, password);
+    public ResponseDto<Boolean> modifyPassword(@PathVariable("id") int id,
+                                               @Valid @RequestBody ChangePwdReqDto changePwdReqDto) {
+        boolean flag = this.userService.modifyPassword(id, changePwdReqDto.getPassword());
         return ResponseDto.ok(flag);
     }
 

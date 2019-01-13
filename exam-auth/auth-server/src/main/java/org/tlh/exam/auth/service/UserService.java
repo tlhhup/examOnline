@@ -70,6 +70,14 @@ public class UserService {
         return false;
     }
 
+    public boolean checkPassword(int id, String password) {
+        Optional<User> user = this.userRepository.findById(id);
+        if(user.isPresent()){
+            return this.passwordEncoder.matches(password,user.get().getPassword());
+        }
+        return false;
+    }
+
     @Transactional
     @CacheEvict(value = CommonConstants.AUTH,key = "'user:'+#id")
     public boolean modifyPassword(int id,String password){
