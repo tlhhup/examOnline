@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import org.tlh.exam.auth.model.req.RoleReqDto;
@@ -51,7 +52,8 @@ public class RoleController {
     public ResponseDto findAll(Pageable pageable,
                                @RequestParam(value = "roleName", required = false) String roleName,
                                @RequestParam(value = "creator", required = false) String creator) {
-        Page<RoleRespDto> page = this.roleService.findAll(roleName, creator, pageable);
+        PageRequest pageRequest = PageRequest.of(pageable.getPageNumber() - 1, pageable.getPageSize(), pageable.getSort());
+        Page<RoleRespDto> page = this.roleService.findAll(roleName, creator, pageRequest);
         PageInfo<RoleRespDto> pageInfo = new PageInfo<>(page.getContent(), page.getTotalElements());
         return ResponseDto.ok(pageInfo);
     }

@@ -7,9 +7,7 @@ package org.tlh.exam.commons;
  */
 public interface GatewayConstants {
 
-    String GATEWAY_TOKEN="gate:way:token";
-
-    int RE_LOGIN =403;
+    int RE_LOGIN =50014;
 
     int ERROR_HEADER=400;
 

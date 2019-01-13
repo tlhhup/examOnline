@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import org.tlh.exam.auth.model.req.UserAddDto;
@@ -60,7 +61,8 @@ public class UserController {
     public ResponseDto findUserInfo(Pageable pageable,
                                     @RequestParam(value = "userName",required = false) String userName,
                                     @RequestParam(value = "userType",required = false) Integer userType){
-        Page<UserRespDto> page = this.userService.findAll(userName,userType,pageable);
+        PageRequest pageRequest = PageRequest.of(pageable.getPageNumber() - 1, pageable.getPageSize(), pageable.getSort());
+        Page<UserRespDto> page = this.userService.findAll(userName,userType,pageRequest);
         PageInfo<UserRespDto> pageInfo = new PageInfo<>(page.getContent(), page.getTotalElements());
         return ResponseDto.ok(pageInfo);
     }

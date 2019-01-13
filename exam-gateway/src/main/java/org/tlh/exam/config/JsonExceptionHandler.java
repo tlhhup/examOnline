@@ -35,6 +35,7 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler{
         Throwable error = super.getError(request);
         if (error instanceof NotFoundException) {
             code = 404;
+            error=new Exception("The service is temporarily unavailable!");
         }
         if (error instanceof IllegalRequestException){
             code=((IllegalRequestException) error).getCode();
@@ -60,8 +61,8 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler{
      */
     @Override
     protected HttpStatus getHttpStatus(Map<String, Object> errorAttributes) {
-        int statusCode = (int) errorAttributes.get("code");
-        return HttpStatus.valueOf(statusCode);
+        //int statusCode = (int) errorAttributes.get("code");
+        return HttpStatus.valueOf(200);
     }
 
     /**
@@ -74,10 +75,8 @@ public class JsonExceptionHandler extends DefaultErrorWebExceptionHandler{
         StringBuilder message = new StringBuilder("Failed to handle request [");
         message.append(request.methodName());
         message.append(" ");
-        message.append(request.uri());
         message.append("]");
         if (ex != null) {
-            message.append(": ");
             message.append(ex.getMessage());
         }
         return message.toString();
