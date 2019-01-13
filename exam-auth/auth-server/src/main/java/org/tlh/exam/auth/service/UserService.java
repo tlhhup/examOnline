@@ -2,6 +2,7 @@ package org.tlh.exam.auth.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.*;
@@ -37,6 +38,9 @@ public class UserService {
     @Autowired
     private LocaleMessageResource messageResource;
 
+    @Value("${exam.auth.plain-password}")
+    private String plainPassword;
+
     @Transactional
     public boolean saveUser(UserAddDto userAddDto) {
         try {
@@ -70,6 +74,12 @@ public class UserService {
     @CacheEvict(value = CommonConstants.AUTH,key = "'user:'+#id")
     public boolean modifyPassword(int id,String password){
         return this.userRepository.updatePasswordById(id,this.passwordEncoder.encode(password))>0;
+    }
+
+    @Transactional
+    public boolean resetPassword(int id) {
+        String password=this.passwordEncoder.encode(plainPassword);
+        return this.userRepository.updatePasswordById(id,password)>0;
     }
 
     @Transactional

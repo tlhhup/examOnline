@@ -38,4 +38,9 @@ public class ExamAuthServerProperties {
      * 无需登陆验证路径
      */
     private List<String> ignorePath;
+
+    /**
+     * 初始密码
+     */
+    private String plainPassword;
 }

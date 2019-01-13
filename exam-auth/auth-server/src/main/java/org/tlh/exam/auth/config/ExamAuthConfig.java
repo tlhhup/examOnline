@@ -29,15 +29,15 @@ public class ExamAuthConfig {
     private ExamAuthServerProperties examAuthServerProperties;
 
     @Bean
-    public Pbkdf2PasswordEncoder passwordEncoder(){
+    public Pbkdf2PasswordEncoder passwordEncoder() {
         Pbkdf2PasswordEncoder passwordEncoder = new Pbkdf2PasswordEncoder(examAuthServerProperties.getSecret());
         passwordEncoder.setAlgorithm(Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm.PBKDF2WithHmacSHA1);
         return passwordEncoder;
     }
 
     @Bean
-    public AuthorizeInterceptor authorizeInterceptor(AuthService authService){
-        AuthorizeInterceptor authorizeInterceptor=new AuthorizeInterceptor();
+    public AuthorizeInterceptor authorizeInterceptor(AuthService authService) {
+        AuthorizeInterceptor authorizeInterceptor = new AuthorizeInterceptor();
         authorizeInterceptor.setAuthService(authService);
         authorizeInterceptor.setExamAuthServerProperties(examAuthServerProperties);
         return authorizeInterceptor;
@@ -46,20 +46,20 @@ public class ExamAuthConfig {
     @Bean
     public RedisCacheConfiguration redisCacheConfiguration() {
         //配置
-        RedisCacheConfiguration config=RedisCacheConfiguration.defaultCacheConfig();
-        config=config.serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()));
+        RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig();
+        config = config.serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()));
         //value序列化
-        Jackson2JsonRedisSerializer valueSerializer=new Jackson2JsonRedisSerializer(Object.class);
-        ObjectMapper mapper=new ObjectMapper();
+        Jackson2JsonRedisSerializer valueSerializer = new Jackson2JsonRedisSerializer(Object.class);
+        ObjectMapper mapper = new ObjectMapper();
         mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
         mapper.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
         valueSerializer.setObjectMapper(mapper);
-        config=config.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(valueSerializer));
+        config = config.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(valueSerializer));
         return config;
     }
 
     @Configuration
-    public class WebMvcConfig implements WebMvcConfigurer{
+    public class WebMvcConfig implements WebMvcConfigurer {
 
         @Autowired
         private AuthorizeInterceptor authorizeInterceptor;
@@ -67,7 +67,8 @@ public class ExamAuthConfig {
         @Override
         public void addInterceptors(InterceptorRegistry registry) {
             //1.权限过滤
-            registry.addInterceptor(authorizeInterceptor).addPathPatterns("/**");
+            registry.addInterceptor(authorizeInterceptor).addPathPatterns("/**")//
+                    .excludePathPatterns("/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**");
             //2.国际化
             registry.addInterceptor(new LocaleInterceptor()).addPathPatterns("/**");
         }

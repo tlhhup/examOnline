@@ -41,9 +41,16 @@ public class UserController {
         return ResponseDto.ok(flag);
     }
 
-    @PutMapping("/modify/{id}/active")
+    @PutMapping("/modify/{id}/resetPwd")
+    @ApiOperation(value = "重制密码")
+    public ResponseDto<Boolean> modifyPassword(@PathVariable("id") int id) {
+        boolean flag = this.userService.resetPassword(id);
+        return ResponseDto.ok(flag);
+    }
+
+    @PutMapping("/modify/{id}/active/{active}")
     @ApiOperation(value = "激活(禁用)用户")
-    public ResponseDto<Boolean> activeUser(@PathVariable("id")int id,@RequestParam("active") boolean active){
+    public ResponseDto<Boolean> activeUser(@PathVariable("id")int id,@PathVariable("active") boolean active){
         boolean flag=this.userService.modifyUserStatus(id,active);
         return ResponseDto.ok(flag);
     }
