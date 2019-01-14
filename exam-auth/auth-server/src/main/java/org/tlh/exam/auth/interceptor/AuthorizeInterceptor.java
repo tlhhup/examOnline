@@ -59,7 +59,8 @@ public class AuthorizeInterceptor implements HandlerInterceptor {
     }
 
     private boolean isIgnorePath(String uri) {
-        return this.examAuthServerProperties.getIgnorePath().parallelStream().anyMatch((t) -> t.equalsIgnoreCase(uri));
+        return this.examAuthServerProperties.getIgnorePath().parallelStream()
+                .anyMatch((t) -> t.equalsIgnoreCase(uri)||uri.matches(t));
     }
 
 }

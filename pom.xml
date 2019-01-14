@@ -15,6 +15,7 @@
         <module>exam-auth</module>
         <module>exam-gateway</module>
         <module>exam-commons</module>
+        <module>exam-monitor</module>
     </modules>
     <packaging>pom</packaging>
     <parent>

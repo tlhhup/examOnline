@@ -1,0 +1,21 @@
+server:
+  port: 10015
+spring:
+  application:
+    name: exam-monitor
+eureka:
+  instance:
+    appname: exam-monitor
+    lease-expiration-duration-in-seconds: 5
+    lease-renewal-interval-in-seconds: 5
+  client:
+    service-url:
+      defaultZone: http://localhost:10011/eureka/
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS

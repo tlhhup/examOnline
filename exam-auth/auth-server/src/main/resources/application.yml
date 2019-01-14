@@ -19,6 +19,12 @@ spring:
     basename: auth
   redis:
     database: 10
+  boot:
+    admin:
+      client:
+        instance:
+          service-url: /auth
+          management-base-url: /auth
 eureka:
   instance:
     appname: exam-auth-server
@@ -43,3 +49,9 @@ exam:
       - /auth/auth/login
       - /auth/
       - /auth/csrf
+      - /actuator/*
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
