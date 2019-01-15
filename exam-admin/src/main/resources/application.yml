@@ -1,5 +1,5 @@
 server:
-  port: 10015
+  port: 10017
 spring:
   application:
     name: exam-admin

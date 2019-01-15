@@ -19,17 +19,17 @@ spring:
     basename: auth
   redis:
     database: 10
-  boot:
-    admin:
-      client:
-        instance:
-          service-url: /auth
-          management-base-url: /auth
 eureka:
   instance:
     appname: exam-auth-server
     lease-expiration-duration-in-seconds: 5
     lease-renewal-interval-in-seconds: 5
+    metadata-map:
+      management:
+        context-path: /auth/actuator
+    health-check-url: http://localhost:${server.port}/auth/actuator/info
+    status-page-url: http://localhost:${server.port}/auth/actuator/info
+    home-page-url: http://localhost:${server.port}/
   client:
     service-url:
       defaultZone: http://localhost:10011/eureka/
@@ -49,7 +49,7 @@ exam:
       - /auth/auth/login
       - /auth/
       - /auth/csrf
-      - /actuator/*
+      - /auth/actuator/*
 management:
   endpoints:
     web:
