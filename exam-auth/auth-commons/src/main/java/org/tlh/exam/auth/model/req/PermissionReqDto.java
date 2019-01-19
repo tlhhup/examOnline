@@ -28,6 +28,12 @@ public class PermissionReqDto implements Serializable{
     @ApiModelProperty(value = "排序")
     private Integer sort;
 
+    @ApiModelProperty(value = "图标")
+    private String icon;
+
+    @ApiModelProperty(value = "是否为内部菜单")
+    private Boolean iframe;
+
     @ApiModelProperty(value = "是否可用")
     private Boolean isActive;
 

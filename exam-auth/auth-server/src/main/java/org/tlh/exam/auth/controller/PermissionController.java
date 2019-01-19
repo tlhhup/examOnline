@@ -3,14 +3,14 @@ package org.tlh.exam.auth.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-import org.tlh.exam.auth.model.resp.ResponseDto;
 import org.tlh.exam.auth.model.req.PermissionReqDto;
 import org.tlh.exam.auth.model.resp.PermissionRespDto;
+import org.tlh.exam.auth.model.resp.ResponseDto;
 import org.tlh.exam.auth.service.PermissionService;
 import springfox.documentation.annotations.ApiIgnore;
+
+import java.util.List;
 
 /**
  * Created by 离歌笑tlh/hu ping on 2018/11/26
@@ -62,8 +62,9 @@ public class PermissionController {
 
     @GetMapping("/list")
     @ApiOperation(value = "权限列表")
-    public Page<PermissionRespDto> permissionAll(Pageable pageable){
-        return this.permissionService.findAll(pageable);
+    public ResponseDto<PermissionRespDto> permissionAll(){
+        List<PermissionRespDto> permissions = this.permissionService.findAll();
+        return ResponseDto.ok(permissions);
     }
 
 }

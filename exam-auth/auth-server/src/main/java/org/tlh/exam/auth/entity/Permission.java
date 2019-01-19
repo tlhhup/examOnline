@@ -20,6 +20,8 @@ public class Permission extends BaseEntity{
     private String permission;
     private Integer sort;
     private Boolean isActive;
+    private String icon;
+    private Boolean iframe;//内部菜单，按钮
     private Date createTime;
     private String creator;
 
