@@ -9,8 +9,14 @@ spring:
    driver-class-name: org.gjt.mm.mysql.Driver
    username: root
    password: 123456
+   type: org.springframework.jdbc.datasource.DriverManagerDataSource
  jpa:
    hibernate:
      ddl-auto: update
  application:
    name: exam-config-admin
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
