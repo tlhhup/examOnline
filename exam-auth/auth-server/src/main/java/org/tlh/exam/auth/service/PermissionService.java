@@ -3,6 +3,8 @@ package org.tlh.exam.auth.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.tlh.exam.auth.entity.Permission;
@@ -43,6 +45,7 @@ public class PermissionService {
     @Transactional
     public boolean deletePermission(int id) {
         try {
+
             this.permissionRepository.deleteById(id);
             return false;
         } catch (Exception e) {
@@ -77,8 +80,13 @@ public class PermissionService {
         return null;
     }
 
-    public List<PermissionRespDto> findAll() {
-        List<Permission> permissions = this.permissionRepository.findAll();
+    public List<PermissionRespDto> findAll(String name) {
+        Permission model=new Permission();
+        model.setName(name);
+        ExampleMatcher matcher = ExampleMatcher.matching()//
+                .withMatcher("name", match->match.startsWith());
+        Example<Permission> example = Example.of(model, matcher);
+        List<Permission> permissions = this.permissionRepository.findAll(example);
         List<PermissionRespDto> permissionRes = permissions.stream()//
                 .map(permission -> buildPermissionDto(permission)).collect(Collectors.toList());
         return buildTreeMenu(permissionRes);
@@ -98,6 +106,7 @@ public class PermissionService {
     private PermissionRespDto buildPermissionDto(Permission permission) {
         PermissionRespDto result = new PermissionRespDto();
         BeanUtils.copyProperties(permission, result);
+        result.setLabel(result.getName());
         if (permission.getParent() != null) {
             result.setParentId(permission.getParent().getId());
         }

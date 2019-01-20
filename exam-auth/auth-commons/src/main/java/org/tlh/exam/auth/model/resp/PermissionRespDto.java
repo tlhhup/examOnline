@@ -24,4 +24,6 @@ public class PermissionRespDto extends PermissionReqDto {
 
     @ApiModelProperty(value = "子菜单")
     private List<PermissionRespDto> children;
+
+    private String label; // 次属性目的是匹配前端vue-treeSelect组件 toto 优化
 }

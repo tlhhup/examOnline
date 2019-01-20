@@ -56,7 +56,7 @@ public class PermissionServiceTest {
 
     @Test
     public void findAll() throws Exception {
-        List<PermissionRespDto> menus = this.permissionService.findAll();
+        List<PermissionRespDto> menus = this.permissionService.findAll(null);
         System.out.println(menus);
     }
 

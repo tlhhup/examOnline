@@ -13,4 +13,6 @@ public interface PermissionRepository extends JpaRepository<Permission,Integer>{
     @Query("update Permission set isActive=?2 where id=?1")
     int updatePermissionStatus(int id,boolean active);
 
+    int countByParent(int pId);
+
 }

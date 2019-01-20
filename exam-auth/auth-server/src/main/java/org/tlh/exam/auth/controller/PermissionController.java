@@ -62,8 +62,8 @@ public class PermissionController {
 
     @GetMapping("/list")
     @ApiOperation(value = "权限列表")
-    public ResponseDto<PermissionRespDto> permissionAll(){
-        List<PermissionRespDto> permissions = this.permissionService.findAll();
+    public ResponseDto<PermissionRespDto> permissionAll(@RequestParam(value = "name",required = false)String name){
+        List<PermissionRespDto> permissions = this.permissionService.findAll(name);
         return ResponseDto.ok(permissions);
     }
 
