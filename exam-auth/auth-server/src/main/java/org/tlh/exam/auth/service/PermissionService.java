@@ -45,9 +45,9 @@ public class PermissionService {
     @Transactional
     public boolean deletePermission(int id) {
         try {
-
+            // todo 删除子菜单
             this.permissionRepository.deleteById(id);
-            return false;
+            return true;
         } catch (Exception e) {
             log.error("delete permission error", e.getMessage());
         }

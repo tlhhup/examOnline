@@ -20,6 +20,8 @@ public class Role extends BaseEntity {
     private Integer roleValue;
     private String creator;
     private Boolean isActive;
+
+    @Column(updatable = false)
     private Date createTime;
 
     @UpdateTimestamp

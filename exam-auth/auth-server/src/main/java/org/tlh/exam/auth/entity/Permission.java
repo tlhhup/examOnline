@@ -22,6 +22,8 @@ public class Permission extends BaseEntity{
     private Boolean isActive;
     private String icon;
     private Boolean iframe;//内部菜单，按钮
+
+    @Column(updatable = false)
     private Date createTime;
     private String creator;
 

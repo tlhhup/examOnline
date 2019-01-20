@@ -21,8 +21,9 @@ public class User extends BaseEntity {
     private String password;
     private Integer userType;
     private Boolean isActive;
-    private Date createTime;
 
+    @Column(updatable = false)
+    private Date createTime;
 
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
