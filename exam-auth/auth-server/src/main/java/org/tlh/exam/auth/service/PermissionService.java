@@ -5,6 +5,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.tlh.exam.auth.entity.Permission;
@@ -45,13 +46,32 @@ public class PermissionService {
     @Transactional
     public boolean deletePermission(int id) {
         try {
-            // todo 删除子菜单
+            //删除孩子节点
+            this.deleteChildren(id);
+            //删除自己
             this.permissionRepository.deleteById(id);
             return true;
         } catch (Exception e) {
             log.error("delete permission error", e.getMessage());
         }
         return false;
+    }
+
+    //删除孩子节点
+    private void deleteChildren(Integer parentId){
+        List<Permission> menus = this.permissionRepository.findByParentId(parentId);
+        if(menus!=null&&menus.size()>0){//判断是否是叶子菜单
+            for(Permission menu:menus){
+                deleteChildren(menu.getId());//递归删除孩子
+                if(this.permissionRepository.existsById(menu.getId())) {
+                    this.permissionRepository.deleteRoleByPermissionId(parentId);
+                    this.permissionRepository.deleteById(menu.getId());//删除自己
+                }
+            }
+        }else{
+            this.permissionRepository.deleteRoleByPermissionId(parentId);
+            this.permissionRepository.deleteById(parentId);
+        }
     }
 
     @Transactional
@@ -86,7 +106,7 @@ public class PermissionService {
         ExampleMatcher matcher = ExampleMatcher.matching()//
                 .withMatcher("name", match->match.startsWith());
         Example<Permission> example = Example.of(model, matcher);
-        List<Permission> permissions = this.permissionRepository.findAll(example);
+        List<Permission> permissions = this.permissionRepository.findAll(example, Sort.by("sort"));
         List<PermissionRespDto> permissionRes = permissions.stream()//
                 .map(permission -> buildPermissionDto(permission)).collect(Collectors.toList());
         return buildTreeMenu(permissionRes);
