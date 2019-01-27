@@ -5,12 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.tlh.exam.auth.entity.Permission;
 import org.tlh.exam.auth.entity.Role;
 import org.tlh.exam.auth.holder.JwtInfoHolder;
 import org.tlh.exam.auth.model.req.RoleReqDto;
 import org.tlh.exam.auth.model.resp.RoleRespDto;
 import org.tlh.exam.auth.repository.RoleRepository;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -52,9 +54,15 @@ public class RoleService {
 
     @Transactional
     public boolean updateRole(int id, RoleReqDto roleReqDto) {
-        Role role = roleDto2Role(roleReqDto);
-        role.setId(id);
-        return this.roleRepository.updateRole(role) > 0;
+        try {
+            Role role = roleDto2Role(roleReqDto);
+            role.setId(id);
+            this.roleRepository.save(role);
+            return true;
+        } catch (Exception e) {
+            log.error("update role error", e.getMessage());
+        }
+        return false;
     }
 
     public Page<RoleRespDto> findAll(String roleName, String creator, Pageable pageable) {
@@ -86,6 +94,17 @@ public class RoleService {
         role.setIsActive(roleReqDto.getIsActive());
         role.setCreateTime(roleReqDto.getCreateTime());
         role.setCreator(JwtInfoHolder.getIJWTInfo().getName());
+
+        //分配权限
+        Integer[] permissionIds = roleReqDto.getPermissionIds();
+        if(permissionIds!=null&&permissionIds.length!=0){
+            List<Permission> permissions = Arrays.stream(permissionIds).map(id -> {
+                Permission permission = new Permission();
+                permission.setId(id);
+                return permission;
+            }).collect(Collectors.toList());
+            role.setPermissions(permissions);
+        }
         return role;
     }
 
@@ -100,6 +119,5 @@ public class RoleService {
         roleRespDto.setCreateTime(role.getCreateTime());
         return roleRespDto;
     }
-
 
 }

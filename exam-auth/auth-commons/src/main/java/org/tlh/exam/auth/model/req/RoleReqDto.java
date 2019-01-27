@@ -33,4 +33,8 @@ public class RoleReqDto implements Serializable {
     @ApiModelProperty(value = "创建时间")
     private Date createTime;
 
+    @JsonProperty(value = "pIds")
+    @ApiModelProperty(value = "权限")
+    private Integer[] permissionIds;
+
 }
