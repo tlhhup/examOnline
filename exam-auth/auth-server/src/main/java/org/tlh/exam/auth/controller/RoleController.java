@@ -64,4 +64,10 @@ public class RoleController {
         return ResponseDto.ok(this.roleService.findRoleDetail(id));
     }
 
+    @GetMapping("/roles")
+    @ApiOperation(value = "角色信息")
+    public ResponseDto findAll(){
+        return ResponseDto.ok(this.roleService.findAll());
+    }
+
 }

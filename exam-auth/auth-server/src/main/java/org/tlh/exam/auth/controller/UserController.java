@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+import org.tlh.exam.auth.model.req.AssignRoleReqDto;
 import org.tlh.exam.auth.model.req.ChangePwdReqDto;
 import org.tlh.exam.auth.model.req.UserAddDto;
 import org.tlh.exam.auth.model.resp.PageInfo;
@@ -82,6 +83,13 @@ public class UserController {
     @ApiOperation(value = "用户详情")
     public ResponseDto<UserRespDto> getUserDetail(@PathVariable("id") int id){
         return ResponseDto.ok(this.userService.findUserDetail(id));
+    }
+
+    @PutMapping("/assignRole")
+    @ApiOperation(value = "分配角色")
+    public ResponseDto<Boolean> assignRole(@RequestBody AssignRoleReqDto assignRole){
+        boolean flag=this.userService.assignRole(assignRole);
+        return ResponseDto.ok(flag);
     }
 
 }

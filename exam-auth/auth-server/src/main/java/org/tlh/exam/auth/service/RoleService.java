@@ -78,6 +78,12 @@ public class RoleService {
         return new PageImpl<>(collect, pageable, rolePage.getTotalElements());
     }
 
+    public List<RoleRespDto> findAll(){
+        List<Role> roles = this.roleRepository.findAll();
+        List<RoleRespDto> collect = roles.parallelStream().map(role -> role2RoleResp(role)).collect(Collectors.toList());
+        return collect;
+    }
+
     public RoleRespDto findRoleDetail(int id) {
         Optional<Role> role = this.roleRepository.findById(id);
         if (!role.isPresent()) {

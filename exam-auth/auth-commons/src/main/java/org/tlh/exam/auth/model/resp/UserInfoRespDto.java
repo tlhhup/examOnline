@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
 /**
  * Created by 离歌笑tlh/hu ping on 2018/12/11
@@ -26,9 +26,9 @@ public class UserInfoRespDto implements Serializable{
     private String introduction;
 
     @ApiModelProperty(value = "角色")
-    private List<String> roles;
+    private Set<String> roles;
 
     @ApiModelProperty(value = "权限")
-    private List<String> permissions;
+    private Set<String> permissions;
 
 }
