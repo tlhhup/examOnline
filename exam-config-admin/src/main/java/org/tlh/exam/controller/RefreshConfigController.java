@@ -16,7 +16,7 @@ import org.tlh.exam.dto.RefreshResDto;
 
 @Slf4j
 @RestController
-@RequestMapping("/refresh")
+@RequestMapping("${scca.rest.context-path:}/refresh")
 public class RefreshConfigController {
 
     @Value("${spring.cloud.config.discovery.service-id}")

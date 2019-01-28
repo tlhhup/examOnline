@@ -10,6 +10,10 @@ spring:
           uri: lb://exam-auth-server
           predicates:
             - Path=/auth/**     # /auth开头的请求都路由到exam-auth-server中
+        - id: config
+          uri: lb://exam-config-admin
+          predicates:
+            - Path=/xhr/**
 eureka:
   instance:
     appname: exam-gateway
