@@ -3,6 +3,23 @@ server:
 spring:
   application:
     name: exam-monitor
+  mail:
+    host: smtp.qq.com
+    username: 发送人qq邮箱
+    password: qq邮箱的授权码
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+  boot:
+    admin:
+      notify:
+        mail:
+          to: 收件人qq邮箱
+          from: 发送人qq邮箱
 eureka:
   instance:
     appname: exam-monitor
