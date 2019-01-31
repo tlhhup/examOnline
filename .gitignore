@@ -33,3 +33,4 @@ gen
 ### Maven template
 target/
 
+/exam-monitor/src/main/resources/application.yml
