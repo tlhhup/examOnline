@@ -15,5 +15,5 @@ eureka:
     lease-renewal-interval-in-seconds: 5
 scca:
   ui:
-    rest-server-url: http://localhost:10014
+    rest-server-url: http://exam-config-admin
     rest-server-context-path: /xhr

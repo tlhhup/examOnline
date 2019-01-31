@@ -11,7 +11,7 @@
 
     <artifactId>exam-admin</artifactId>
     <properties>
-        <scca.version>1.0.0-RELEASE</scca.version>
+        <scca.version>1.3.0-RELEASE</scca.version>
     </properties>
     <dependencies>
         <dependency>

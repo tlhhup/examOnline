@@ -44,6 +44,7 @@ public class RoleService {
     @Transactional
     public boolean deleteRole(int id) {
         try {
+            this.roleRepository.deleteUserRoleLinkByRoleId(id);
             this.roleRepository.deleteById(id);
             return true;
         } catch (Exception e) {
