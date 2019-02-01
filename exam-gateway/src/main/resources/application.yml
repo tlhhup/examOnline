@@ -14,6 +14,8 @@ spring:
           uri: lb://exam-config-admin
           predicates:
             - Path=/xhr/**
+  zipkin:
+    base-url: http://localhost:9411/
 eureka:
   instance:
     appname: exam-gateway
