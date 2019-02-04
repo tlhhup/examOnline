@@ -13,4 +13,6 @@ public interface GatewayConstants {
 
     int BAD_GATEWAY=502;
 
+    int LOGOUT_ERROR=50015;
+
 }
