@@ -49,6 +49,7 @@ public class PermissionService {
             //删除孩子节点
             this.deleteChildren(id);
             //删除自己
+            this.permissionRepository.deleteRoleByPermissionId(id);
             this.permissionRepository.deleteById(id);
             return true;
         } catch (Exception e) {
@@ -63,10 +64,6 @@ public class PermissionService {
         if(menus!=null&&menus.size()>0){//判断是否是叶子菜单
             for(Permission menu:menus){
                 deleteChildren(menu.getId());//递归删除孩子
-                if(this.permissionRepository.existsById(menu.getId())) {
-                    this.permissionRepository.deleteRoleByPermissionId(parentId);
-                    this.permissionRepository.deleteById(menu.getId());//删除自己
-                }
             }
         }else{
             this.permissionRepository.deleteRoleByPermissionId(parentId);
