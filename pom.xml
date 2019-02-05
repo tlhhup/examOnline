@@ -11,11 +11,11 @@
         <module>exam-eureka</module>
         <module>exam-config-server</module>
         <module>exam-config-admin</module>
-        <module>exam-admin</module>
         <module>exam-auth</module>
         <module>exam-gateway</module>
         <module>exam-commons</module>
         <module>exam-monitor</module>
+        <module>exam-user</module>
     </modules>
     <packaging>pom</packaging>
     <parent>

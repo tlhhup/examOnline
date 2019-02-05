@@ -4,7 +4,7 @@
 1. exam-eureka：通过eureka实现的服务注册中心
 2. exam-config-server：基于数据库的配置中心
 3. exam-config-admin：基于数据库的配置中心的rest服务
-4. exam-admin：用户中心
+4. exam-user：用户中心
 5. exam-auth：授权中心
 6. exam-gateway：网关
 7. exam-monitor：基于Spring boot admin的应用监控中心，实现服务下线通知
