@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.tlh.exam.dto.RefreshResDto;
+import org.tlh.exam.dto.ResponseDto;
 
 @Slf4j
 @RestController
@@ -26,7 +27,7 @@ public class RefreshConfigController {
     private RestTemplate restTemplate;
 
     @PostMapping("/all")
-    public RefreshResDto refreshAll() {
+    public ResponseDto<RefreshResDto> refreshAll() {
         RefreshResDto result=new RefreshResDto();
         try {
             StringBuilder builder = new StringBuilder("http://").append(serviceId).append("/actuator/bus-refresh");
@@ -42,11 +43,11 @@ public class RefreshConfigController {
             log.error("refresh all error");
         }
 
-        return result;
+        return ResponseDto.ok(result);
     }
 
     @PostMapping("/{destination}")
-    public RefreshResDto refreshSpecific(@PathVariable("destination") String destination) {
+    public ResponseDto<RefreshResDto> refreshSpecific(@PathVariable("destination") String destination) {
         RefreshResDto result=new RefreshResDto();
         try {
             StringBuilder builder = new StringBuilder("http://").append(serviceId).append("/actuator/bus-refresh/{destination}");
@@ -59,7 +60,7 @@ public class RefreshConfigController {
             log.error("refresh {} error", destination);
         }
 
-        return result;
+        return ResponseDto.ok(result);
     }
 
 }

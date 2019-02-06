@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.tlh.exam.dto.ResponseDto;
 import org.tlh.exam.dto.ServiceInstanceDto;
 
 import java.util.List;
@@ -25,7 +26,7 @@ public class RegisterServiceController {
     public DiscoveryClient discoveryClient;
 
     @GetMapping
-    public List<ServiceInstanceDto> getInstances(@RequestParam("serviceId") String serviceId){
+    public ResponseDto<List<ServiceInstanceDto>> getInstances(@RequestParam("serviceId") String serviceId){
         List<ServiceInstance> instances = this.discoveryClient.getInstances(serviceId);
         if(instances!=null){
             List<ServiceInstanceDto> collect = instances.parallelStream().map(instance -> {
@@ -36,7 +37,7 @@ public class RegisterServiceController {
                 serviceInstanceDto.setServiceId(instance.getServiceId());
                 return serviceInstanceDto;
             }).collect(Collectors.toList());
-            return collect;
+            return ResponseDto.ok(collect);
         }
         return null;
     }
