@@ -21,7 +21,7 @@ public interface AuthUserClient {
      * @return
      */
     @PostMapping("/add")
-    ResponseDto<Boolean> addUser(@RequestBody UserAddDto userAddDto);
+    ResponseDto<UserRespDto> addUser(@RequestBody UserAddDto userAddDto);
 
     /**
      * 删除用户

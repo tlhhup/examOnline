@@ -12,6 +12,17 @@
 ### 前端
 前端通过vue-element-admin改造的后台，GitHub地址：[exam-admin](https://github.com/tlhhup/exam-admin)
 
+1. 配置中心
+	
+	![](docs/images/configuration.jpeg)
+
+2. spring boot admin监控
+
+	![](docs/images/monitor.jpeg)
+3. 注册中心
+
+	![](docs/images/register.jpeg)
+
 ### 开发环境
 1. jdk1.8+、maven、docker、docker-compose、mysql、idea
 

@@ -13,6 +13,6 @@ import org.tlh.exam.auth.model.UserDto;
 @ApiModel(value = "用户实体")
 public class UserRespDto extends UserDto {
 
-    private int id;
+    private Integer id;
 
 }

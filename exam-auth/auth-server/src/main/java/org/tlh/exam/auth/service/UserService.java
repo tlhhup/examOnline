@@ -1,6 +1,7 @@
 package org.tlh.exam.auth.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.CacheEvict;
@@ -43,7 +44,9 @@ public class UserService {
     private String plainPassword;
 
     @Transactional
-    public boolean saveUser(UserAddDto userAddDto) {
+    public UserRespDto saveUser(UserAddDto userAddDto) {
+        UserRespDto result=new UserRespDto();
+        BeanUtils.copyProperties(userAddDto,result);
         try {
             User user = new User();
             user.setUserName(userAddDto.getUserName());
@@ -52,11 +55,12 @@ public class UserService {
             user.setIsActive(userAddDto.isActive());
             user.setCreateTime(userAddDto.getCreateTime());
             this.userRepository.save(user);
-            return true;
+            //设置ID
+            result.setId(user.getId());
         } catch (Exception e) {
             log.error("add user error", e.getMessage());
         }
-        return false;
+        return result;
     }
 
     @Transactional

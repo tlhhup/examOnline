@@ -14,7 +14,7 @@ import org.tlh.exam.auth.model.resp.UserRespDto;
 @Component
 public class AuthUserClientFallback implements AuthUserClient{
     @Override
-    public ResponseDto<Boolean> addUser(UserAddDto userAddDto) {
+    public ResponseDto<UserRespDto> addUser(UserAddDto userAddDto) {
         return null;
     }
 

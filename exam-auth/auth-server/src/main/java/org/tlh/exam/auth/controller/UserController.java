@@ -27,8 +27,8 @@ public class UserController {
 
     @PostMapping("/add")
     @ApiOperation("添加用户")
-    public ResponseDto<Boolean> addUser(@RequestBody UserAddDto userAddDto) {
-        boolean flag = this.userService.saveUser(userAddDto);
+    public ResponseDto<UserRespDto> addUser(@RequestBody UserAddDto userAddDto) {
+        UserRespDto flag = this.userService.saveUser(userAddDto);
         return ResponseDto.ok(flag);
     }
 
