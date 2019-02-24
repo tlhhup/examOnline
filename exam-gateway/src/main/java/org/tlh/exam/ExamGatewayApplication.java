@@ -4,6 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.tlh.exam.auth.EnableAuthClient;
 import org.tlh.exam.config.ExamGatewayConfigProperties;
 
 /**
@@ -11,6 +12,7 @@ import org.tlh.exam.config.ExamGatewayConfigProperties;
  * <p>
  * Github: https://github.com/tlhhup
  */
+@EnableAuthClient
 @EnableEurekaClient
 @SpringBootApplication
 @EnableConfigurationProperties(ExamGatewayConfigProperties.class)
