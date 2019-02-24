@@ -19,15 +19,18 @@ public class Admin implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     private String realName;
     private String national;
     private String email;
     private String tel;
     private String header;
-    private int userType;
-    private boolean isActive;
+
+    @Column(updatable = false)
+    private Integer userType;
+
+    private Boolean isActive;
 
     @Column(updatable = false)
     private Date createTime;
@@ -36,7 +39,7 @@ public class Admin implements Serializable{
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateTime;
 
-    @Column(nullable = false)
-    private int authId;
+    @Column(nullable = false,updatable = false)
+    private Integer authId;
 
 }

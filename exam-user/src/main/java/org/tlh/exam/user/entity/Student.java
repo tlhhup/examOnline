@@ -15,19 +15,19 @@ import java.util.Date;
 @Data
 @Entity
 @Table(name = "students")
-public class Student implements Serializable{
+public class Student implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     private String realName;
     private String national;
     private String email;
     private String tel;
     private String header;
-    private int sex;
-    private boolean isActive;
+    private Integer sex;
+    private Boolean isActive;
 
     @Column(updatable = false)
     private Date createTime;
@@ -39,7 +39,7 @@ public class Student implements Serializable{
     @ManyToOne
     private Classes classes;
 
-    @Column(nullable = false)
-    private int authId;
+    @Column(nullable = false, updatable = false)
+    private Integer authId;
 
 }

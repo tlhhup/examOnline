@@ -46,8 +46,8 @@ public interface AuthUserClient {
      * @param active
      * @return
      */
-    @PutMapping("/modify/{id}/active")
-    ResponseDto<Boolean> activeUser(@PathVariable("id") int id, @RequestParam("active") boolean active);
+    @PutMapping("/modify/{id}/active/{active}")
+    ResponseDto<Boolean> activeUser(@PathVariable("id") int id, @PathVariable("active") boolean active);
 
     /**
      * 用户详情

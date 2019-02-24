@@ -1,7 +1,11 @@
 package org.tlh.exam.user.model.resp;
 
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.tlh.exam.user.model.req.AdminReqDto;
+
+import java.util.Date;
 
 /**
  * Created by 离歌笑tlh/hu ping on 2019/2/24
@@ -10,16 +14,24 @@ import lombok.Data;
  */
 @Data
 @ApiModel(value = "用户信息")
-public class AdminRespDto extends BaseDto{
+public class AdminRespDto extends AdminReqDto {
 
+    @ApiModelProperty(value = "用户ID")
     private int id;
-    private String realName;
-    private String userName;
+
+    @ApiModelProperty(value = "用户类型")
     private int userType;
-    private String national;
-    private String email;
-    private String tel;
+
+    @ApiModelProperty("用户头像")
     private String header;
+
+    @ApiModelProperty(value = "认证ID")
     private int authId;
+
+    @ApiModelProperty(value = "创建时间")
+    private Date createTime;
+
+    @ApiModelProperty(value = "修改时间")
+    private Date updateTime;
 
 }
