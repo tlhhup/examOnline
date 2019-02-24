@@ -8,5 +8,5 @@ import org.tlh.exam.user.entity.Student;
  * <p>
  * Github: https://github.com/tlhhup
  */
-public interface StudentRepository extends JpaRepository<Integer,Student>{
+public interface StudentRepository extends JpaRepository<Student,Integer>{
 }

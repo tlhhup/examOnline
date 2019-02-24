@@ -15,7 +15,7 @@ import java.util.Date;
 @Data
 @Entity
 @Table(name = "sys_admin")
-public class User implements Serializable{
+public class Admin implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

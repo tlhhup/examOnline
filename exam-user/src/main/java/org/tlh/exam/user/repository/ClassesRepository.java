@@ -8,5 +8,5 @@ import org.tlh.exam.user.entity.Classes;
  * <p>
  * Github: https://github.com/tlhhup
  */
-public interface ClassesRepository extends JpaRepository<Integer,Classes>{
+public interface ClassesRepository extends JpaRepository<Classes,Integer>{
 }
