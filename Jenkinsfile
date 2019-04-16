@@ -1,9 +1,10 @@
 pipeline {
   agent any
   stages {
-    stage('checkout code') {
+    stage('change dir') {
       steps {
-        echo 'checkout code'
+        sh '''cd exam-eureka
+pwd'''
       }
     }
   }
