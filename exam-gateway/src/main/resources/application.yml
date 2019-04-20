@@ -32,3 +32,10 @@ exam:
   gateway:
     ignore-Paths:
       - /auth/auth/
+# 发布时采用的地址为编排
+---
+spring:
+  profiles: deploy
+eureka:
+  client:
+    service-url: http://eureka:10011/eureka/
