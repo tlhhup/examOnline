@@ -38,4 +38,5 @@ spring:
   profiles: deploy
 eureka:
   client:
-    service-url: http://eureka:10011/eureka/
+    service-url:
+      defaultZone: http://eureka:10011/eureka/
