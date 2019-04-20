@@ -15,12 +15,12 @@ spring:
     hibernate:
       ddl-auto: update
     database-platform: org.hibernate.dialect.MySQL57InnoDBDialect
-feign:
-  client:
-    config:
-      default:
-        connectTimeout: 15000
-        readTimeout: 15000
-        loggerLevel: basic
-        requestInterceptors:
-          - org.tlh.exam.user.interceptors.TokenSetInterceptor
+#feign:
+#  client:
+#    config:
+#      default:
+#        connectTimeout: 15000
+#        readTimeout: 15000
+#        loggerLevel: basic
+#        requestInterceptors:
+#          - org.tlh.exam.user.interceptors.TokenSetInterceptor
