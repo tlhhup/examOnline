@@ -1,0 +1,22 @@
+server:
+  port: 10017
+spring:
+  datasource:
+    password: 123456
+    username: root
+    driver-class-name: org.gjt.mm.mysql.Driver
+    url: jdbc:mysql:///exam_questions
+    type: org.springframework.jdbc.datasource.DriverManagerDataSource
+  application:
+    name: exam-questions
+eureka:
+  instance:
+    appname: exam-questions
+    lease-expiration-duration-in-seconds: 5
+    lease-renewal-interval-in-seconds: 5
+  client:
+    service-url:
+      defaultZone: http://localhost:10011/eureka/
+mybatis:
+  mapper-locations: classpath:mappers/*.xml
+  type-aliases-package: org.tlh.exam.entity
