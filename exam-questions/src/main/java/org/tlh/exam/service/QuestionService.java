@@ -6,8 +6,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.tlh.exam.auth.model.resp.UserInfoRespDto;
 import org.tlh.exam.dto.QuestionDto;
 import org.tlh.exam.entity.Question;
+import org.tlh.exam.holder.LoginUserHolder;
 import org.tlh.exam.mapper.QuestionMapper;
 
 import java.util.List;
@@ -80,7 +82,11 @@ public class QuestionService {
         Question result=new Question();
         BeanUtils.copyProperties(questionDto,result);
         result.setIsActive(questionDto.isActive());
-        // todo 设置创建人信息
+        UserInfoRespDto loginUser = LoginUserHolder.getLoginUser();
+        if(loginUser!=null){
+            result.setCreatorId(loginUser.getId());
+            result.setCreatorName(loginUser.getName());
+        }
         return result;
     }
 

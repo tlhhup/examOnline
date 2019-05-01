@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * <p>
  * Github: https://github.com/tlhhup
  */
+@EnableAuthorization
 @SpringBootApplication
 @EnableTransactionManagement
 public class ExamQuestionApplication {

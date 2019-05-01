@@ -16,6 +16,9 @@ import java.util.Set;
 @ApiModel(value = "用户信息")
 public class UserInfoRespDto implements Serializable{
 
+    @ApiModelProperty(value = "用户ID")
+    private int id;
+
     @ApiModelProperty(value = "姓名")
     private String name;
 

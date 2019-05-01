@@ -129,6 +129,7 @@ public class UserService {
         if (user.isPresent()) {
             User userInfo = user.get();
             UserInfoRespDto result = new UserInfoRespDto();
+            result.setId(userInfo.getId());
             result.setName(userInfo.getUserName());
             // todo 以下数据处理
             result.setAvatar("https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif");
