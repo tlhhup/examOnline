@@ -1,0 +1,14 @@
+server:
+  port: 10017
+spring:
+  datasource:
+    password: 123456
+    username: root
+    driver-class-name: org.gjt.mm.mysql.Driver
+    url: jdbc:mysql:///exam_questions
+    type: org.springframework.jdbc.datasource.DriverManagerDataSource
+  application:
+    name: exam-questions
+mybatis:
+  mapper-locations: classpath:mappers/*.xml
+  type-aliases-package: org.tlh.exam.entity

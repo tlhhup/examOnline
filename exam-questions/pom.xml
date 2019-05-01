@@ -40,6 +40,19 @@
             <artifactId>pagehelper-spring-boot-starter</artifactId>
             <version>${pagehelper.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.tlh</groupId>
+            <artifactId>exam-commons</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <!-- test -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
 </project>

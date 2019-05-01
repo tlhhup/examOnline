@@ -23,17 +23,55 @@ public class QuestionTypeService {
     @Autowired
     private QuestionTypeMapper questionTypeMapper;
 
-    public List<QuestionTypeDto> findAll(){
+    public List<QuestionTypeDto> findAll() {
         List<QuestionType> types = this.questionTypeMapper.findAll();
-        if(types!=null&&!types.isEmpty()){
-            List<QuestionTypeDto> results = types.parallelStream().map(questionType -> {
-                QuestionTypeDto result = new QuestionTypeDto();
-                BeanUtils.copyProperties(questionType, result);
-                return result;
-            }).collect(Collectors.toList());
+        if (types != null && !types.isEmpty()) {
+            List<QuestionTypeDto> results = types.parallelStream().map(this::dealQuestionType2Dto).collect(Collectors.toList());
             return results;
         }
         return null;
+    }
+
+    public QuestionTypeDto getDetailById(int id) {
+        QuestionType questionType = this.questionTypeMapper.findQuestionTypeById(id);
+        return questionType != null ? dealQuestionType2Dto(questionType) : null;
+    }
+
+    @Transactional
+    public boolean saveQuestionType(QuestionTypeDto questionTypeDto){
+        QuestionType questionType = this.dealDto2QuestionType(questionTypeDto);
+        return this.questionTypeMapper.insertQuestionType(questionType)>0;
+    }
+
+    @Transactional
+    public boolean updateQuestionType(QuestionTypeDto questionTypeDto){
+        QuestionType questionType = this.dealDto2QuestionType(questionTypeDto);
+        return this.questionTypeMapper.updateQuestionType(questionType)>0;
+    }
+
+    @Transactional
+    public boolean updateQuestionTypeStatus(int id,boolean active){
+        return this.questionTypeMapper.updateQuestionTypeStatus(id, active)>0;
+    }
+
+    @Transactional
+    public boolean deleteQuestionTypeById(int id){
+        return this.questionTypeMapper.deleteQuestionType(id)>0;
+    }
+
+
+    private QuestionTypeDto dealQuestionType2Dto(QuestionType questionType) {
+        QuestionTypeDto result = new QuestionTypeDto();
+        BeanUtils.copyProperties(questionType, result);
+        result.setActive(questionType.getIsActive());
+        return result;
+    }
+
+    private QuestionType dealDto2QuestionType(QuestionTypeDto questionTypeDto) {
+        QuestionType result = new QuestionType();
+        BeanUtils.copyProperties(questionTypeDto, result);
+        result.setIsActive(questionTypeDto.isActive());
+        return result;
     }
 
 }

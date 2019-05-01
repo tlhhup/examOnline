@@ -1,9 +1,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.tlh.exam.mapper.QuestionTypeMapper">
+<mapper namespace="org.tlh.exam.mapper.SubjectMapper">
 
-    <resultMap id="type" type="org.tlh.exam.entity.QuestionType">
+    <resultMap id="type" type="org.tlh.exam.entity.Subject">
         <id property="id" column="id" javaType="int"/>
         <result property="name" column="name" javaType="string"/>
         <result property="description" column="description" javaType="string"/>
@@ -13,19 +13,19 @@
     </resultMap>
 
     <select id="findAll" resultMap="type">
-        select * from et_question_type
+        select * from et_subjects
     </select>
 
-    <select id="findQuestionTypeById" resultMap="type" parameterType="int">
-        select * from et_question_type where id=#{value}
+    <select id="findSubjectById" resultMap="type" parameterType="int">
+        select * from et_subjects where id=#{value}
     </select>
 
-    <insert id="insertQuestionType" parameterType="org.tlh.exam.entity.QuestionType" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
-        insert into et_question_type(name,description,is_active) values (#{name},#{description},#{isActive})
+    <insert id="insertSubject" parameterType="org.tlh.exam.entity.QuestionType" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        insert into et_subjects(name,description,is_active) values (#{name},#{description},#{isActive})
     </insert>
 
-    <update id="updateQuestionType" parameterType="org.tlh.exam.entity.QuestionType">
-        update et_question_type
+    <update id="updateSubject" parameterType="org.tlh.exam.entity.QuestionType">
+        update et_subjects
         <set>
             <if test="name!=null and name!=''">
                 name=#{name},
@@ -39,12 +39,12 @@
         </where>
     </update>
 
-    <update id="updateQuestionTypeStatus">
-        update et_question_type set is_active=#{isActive} where id=#{id}
+    <update id="updateSubjectStatus">
+        update et_subjects set is_active=#{isActive} where id=#{id}
     </update>
 
-    <delete id="deleteQuestionType" parameterType="int">
-        delete from et_question_type where id=#{value}
+    <delete id="deleteSubject" parameterType="int">
+        delete from et_subjects where id=#{value}
     </delete>
 
 </mapper>
