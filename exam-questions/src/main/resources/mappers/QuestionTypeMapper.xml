@@ -40,7 +40,7 @@
     </update>
 
     <update id="updateQuestionTypeStatus">
-        update et_question_type set is_active=#{isActive} where id=#{id}
+        update et_question_type set is_active=#{active} where id=#{id}
     </update>
 
     <delete id="deleteQuestionType" parameterType="int">

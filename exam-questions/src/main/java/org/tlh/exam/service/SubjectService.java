@@ -54,8 +54,8 @@ public class SubjectService {
 
 
     @Transactional
-    public boolean updateSubject(SubjectDto subjectDtoubject){
-        Subject subject = this.dealDto2subject(subjectDtoubject);
+    public boolean updateSubject(SubjectDto subjectDto){
+        Subject subject = this.dealDto2subject(subjectDto);
         return this.subjectMapper.updateSubject(subject)>0;
     }
 
