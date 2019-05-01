@@ -1,5 +1,7 @@
 package org.tlh.exam.service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,11 +25,16 @@ public class QuestionTypeService {
     @Autowired
     private QuestionTypeMapper questionTypeMapper;
 
-    public List<QuestionTypeDto> findAll() {
+    public org.tlh.exam.model.PageInfo findAll(int page,int size) {
+        PageHelper.startPage(page,size);
         List<QuestionType> types = this.questionTypeMapper.findAll();
-        if (types != null && !types.isEmpty()) {
-            List<QuestionTypeDto> results = types.parallelStream().map(this::dealQuestionType2Dto).collect(Collectors.toList());
-            return results;
+        PageInfo<QuestionType> pageInfo = new PageInfo<>(types);
+        if (pageInfo != null && !pageInfo.getList().isEmpty()) {
+            List<QuestionTypeDto> results = pageInfo.getList().parallelStream().map(this::dealQuestionType2Dto).collect(Collectors.toList());
+            org.tlh.exam.model.PageInfo result=new org.tlh.exam.model.PageInfo();
+            result.setTotal(pageInfo.getTotal());
+            result.setItems(results);
+            return result;
         }
         return null;
     }

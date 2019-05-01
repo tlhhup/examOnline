@@ -3,10 +3,10 @@ package org.tlh.exam.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.tlh.exam.dto.QuestionTypeDto;
+import org.tlh.exam.model.PageInfo;
 import org.tlh.exam.model.ResponseDto;
 import org.tlh.exam.service.QuestionTypeService;
 
-import java.util.List;
 
 /**
  * Created by 离歌笑tlh/hu ping on 2019/4/28
@@ -21,8 +21,9 @@ public class QuestionTypeController {
     private QuestionTypeService questionTypeService;
 
     @GetMapping("/list")
-    public ResponseDto findAllTypes(){
-        List<QuestionTypeDto> all = this.questionTypeService.findAll();
+    public ResponseDto findAllTypes(@RequestParam(name = "page",defaultValue = "1") int page,
+                                    @RequestParam(name = "size",defaultValue = "20") int size){
+        PageInfo all = this.questionTypeService.findAll(page, size);
         return ResponseDto.ok(all);
     }
 

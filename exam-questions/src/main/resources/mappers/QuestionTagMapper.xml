@@ -1,0 +1,50 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.tlh.exam.mapper.QuestionTagMapper">
+
+    <resultMap id="questionTag" type="org.tlh.exam.entity.QuestionTag">
+        <id property="id" column="id" javaType="int"/>
+        <result property="tagName" column="tag_name" javaType="string"/>
+        <result property="description" column="description" javaType="string"/>
+        <result property="isActive" column="is_active" javaType="boolean"/>
+        <result property="updateTime" column="update_time" javaType="date"/>
+        <result property="createTime" column="create_time" javaType="date"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="questionTag">
+        select * from et_question_tag
+    </select>
+
+    <select id="detailById" resultMap="questionTag" resultType="int">
+        select * from et_question_tag where id=#{value}
+    </select>
+
+    <insert id="save" parameterType="org.tlh.exam.entity.QuestionTag" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into et_question_tag(tag_name,description,is_active) values (#{tagName},#{description},#{isActive})
+    </insert>
+    
+    <update id="update" parameterType="org.tlh.exam.entity.QuestionTag">
+        update et_question_tag
+        <set>
+            <if test="tagName!=null and tagName!=''">
+                tag_name=#{tagName},
+            </if>
+            <if test="description!=null and description!=''">
+                description=#{description},
+            </if>
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+    <update id="active">
+        update et_question_tag set is_active=#{active} where id=#{id}
+    </update>
+
+    <delete id="deleteById" parameterType="int">
+        delete from et_question_tag where id=#{value}
+    </delete>
+
+</mapper>

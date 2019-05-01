@@ -7,10 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.tlh.exam.dto.QuestionTypeDto;
-
-import java.util.List;
-
-import static org.junit.Assert.*;
+import org.tlh.exam.model.PageInfo;
 
 /**
  * Created by 离歌笑tlh/hu ping on 2019/5/1
@@ -27,7 +24,7 @@ public class QuestionTypeServiceTest {
 
     @Test
     public void findAll() {
-        List<QuestionTypeDto> all = this.questionTypeService.findAll();
+        PageInfo all = this.questionTypeService.findAll(1, 10);
         System.out.println(all);
     }
 

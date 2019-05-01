@@ -1,0 +1,54 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.tlh.exam.mapper.KnowledgePointMapper">
+
+    <resultMap id="knowledgePoint" type="org.tlh.exam.entity.KnowledgePoint">
+        <id property="id" column="id" javaType="int"/>
+        <result property="pointName" column="point_name" javaType="string"/>
+        <result property="description" column="description" javaType="string"/>
+        <result property="isActive" column="is_active" javaType="boolean"/>
+        <result property="updateTime" column="update_time" javaType="date"/>
+        <result property="createTime" column="create_time" javaType="date"/>
+        <result property="subjectId" column="subject_id" javaType="int"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="knowledgePoint">
+        select * from et_knowledge_point
+    </select>
+
+    <select id="detailById" resultMap="knowledgePoint" resultType="int">
+        select * from et_knowledge_point where id=#{value}
+    </select>
+
+    <insert id="save" parameterType="org.tlh.exam.entity.KnowledgePoint" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into et_knowledge_point(point_name,description,is_active,subject_id) values (#{pointName},#{description},#{isActive},#{subjectId})
+    </insert>
+    
+    <update id="update" parameterType="org.tlh.exam.entity.KnowledgePoint">
+        update et_knowledge_point
+        <set>
+            <if test="pointName!=null and pointName!=''">
+                point_name=#{pointName},
+            </if>
+            <if test="description!=null and description!=''">
+                description=#{description},
+            </if>
+            <if test="subjectId!=null">
+                subject_id=#{subjectId}
+            </if>
+        </set>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+    <update id="active">
+        update et_knowledge_point set is_active=#{active} where id=#{id}
+    </update>
+
+    <delete id="deleteById" parameterType="int">
+        delete from et_knowledge_point where id=#{value}
+    </delete>
+
+</mapper>

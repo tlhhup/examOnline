@@ -1,10 +1,13 @@
 package org.tlh.exam.service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.tlh.exam.dto.SubjectDto;
+import org.tlh.exam.entity.KnowledgePoint;
 import org.tlh.exam.entity.Subject;
 import org.tlh.exam.mapper.SubjectMapper;
 
@@ -23,11 +26,16 @@ public class SubjectService {
     @Autowired
     private SubjectMapper subjectMapper;
 
-    public List<SubjectDto> findAll() {
+    public org.tlh.exam.model.PageInfo findAll(int page,int size){
+        PageHelper.startPage(page,size);
         List<Subject> types = this.subjectMapper.findAll();
-        if (types != null && !types.isEmpty()) {
-            List<SubjectDto> results = types.parallelStream().map(this::dealSubject2Dto).collect(Collectors.toList());
-            return results;
+        PageInfo<Subject> pageInfo = new PageInfo<>(types);
+        if (pageInfo != null && !pageInfo.getList().isEmpty()) {
+            List<SubjectDto> results = pageInfo.getList().parallelStream().map(this::dealSubject2Dto).collect(Collectors.toList());
+            org.tlh.exam.model.PageInfo result=new org.tlh.exam.model.PageInfo();
+            result.setItems(results);
+            result.setTotal(pageInfo.getTotal());
+            return result;
         }
         return null;
     }
