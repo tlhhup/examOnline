@@ -1,5 +1,7 @@
 server:
   port: 10017
+  servlet:
+    context-path: /question
 spring:
   datasource:
     password: 123456
@@ -25,3 +27,15 @@ pagehelper:
   reasonable: true
   support-methods-arguments: true
   params: count=countSql
+# 发布时采用的地址为编排
+---
+spring:
+  profiles: deploy
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}/exam_questions
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PASSWORD:123456}
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka:10011/eureka/

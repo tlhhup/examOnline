@@ -15,6 +15,8 @@ import org.tlh.exam.model.PageInfo;
 import org.tlh.exam.model.ResponseDto;
 import org.tlh.exam.service.SubjectService;
 
+import java.util.List;
+
 /**
  * Created by 离歌笑tlh/hu ping on 2019/5/1
  * <p>
@@ -32,6 +34,12 @@ public class SubjectController {
                             @RequestParam(name = "size",defaultValue = "20") int size){
         PageInfo all = this.subjectService.findAll(page, size);
         return ResponseDto.ok(all);
+    }
+
+    @GetMapping("/all")
+    public ResponseDto all(){
+        List<SubjectDto> active = this.subjectService.allActive();
+        return ResponseDto.ok(active);
     }
 
     @GetMapping("/detail/{id}")

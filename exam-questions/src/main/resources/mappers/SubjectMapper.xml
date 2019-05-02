@@ -16,6 +16,10 @@
         select * from et_subjects
     </select>
 
+    <select id="allActive" resultMap="type">
+        select * from et_subjects where is_active=true
+    </select>
+
     <select id="findSubjectById" resultMap="type" parameterType="int">
         select * from et_subjects where id=#{value}
     </select>

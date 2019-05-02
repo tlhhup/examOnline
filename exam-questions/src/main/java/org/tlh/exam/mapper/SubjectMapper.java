@@ -16,6 +16,8 @@ public interface SubjectMapper {
 
     List<Subject> findAll();
 
+    List<Subject> allActive();
+
     Subject findSubjectById(int id);
 
     int insertSubject(Subject subject);

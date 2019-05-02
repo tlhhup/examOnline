@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.tlh.exam.dto.SubjectDto;
-import org.tlh.exam.entity.KnowledgePoint;
 import org.tlh.exam.entity.Subject;
 import org.tlh.exam.mapper.SubjectMapper;
 
@@ -36,6 +35,15 @@ public class SubjectService {
             result.setItems(results);
             result.setTotal(pageInfo.getTotal());
             return result;
+        }
+        return null;
+    }
+
+    public List<SubjectDto> allActive(){
+        List<Subject> types =this.subjectMapper.allActive();
+        if(types!=null&&!types.isEmpty()){
+            List<SubjectDto> results = types.parallelStream().map(this::dealSubject2Dto).collect(Collectors.toList());
+            return results;
         }
         return null;
     }

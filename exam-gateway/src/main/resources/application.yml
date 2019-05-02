@@ -18,6 +18,10 @@ spring:
           uri: lb://exam-user
           predicates:
             - Path=/user/**
+        - id: question
+          uri: lb://exam-questions
+          predicates:
+            - Path=/question/**
   zipkin:
     base-url: http://localhost:9411/
 eureka:
