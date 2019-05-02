@@ -25,9 +25,9 @@ public class SubjectService {
     @Autowired
     private SubjectMapper subjectMapper;
 
-    public org.tlh.exam.model.PageInfo findAll(int page,int size){
+    public org.tlh.exam.model.PageInfo findAll(int page,int size,String name){
         PageHelper.startPage(page,size);
-        List<Subject> types = this.subjectMapper.findAll();
+        List<Subject> types = this.subjectMapper.findAll(name);
         PageInfo<Subject> pageInfo = new PageInfo<>(types);
         if (pageInfo != null && !pageInfo.getList().isEmpty()) {
             List<SubjectDto> results = pageInfo.getList().parallelStream().map(this::dealSubject2Dto).collect(Collectors.toList());

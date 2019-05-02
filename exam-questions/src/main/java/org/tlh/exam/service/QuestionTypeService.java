@@ -25,9 +25,9 @@ public class QuestionTypeService {
     @Autowired
     private QuestionTypeMapper questionTypeMapper;
 
-    public org.tlh.exam.model.PageInfo findAll(int page,int size) {
+    public org.tlh.exam.model.PageInfo findAll(int page,int size,String name) {
         PageHelper.startPage(page,size);
-        List<QuestionType> types = this.questionTypeMapper.findAll();
+        List<QuestionType> types = this.questionTypeMapper.findAll(name);
         PageInfo<QuestionType> pageInfo = new PageInfo<>(types);
         if (pageInfo != null && !pageInfo.getList().isEmpty()) {
             List<QuestionTypeDto> results = pageInfo.getList().parallelStream().map(this::dealQuestionType2Dto).collect(Collectors.toList());

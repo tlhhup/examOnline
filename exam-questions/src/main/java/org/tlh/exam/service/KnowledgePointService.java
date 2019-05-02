@@ -25,9 +25,9 @@ public class KnowledgePointService {
     @Autowired
     private KnowledgePointMapper knowledgePointMapper;
 
-    public org.tlh.exam.model.PageInfo findAll(int page,int size){
+    public org.tlh.exam.model.PageInfo findAll(int page,int size,String name){
         PageHelper.startPage(page,size);
-        List<KnowledgePoint> knowledgePoints = this.knowledgePointMapper.findAll();
+        List<KnowledgePoint> knowledgePoints = this.knowledgePointMapper.findAll(name);
         PageInfo<KnowledgePoint> pageInfo = new PageInfo<>(knowledgePoints);
         List<KnowledgePointDto> results = pageInfo.getList().parallelStream().map(this::dealKnowledgePoint2Dto).collect(Collectors.toList());
         org.tlh.exam.model.PageInfo result=new org.tlh.exam.model.PageInfo();

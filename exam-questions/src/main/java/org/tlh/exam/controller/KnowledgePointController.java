@@ -29,8 +29,9 @@ public class KnowledgePointController {
 
     @GetMapping("/list")
     public ResponseDto findAll(@RequestParam(name = "page",defaultValue = "1") int page,
-                               @RequestParam(name = "size",defaultValue = "20") int size){
-        PageInfo all = this.knowledgePointService.findAll(page, size);
+                               @RequestParam(name = "size",defaultValue = "20") int size,
+                               @RequestParam(name = "pointName",required = false)String name){
+        PageInfo all = this.knowledgePointService.findAll(page, size,name);
         return ResponseDto.ok(all);
     }
 

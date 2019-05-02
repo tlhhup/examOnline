@@ -31,8 +31,9 @@ public class SubjectController {
 
     @GetMapping("/list")
     public ResponseDto list(@RequestParam(name = "page",defaultValue = "1") int page,
-                            @RequestParam(name = "size",defaultValue = "20") int size){
-        PageInfo all = this.subjectService.findAll(page, size);
+                            @RequestParam(name = "size",defaultValue = "20") int size,
+                            @RequestParam(name = "name",required = false)String name){
+        PageInfo all = this.subjectService.findAll(page, size,name);
         return ResponseDto.ok(all);
     }
 

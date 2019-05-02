@@ -14,7 +14,7 @@ import java.util.List;
 @Mapper
 public interface QuestionTagMapper {
 
-    List<QuestionTag> findAll();
+    List<QuestionTag> findAll(@Param("name") String name);
 
     QuestionTag detailById(int id);
 

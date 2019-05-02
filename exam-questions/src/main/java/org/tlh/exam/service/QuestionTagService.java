@@ -27,9 +27,9 @@ public class QuestionTagService {
     @Autowired
     private QuestionTagMapper questionTagMapper;
 
-    public org.tlh.exam.model.PageInfo findAll(int page,int size){
+    public org.tlh.exam.model.PageInfo findAll(int page,int size,String name){
         PageHelper.startPage(page,size);
-        List<QuestionTag> knowledgePoints = this.questionTagMapper.findAll();
+        List<QuestionTag> knowledgePoints = this.questionTagMapper.findAll(name);
         PageInfo<QuestionTag> pageInfo = new PageInfo<>(knowledgePoints);
         List<QuestionTagDto> results = pageInfo.getList().parallelStream().map(this::dealQuestionTag2Dto).collect(Collectors.toList());
         org.tlh.exam.model.PageInfo result=new org.tlh.exam.model.PageInfo();

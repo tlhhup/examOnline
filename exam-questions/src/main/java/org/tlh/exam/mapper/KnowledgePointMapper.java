@@ -14,7 +14,7 @@ import java.util.List;
 @Mapper
 public interface KnowledgePointMapper {
 
-    List<KnowledgePoint> findAll();
+    List<KnowledgePoint> findAll(@Param("name") String name);
 
     KnowledgePoint detailById(int id);
 

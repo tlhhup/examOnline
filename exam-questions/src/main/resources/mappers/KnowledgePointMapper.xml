@@ -13,8 +13,13 @@
         <result property="subjectId" column="subject_id" javaType="int"/>
     </resultMap>
 
-    <select id="findAll" resultMap="knowledgePoint">
+    <select id="findAll" resultMap="knowledgePoint" parameterType="string">
         select * from et_knowledge_point
+        <where>
+            <if test="name!=null and name!=''">
+                point_name like concat(#{name},'%')
+            </if>
+        </where>
     </select>
 
     <select id="detailById" resultMap="knowledgePoint" resultType="int">

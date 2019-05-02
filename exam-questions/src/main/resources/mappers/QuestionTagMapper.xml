@@ -12,8 +12,13 @@
         <result property="createTime" column="create_time" javaType="date"/>
     </resultMap>
 
-    <select id="findAll" resultMap="questionTag">
+    <select id="findAll" resultMap="questionTag" parameterType="string">
         select * from et_question_tag
+        <where>
+            <if test="name">
+                tag_name like concat(#{name},'%')
+            </if>
+        </where>
     </select>
 
     <select id="detailById" resultMap="questionTag" resultType="int">

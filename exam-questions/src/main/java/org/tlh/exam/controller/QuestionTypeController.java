@@ -22,8 +22,9 @@ public class QuestionTypeController {
 
     @GetMapping("/list")
     public ResponseDto findAllTypes(@RequestParam(name = "page",defaultValue = "1") int page,
-                                    @RequestParam(name = "size",defaultValue = "20") int size){
-        PageInfo all = this.questionTypeService.findAll(page, size);
+                                    @RequestParam(name = "size",defaultValue = "20") int size,
+                                    @RequestParam(name = "name",required = false)String name){
+        PageInfo all = this.questionTypeService.findAll(page, size,name);
         return ResponseDto.ok(all);
     }
 

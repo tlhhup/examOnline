@@ -12,8 +12,13 @@
         <result property="isActive" column="is_active" javaType="boolean"/>
     </resultMap>
 
-    <select id="findAll" resultMap="type">
+    <select id="findAll" resultMap="type" parameterType="string">
         select * from et_subjects
+        <where>
+            <if test="name!=null and name!=''">
+                name like concat(#{name},'%')
+            </if>
+        </where>
     </select>
 
     <select id="allActive" resultMap="type">

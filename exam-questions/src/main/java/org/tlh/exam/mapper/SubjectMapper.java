@@ -14,7 +14,7 @@ import java.util.List;
 @Mapper
 public interface SubjectMapper {
 
-    List<Subject> findAll();
+    List<Subject> findAll(@Param("name") String name);
 
     List<Subject> allActive();
 

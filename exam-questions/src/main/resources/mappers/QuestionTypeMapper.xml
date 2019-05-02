@@ -14,6 +14,11 @@
 
     <select id="findAll" resultMap="type">
         select * from et_question_type
+        <where>
+            <if test="name!=null and name!=''">
+                name like concat(#{name},'%')
+            </if>
+        </where>
     </select>
 
     <select id="findQuestionTypeById" resultMap="type" parameterType="int">

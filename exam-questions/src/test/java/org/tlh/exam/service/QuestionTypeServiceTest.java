@@ -24,7 +24,7 @@ public class QuestionTypeServiceTest {
 
     @Test
     public void findAll() {
-        PageInfo all = this.questionTypeService.findAll(1, 10);
+        PageInfo all = this.questionTypeService.findAll(1, 10,"");
         System.out.println(all);
     }
 

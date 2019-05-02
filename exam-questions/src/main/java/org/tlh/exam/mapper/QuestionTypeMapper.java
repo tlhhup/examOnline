@@ -14,7 +14,7 @@ import java.util.List;
 @Mapper
 public interface QuestionTypeMapper {
 
-    List<QuestionType> findAll();
+    List<QuestionType> findAll(@Param("name") String name);
 
     QuestionType findQuestionTypeById(int id);
 
