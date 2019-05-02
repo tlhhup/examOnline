@@ -1,0 +1,12 @@
+package ${package}.controller;
+
+import ${package}.service.${className};
+import ${package}.entity.${className};
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("${secondModuleName}")
+public class ${className}Controller {
+
+}

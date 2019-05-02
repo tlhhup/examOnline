@@ -1,0 +1,17 @@
+package ${package}.service;
+
+import org.springframework.stereotype.Service;
+
+import ${package}.entity.${className};
+import ${package}.mapper.${className}Mapper;
+
+/**
+ * ${comments}
+ *
+ * Created by ${author} on ${date}
+ * <p>
+ * Github: https://github.com/tlhhup
+ */
+@Service
+public class ${className}{
+}

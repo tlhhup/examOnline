@@ -17,6 +17,7 @@
         <module>exam-monitor</module>
         <module>exam-user</module>
         <module>exam-questions</module>
+        <module>exam-generator</module>
     </modules>
     <packaging>pom</packaging>
     <parent>

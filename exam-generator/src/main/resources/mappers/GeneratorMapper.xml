@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.tlh.generator.mapper.GeneratorMapper">
+
+    <select id="queryDb" resultType="org.tlh.generator.entity.DbSchema">
+        select SCHEMA_NAME as dbName,DEFAULT_CHARACTER_SET_NAME as characterSetName,DEFAULT_COLLATION_NAME as collationName from SCHEMATA where SCHEMA_NAME not in('mysql','sys','information_schema','performance_schema');
+    </select>
+
+    <select id="queryTable" resultType="org.tlh.generator.entity.Table" parameterType="string">
+        select table_name tableName, engine, table_comment as tableComment, create_time as createTime from tables
+        <where>
+            table_schema = #{value}
+        </where>
+    </select>
+
+    <select id="queryTableDetail" resultType="org.tlh.generator.entity.Table">
+        select table_name tableName, engine, table_comment as tableComment, create_time as createTime from tables
+        <where>
+            table_schema = #{dbName} and tableName=#{tableName}
+        </where>
+    </select>
+
+    <select id="queryColumns" resultType="java.util.Map">
+		select column_name columnName, data_type dataType, column_comment columnComment, column_key columnKey, extra from columns
+ 			where table_name = #{tableName} and table_schema = #{dbName} order by ordinal_position
+	</select>
+</mapper>

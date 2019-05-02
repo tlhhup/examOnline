@@ -1,0 +1,15 @@
+package ${package}.mapper;
+
+import ${package}.entity.${className};
+
+/**
+ * ${comments}
+ *
+ * Created by ${author} on ${date}
+ * <p>
+ * Github: https://github.com/tlhhup
+ */
+@Mapper
+public interface ${className}Mapper{
+	
+}

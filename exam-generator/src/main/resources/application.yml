@@ -1,0 +1,23 @@
+server:
+  port: 10018
+  servlet:
+    context-path: /generator
+spring:
+  datasource:
+    password: 123456
+    username: root
+    url: jdbc:mysql:///information_schema
+    type: org.springframework.jdbc.datasource.DriverManagerDataSource
+    driver-class-name: org.gjt.mm.mysql.Driver
+  application:
+    name: exam-generator
+eureka:
+  instance:
+    appname: exam-generator
+    lease-expiration-duration-in-seconds: 5
+    lease-renewal-interval-in-seconds: 5
+  client:
+    service-url:
+      defaultZone: http://localhost:10011/eureka/
+mybatis:
+  mapper-locations: classpath:mappers/*.xml
