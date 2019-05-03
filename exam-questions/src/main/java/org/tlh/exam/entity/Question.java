@@ -13,8 +13,8 @@ import java.util.Date;
 public class Question {
 
     private Integer id;
-    private String name;
-    private String content;
+    private String name;//问题名称，简写
+    private String content;//存问题的所有信息，题目、答案
     private Integer duration;
     private Integer points;
     private String answer;

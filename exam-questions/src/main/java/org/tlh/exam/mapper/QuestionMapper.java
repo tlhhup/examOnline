@@ -2,6 +2,7 @@ package org.tlh.exam.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.tlh.exam.dto.QuestionQueryDto;
 import org.tlh.exam.entity.Question;
 
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
 @Mapper
 public interface QuestionMapper {
 
-    List<Question> findAll();
+    List<Question> findAll(QuestionQueryDto questionQueryDto);
 
     Question detailById(int id);
 

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.tlh.exam.auth.model.resp.UserInfoRespDto;
 import org.tlh.exam.dto.QuestionDto;
+import org.tlh.exam.dto.QuestionQueryDto;
 import org.tlh.exam.entity.Question;
 import org.tlh.exam.holder.LoginUserHolder;
 import org.tlh.exam.mapper.QuestionMapper;
@@ -27,9 +28,9 @@ public class QuestionService {
     @Autowired
     private QuestionMapper questionMapper;
 
-    public org.tlh.exam.model.PageInfo findAll(int page,int size){
+    public org.tlh.exam.model.PageInfo findAll(int page, int size, QuestionQueryDto questionQueryDto){
         PageHelper.startPage(page,size);
-        List<Question> knowledgePoints = this.questionMapper.findAll();
+        List<Question> knowledgePoints = this.questionMapper.findAll(questionQueryDto);
         PageInfo<Question> pageInfo = new PageInfo<>(knowledgePoints);
         List<QuestionDto> results = pageInfo.getList().parallelStream().map(this::dealQuestion2Dto).collect(Collectors.toList());
         org.tlh.exam.model.PageInfo result=new org.tlh.exam.model.PageInfo();

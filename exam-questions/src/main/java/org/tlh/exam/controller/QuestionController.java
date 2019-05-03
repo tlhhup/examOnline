@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.tlh.exam.dto.QuestionDto;
+import org.tlh.exam.dto.QuestionQueryDto;
 import org.tlh.exam.model.PageInfo;
 import org.tlh.exam.model.ResponseDto;
 import org.tlh.exam.service.QuestionService;
@@ -29,8 +30,14 @@ public class QuestionController {
 
     @GetMapping("/list")
     public ResponseDto findAll(@RequestParam(name = "page",defaultValue = "1") int page,
-                               @RequestParam(name = "size",defaultValue = "20") int size){
-        PageInfo all = this.questionService.findAll(page, size);
+                               @RequestParam(name = "size",defaultValue = "20") int size,
+                               @RequestParam(name = "name",required = false)String name,
+                               @RequestParam(name = "questionType",required = false)Integer questionTypeId,
+                               @RequestParam(name = "subject",required = false)Integer subjectId,
+                               @RequestParam(name = "knowledgePoint",required = false)Integer knowledgePointId,
+                               @RequestParam(name = "questionTag",required = false)Integer questionTagId){
+        QuestionQueryDto questionQueryDto = new QuestionQueryDto(name, questionTypeId, subjectId, knowledgePointId, questionTagId);
+        PageInfo all = this.questionService.findAll(page, size, questionQueryDto);
         return ResponseDto.ok(all);
     }
 

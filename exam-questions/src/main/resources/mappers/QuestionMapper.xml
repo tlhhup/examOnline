@@ -27,7 +27,7 @@
         <result property="questionTypeName" column="typeName" javaType="string"/>
     </resultMap>
 
-    <select id="findAll" resultMap="withQuestionType">
+    <select id="findAll" resultMap="withQuestionType" parameterType="org.tlh.exam.dto.QuestionQueryDto">
         SELECT
             q.*,
             t.name AS typeName
@@ -35,6 +35,33 @@
             et_question q
                 INNER JOIN
             et_question_type t ON q.question_type_id = t.id
+        <where>
+            <if test="name!=null and name!=''">
+                and q.name like concat(#{name},'%')
+            </if>
+            <if test="questionTypeId!=null">
+                and t.id=#{questionTypeId}
+            </if>
+            <if test="questionTagId!=null">
+                and q.id in (
+                  select question_id from et_question_tag_links where tag_id=#{questionTagId}
+                )
+            </if>
+            <if test="knowledgePointId!=null">
+                and q.id in (
+                  select question_id from et_question_point_links where point_id=#{knowledgePointId}
+                )
+            </if>
+            <if test="knowledgePointId==null and subjectId!=null">
+                and FIND_IN_SET(q.examing_point,
+                    (SELECT
+                          GROUP_CONCAT(point_name)
+                     FROM
+                        et_knowledge_point
+                     WHERE
+                        subject_id = #{subjectId}))
+            </if>
+        </where>
     </select>
 
     <select id="detailById" resultMap="base" resultType="int">
