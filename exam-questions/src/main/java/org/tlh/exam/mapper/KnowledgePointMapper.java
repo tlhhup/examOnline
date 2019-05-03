@@ -16,6 +16,8 @@ public interface KnowledgePointMapper {
 
     List<KnowledgePoint> findAll(@Param("name") String name);
 
+    List<KnowledgePoint> findActiveAll();
+
     KnowledgePoint detailById(int id);
 
     int save(KnowledgePoint knowledgePoint);

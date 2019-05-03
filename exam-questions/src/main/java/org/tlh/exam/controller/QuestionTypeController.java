@@ -7,6 +7,8 @@ import org.tlh.exam.model.PageInfo;
 import org.tlh.exam.model.ResponseDto;
 import org.tlh.exam.service.QuestionTypeService;
 
+import java.util.List;
+
 
 /**
  * Created by 离歌笑tlh/hu ping on 2019/4/28
@@ -25,6 +27,12 @@ public class QuestionTypeController {
                                     @RequestParam(name = "size",defaultValue = "20") int size,
                                     @RequestParam(name = "name",required = false)String name){
         PageInfo all = this.questionTypeService.findAll(page, size,name);
+        return ResponseDto.ok(all);
+    }
+
+    @GetMapping("/all")
+    public ResponseDto queryAll(){
+        List<QuestionTypeDto> all = this.questionTypeService.findAll();
         return ResponseDto.ok(all);
     }
 

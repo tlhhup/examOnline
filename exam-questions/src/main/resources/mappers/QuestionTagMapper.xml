@@ -21,6 +21,10 @@
         </where>
     </select>
 
+    <select id="findActiveAll" resultMap="questionTag">
+        select * from et_question_tag where is_active=true
+    </select>
+
     <select id="detailById" resultMap="questionTag" resultType="int">
         select * from et_question_tag where id=#{value}
     </select>

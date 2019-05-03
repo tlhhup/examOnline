@@ -39,6 +39,12 @@ public class QuestionTypeService {
         return null;
     }
 
+    public List<QuestionTypeDto> findAll(){
+        List<QuestionType> questionTypes = this.questionTypeMapper.findActiveAll();
+        List<QuestionTypeDto> results = questionTypes.parallelStream().map(this::dealQuestionType2Dto).collect(Collectors.toList());
+        return results;
+    }
+
     public QuestionTypeDto getDetailById(int id) {
         QuestionType questionType = this.questionTypeMapper.findQuestionTypeById(id);
         return questionType != null ? dealQuestionType2Dto(questionType) : null;

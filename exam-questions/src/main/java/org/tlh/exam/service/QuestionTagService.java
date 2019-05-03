@@ -38,6 +38,12 @@ public class QuestionTagService {
         return result;
     }
 
+    public List<QuestionTagDto> findAll(){
+        List<QuestionTag> tags = this.questionTagMapper.findActiveAll();
+        List<QuestionTagDto> results = tags.parallelStream().map(this::dealQuestionTag2Dto).collect(Collectors.toList());
+        return results;
+    }
+
     public QuestionTagDto detailById(int id){
         QuestionTag questionTag = this.questionTagMapper.detailById(id);
         return questionTag!=null?this.dealQuestionTag2Dto(questionTag):null;

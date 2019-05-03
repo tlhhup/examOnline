@@ -22,6 +22,10 @@
         </where>
     </select>
 
+    <select id="findActiveAll" resultMap="knowledgePoint">
+        select * from et_knowledge_point where is_active=true
+    </select>
+
     <select id="detailById" resultMap="knowledgePoint" resultType="int">
         select * from et_knowledge_point where id=#{value}
     </select>

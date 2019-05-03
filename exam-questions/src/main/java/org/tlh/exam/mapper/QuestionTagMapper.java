@@ -16,6 +16,8 @@ public interface QuestionTagMapper {
 
     List<QuestionTag> findAll(@Param("name") String name);
 
+    List<QuestionTag> findActiveAll();
+
     QuestionTag detailById(int id);
 
     int save(QuestionTag questionTag);

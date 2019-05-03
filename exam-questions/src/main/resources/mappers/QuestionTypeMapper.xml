@@ -21,6 +21,10 @@
         </where>
     </select>
 
+    <select id="findActiveAll" resultMap="type">
+        select * from et_question_type where is_active=true
+    </select>
+
     <select id="findQuestionTypeById" resultMap="type" parameterType="int">
         select * from et_question_type where id=#{value}
     </select>

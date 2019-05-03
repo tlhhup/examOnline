@@ -36,6 +36,12 @@ public class KnowledgePointService {
         return result;
     }
 
+    public List<KnowledgePointDto> findAll(){
+        List<KnowledgePoint> points = this.knowledgePointMapper.findActiveAll();
+        List<KnowledgePointDto> results = points.parallelStream().map(this::dealKnowledgePoint2Dto).collect(Collectors.toList());
+        return results;
+    }
+
     public KnowledgePointDto detailById(int id){
         KnowledgePoint knowledgePoint = this.knowledgePointMapper.detailById(id);
         return knowledgePoint!=null?this.dealKnowledgePoint2Dto(knowledgePoint):null;

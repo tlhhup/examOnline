@@ -2,6 +2,7 @@ package org.tlh.exam.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.tlh.exam.entity.Question;
 import org.tlh.exam.entity.QuestionType;
 
 import java.util.List;
@@ -15,6 +16,8 @@ import java.util.List;
 public interface QuestionTypeMapper {
 
     List<QuestionType> findAll(@Param("name") String name);
+
+    List<QuestionType> findActiveAll();
 
     QuestionType findQuestionTypeById(int id);
 

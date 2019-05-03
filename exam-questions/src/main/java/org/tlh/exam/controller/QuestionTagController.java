@@ -15,6 +15,8 @@ import org.tlh.exam.model.PageInfo;
 import org.tlh.exam.model.ResponseDto;
 import org.tlh.exam.service.QuestionTagService;
 
+import java.util.List;
+
 /**
  * Created by 离歌笑tlh/hu ping on 2019/5/1
  * <p>
@@ -32,6 +34,12 @@ public class QuestionTagController {
                                @RequestParam(name = "size",defaultValue = "20") int size,
                                @RequestParam(name = "tagName",required = false)String name){
         PageInfo all = this.questionTagService.findAll(page, size,name);
+        return ResponseDto.ok(all);
+    }
+
+    @GetMapping("/all")
+    public ResponseDto findAll(){
+        List<QuestionTagDto> all = this.questionTagService.findAll();
         return ResponseDto.ok(all);
     }
 

@@ -25,6 +25,7 @@ public class QuestionDto implements Serializable {
     private String examingPoint;
     private String keyword;
     private int questionTypeId;
+    private String typeName;
     private String creatorName;
     private Date createTime;
     private Date updateTime;

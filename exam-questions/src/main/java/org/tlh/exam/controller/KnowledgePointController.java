@@ -15,6 +15,8 @@ import org.tlh.exam.model.PageInfo;
 import org.tlh.exam.model.ResponseDto;
 import org.tlh.exam.service.KnowledgePointService;
 
+import java.util.List;
+
 /**
  * Created by 离歌笑tlh/hu ping on 2019/5/1
  * <p>
@@ -32,6 +34,12 @@ public class KnowledgePointController {
                                @RequestParam(name = "size",defaultValue = "20") int size,
                                @RequestParam(name = "pointName",required = false)String name){
         PageInfo all = this.knowledgePointService.findAll(page, size,name);
+        return ResponseDto.ok(all);
+    }
+
+    @GetMapping("/all")
+    public ResponseDto queryAll(){
+        List<KnowledgePointDto> all = this.knowledgePointService.findAll();
         return ResponseDto.ok(all);
     }
 
