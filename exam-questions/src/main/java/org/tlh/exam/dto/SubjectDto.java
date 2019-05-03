@@ -2,7 +2,6 @@ package org.tlh.exam.dto;
 
 import lombok.Data;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -11,10 +10,8 @@ import java.util.Date;
  * Github: https://github.com/tlhhup
  */
 @Data
-public class SubjectDto implements Serializable {
+public class SubjectDto extends SubjectBaseDto {
 
-    private int id;
-    private String name;
     private String description;
     private Date createTime;
     private Date updateTime;

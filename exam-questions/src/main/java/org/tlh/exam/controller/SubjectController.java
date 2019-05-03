@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.tlh.exam.dto.SubjectDto;
+import org.tlh.exam.dto.SubjectWithPointDto;
 import org.tlh.exam.model.PageInfo;
 import org.tlh.exam.model.ResponseDto;
 import org.tlh.exam.service.SubjectService;
@@ -39,7 +40,7 @@ public class SubjectController {
 
     @GetMapping("/all")
     public ResponseDto all(){
-        List<SubjectDto> active = this.subjectService.allActive();
+        List<SubjectWithPointDto> active = this.subjectService.allActive();
         return ResponseDto.ok(active);
     }
 

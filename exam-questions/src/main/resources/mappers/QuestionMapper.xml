@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.tlh.exam.mapper.QuestionMapper">
 
-    <resultMap id="question" type="org.tlh.exam.entity.Question">
+    <resultMap id="base" type="org.tlh.exam.entity.Question">
         <id property="id" column="id" javaType="int"/>
         <result property="name" column="name" javaType="string"/>
         <result property="content" column="content" javaType="string"/>
@@ -23,11 +23,21 @@
         <result property="createTime" column="create_time" javaType="date"/>
     </resultMap>
 
-    <select id="findAll" resultMap="question">
-        select * from et_question
+    <resultMap id="withQuestionType" type="org.tlh.exam.entity.Question" extends="base">
+        <result property="questionTypeName" column="typeName" javaType="string"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="withQuestionType">
+        SELECT
+            q.*,
+            t.name AS typeName
+        FROM
+            et_question q
+                INNER JOIN
+            et_question_type t ON q.question_type_id = t.id
     </select>
 
-    <select id="detailById" resultMap="question" resultType="int">
+    <select id="detailById" resultMap="base" resultType="int">
         select * from et_question where id=#{value}
     </select>
 

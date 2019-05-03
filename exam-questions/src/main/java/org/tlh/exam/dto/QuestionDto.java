@@ -24,9 +24,13 @@ public class QuestionDto implements Serializable {
     private String reference;
     private String examingPoint;
     private String keyword;
+
     private int questionTypeId;
-    private String typeName;
+    private String questionTypeName;
+
+    private int creatorId;
     private String creatorName;
+
     private Date createTime;
     private Date updateTime;
     private boolean isActive;

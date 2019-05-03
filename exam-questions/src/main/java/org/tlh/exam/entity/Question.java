@@ -30,4 +30,8 @@ public class Question {
     private Date updateTime;
     private Boolean isActive;
 
+
+    /****** 关联表数据 *******/
+    private String questionTypeName;
+
 }

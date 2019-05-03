@@ -12,6 +12,13 @@
         <result property="isActive" column="is_active" javaType="boolean"/>
     </resultMap>
 
+    <resultMap id="withPoints" type="org.tlh.exam.entity.Subject" extends="type">
+        <collection property="knowledgePoints" ofType="org.tlh.exam.entity.KnowledgePoint">
+            <id property="id" column="pointId" javaType="int"/>
+            <result property="pointName" column="pointName" javaType="string"/>
+        </collection>
+    </resultMap>
+
     <select id="findAll" resultMap="type" parameterType="string">
         select * from et_subjects
         <where>
@@ -21,8 +28,17 @@
         </where>
     </select>
 
-    <select id="allActive" resultMap="type">
-        select * from et_subjects where is_active=true
+    <select id="allActive" resultMap="withPoints">
+        SELECT
+            s.*,
+            p.id as pointId,
+            p.point_name AS pointName
+        FROM
+            et_subjects s
+                LEFT JOIN
+            et_knowledge_point p ON s.id = p.subject_id
+        WHERE
+            s.is_active = TRUE
     </select>
 
     <select id="findSubjectById" resultMap="type" parameterType="int">

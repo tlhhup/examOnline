@@ -2,7 +2,6 @@ package org.tlh.exam.dto;
 
 import lombok.Data;
 
-import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -11,10 +10,8 @@ import java.util.Date;
  * Github: https://github.com/tlhhup
  */
 @Data
-public class KnowledgePointDto implements Serializable {
+public class KnowledgePointDto extends KnowledgePointBaseDto {
 
-    private int id;
-    private String pointName;
     private String description;
     private boolean isActive;
     private Date createTime;

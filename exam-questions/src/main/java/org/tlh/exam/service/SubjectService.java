@@ -6,7 +6,10 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.tlh.exam.dto.KnowledgePointBaseDto;
 import org.tlh.exam.dto.SubjectDto;
+import org.tlh.exam.dto.SubjectWithPointDto;
+import org.tlh.exam.entity.KnowledgePoint;
 import org.tlh.exam.entity.Subject;
 import org.tlh.exam.mapper.SubjectMapper;
 
@@ -39,15 +42,14 @@ public class SubjectService {
         return null;
     }
 
-    public List<SubjectDto> allActive(){
+    public List<SubjectWithPointDto> allActive(){
         List<Subject> types =this.subjectMapper.allActive();
         if(types!=null&&!types.isEmpty()){
-            List<SubjectDto> results = types.parallelStream().map(this::dealSubject2Dto).collect(Collectors.toList());
+            List<SubjectWithPointDto> results = types.parallelStream().map(this::dealSubject2PointDto).collect(Collectors.toList());
             return results;
         }
         return null;
     }
-
 
     public SubjectDto getDetailById(int id) {
         Subject subject = this.subjectMapper.findSubjectById(id);
@@ -81,6 +83,19 @@ public class SubjectService {
         SubjectDto result=new SubjectDto();
         BeanUtils.copyProperties(subject,result);
         result.setActive(subject.getIsActive());
+        return result;
+    }
+
+    private SubjectWithPointDto dealSubject2PointDto(Subject subject) {
+        SubjectWithPointDto result=new SubjectWithPointDto();
+        BeanUtils.copyProperties(subject,result);
+        List<KnowledgePoint> knowledgePoints = subject.getKnowledgePoints();
+        if(knowledgePoints!=null&&!knowledgePoints.isEmpty()){
+            List<KnowledgePointBaseDto> collect = knowledgePoints.parallelStream().map(knowledgePoint -> {
+                return new KnowledgePointBaseDto(knowledgePoint.getId(), knowledgePoint.getPointName());
+            }).collect(Collectors.toList());
+            result.setPoints(collect);
+        }
         return result;
     }
 

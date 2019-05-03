@@ -27,6 +27,9 @@ pagehelper:
   reasonable: true
   support-methods-arguments: true
   params: count=countSql
+logging:
+  level:
+    org.tlh.exam.mapper: debug
 # 发布时采用的地址为编排
 ---
 spring:
