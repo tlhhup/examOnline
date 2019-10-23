@@ -29,6 +29,8 @@
     <properties>
         <docker.prefix>exam</docker.prefix>
         <docker.plugin.version>1.2.0</docker.plugin.version>
+        <jdk.version>1.8</jdk.version>
+        <encoding>UTF-8</encoding>
     </properties>
 
     <dependencyManagement>
@@ -57,8 +59,13 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${jdk.version}</source>
+                    <target>${jdk.version}</target>
+                    <encoding>${encoding}</encoding>
+                </configuration>
             </plugin>
         </plugins>
     </build>

@@ -1,0 +1,42 @@
+server:
+  port: 10010
+spring:
+  application:
+    name: exam-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: auth
+          uri: lb://exam-auth-server
+          predicates:
+            - Path=/auth/**     # /auth开头的请求都路由到exam-auth-server中
+        - id: config
+          uri: lb://exam-config-admin
+          predicates:
+            - Path=/xhr/**
+        - id: config
+          uri: lb://exam-user
+          predicates:
+            - Path=/user/**
+        - id: question
+          uri: lb://exam-questions
+          predicates:
+            - Path=/question/**
+        - id: generator
+          uri: lb://exam-generator
+          predicates:
+            - Path=/generator/**
+  zipkin:
+    base-url: http://dev.zipkin.exam.com:9411/
+eureka:
+  instance:
+    appname: exam-gateway
+    lease-expiration-duration-in-seconds: 5
+    lease-renewal-interval-in-seconds: 5
+  client:
+    service-url:
+      defaultZone: http://dev.exam.com:10011/eureka/
+exam:
+  gateway:
+    ignore-Paths:
+      - /auth/auth/

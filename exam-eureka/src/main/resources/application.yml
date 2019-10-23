@@ -1,41 +1,4 @@
-server:
-  port: 10011
 spring:
-  application:
-    name: exam-eureka
-eureka:
-  instance:
-    hostname: localhost
-    appname: exam-eureka
-  client:
-    registerWithEureka: false
-    fetchRegistry: false
-    serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
-  server:
-    enable-self-preservation: false # 开发阶段关闭保护模式
-    eviction-interval-timer-in-ms: 5000 # client 清理时间
-
----
-spring:
-  profiles: master
-server:
-  port: 10011
-eureka:
-  client:
-    registerWithEureka: true
-    fetchRegistry: true
-    serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:10012/eureka/
-
----
-spring:
-  profiles: slave
-server:
-  port: 10012
-eureka:
-  client:
-    registerWithEureka: true
-    fetchRegistry: true
-    serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:10011/eureka/
+  profiles:
+    active:
+      - dev

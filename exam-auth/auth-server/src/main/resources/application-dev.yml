@@ -1,0 +1,58 @@
+server:
+  port: 10016
+  servlet:
+    context-path: /auth
+spring:
+  application:
+    name: exam-auth-server
+  datasource:
+    url: jdbc:mysql://dev.db.exam.com:3306/exam_auth
+    driver-class-name: org.gjt.mm.mysql.Driver
+    username: root
+    password: 123456
+    type: org.springframework.jdbc.datasource.DriverManagerDataSource
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQL57InnoDBDialect
+  messages:
+    basename: auth
+  redis:
+    host: dev.redis.exam.com
+    database: 10
+eureka:
+  instance:
+    appname: exam-auth-server
+    lease-expiration-duration-in-seconds: 5
+    lease-renewal-interval-in-seconds: 5
+    metadata-map:
+      management:
+        context-path: /auth/actuator
+    health-check-url: http://dev.exam.com:${server.port}/auth/actuator/info
+    status-page-url: http://dev.exam.com:${server.port}/auth/actuator/info
+    home-page-url: http://dev.exam.com:${server.port}/
+  client:
+    service-url:
+      defaultZone: http://dev.exam.com:10011/eureka/
+logging:
+  level:
+    org.hibernate: debug
+swagger:
+  enabled: true
+  title: 授权中心
+exam:
+  auth:
+    secret: 123456
+    server-rsa-secret: 123456
+    client-rsa-secret: 123456
+    plain-password: 123456
+    ignore-path:
+      - /auth/auth/login
+      - /auth/
+      - /auth/csrf
+      - /auth/actuator/*
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

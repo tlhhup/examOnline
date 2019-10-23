@@ -7,7 +7,7 @@ spring:
 eureka:
  client:
    service-url:
-     defaultZone: http://${REGISTER_HOST:localhost}:10011/eureka/
+     defaultZone: http://dev.exam.com:10011/eureka/
  instance:
    appname: exam-config-admin
    lease-expiration-duration-in-seconds: 5

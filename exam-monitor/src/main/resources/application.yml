@@ -1,38 +1,4 @@
-server:
-  port: 10015
 spring:
-  application:
-    name: exam-monitor
-  mail:
-    host: smtp.qq.com
-    username: 137273278@qq.com
-    password: qebogwrtudyebjie
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-            required: true
-  boot:
-    admin:
-      notify:
-        mail:
-          to: 3153913422@qq.com
-          from: 137273278@qq.com
-eureka:
-  instance:
-    appname: exam-monitor
-    lease-expiration-duration-in-seconds: 5
-    lease-renewal-interval-in-seconds: 5
-  client:
-    service-url:
-      defaultZone: http://localhost:10011/eureka/
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-  endpoint:
-    health:
-      show-details: ALWAYS
+  profiles:
+    active:
+      - dev

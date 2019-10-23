@@ -1,0 +1,30 @@
+server:
+  port: 10012
+  servlet:
+    context-path: /user
+spring:
+  application:
+    name: exam-user
+  datasource:
+    url: jdbc:mysql://dev.db.exam.com:3306/exam_user
+    driver-class-name: org.gjt.mm.mysql.Driver
+    username: root
+    password: 123456
+    type: org.springframework.jdbc.datasource.DriverManagerDataSource
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQL57InnoDBDialect
+  rabbitmq:
+    host: dev.rabbitmq.exam.com
+    username: guest
+    password: guest
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 15000
+        readTimeout: 15000
+        loggerLevel: basic
+        requestInterceptors:
+          - org.tlh.exam.user.interceptors.TokenSetInterceptor

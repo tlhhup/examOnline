@@ -13,4 +13,4 @@ eureka:
     lease-renewal-interval-in-seconds: 5
   client:
     service-url:
-      defaultZone: http://localhost:10011/eureka/
+      defaultZone: http://dev.exam.com:10011/eureka/
