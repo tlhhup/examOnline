@@ -28,4 +28,24 @@ public interface KnowledgePointMapper {
 
     int deleteById(int id);
 
+    /**
+     * 获取考点名称
+     * @param examPoints
+     * @return
+     */
+    String findKnowledgeNamesByIds(@Param("ids") int[] examPoints);
+
+    /**
+     * 保存考点和问题关联数据
+     * @param qId
+     * @param pointIds
+     */
+    void insertQuestionLinks(@Param("qId") Integer qId, @Param("pointIds") int[] pointIds);
+
+    /**
+     * 删除问题关联
+     * @param id
+     * @param isQuestionId
+     */
+    void deleteQuestionLinks(@Param("id") int id, @Param("isQuestionId") boolean isQuestionId);
 }

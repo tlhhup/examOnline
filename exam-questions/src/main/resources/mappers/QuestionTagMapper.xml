@@ -32,7 +32,11 @@
     <insert id="save" parameterType="org.tlh.exam.entity.QuestionTag" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into et_question_tag(tag_name,description,is_active) values (#{tagName},#{description},#{isActive})
     </insert>
-    
+
+    <insert id="insertQuestionLinks">
+        INSERT INTO et_question_tag_links VALUES(#{tagId},#{qId})
+    </insert>
+
     <update id="update" parameterType="org.tlh.exam.entity.QuestionTag">
         update et_question_tag
         <set>
@@ -54,6 +58,16 @@
 
     <delete id="deleteById" parameterType="int">
         delete from et_question_tag where id=#{value}
+    </delete>
+
+    <delete id="deleteQuestionLinks">
+        delete from et_question_tag_links where
+        <if test="isQuestion">
+            question_id=#{id}
+        </if>
+        <if test="not isQuestion">
+            tag_id=#{id}
+        </if>
     </delete>
 
 </mapper>

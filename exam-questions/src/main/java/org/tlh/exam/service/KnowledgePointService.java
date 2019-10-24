@@ -56,6 +56,7 @@ public class KnowledgePointService {
 
     @Transactional
     public boolean deleteById(int id){
+        this.knowledgePointMapper.deleteQuestionLinks(id,false);
         int i = this.knowledgePointMapper.deleteById(id);
         return i>0;
     }

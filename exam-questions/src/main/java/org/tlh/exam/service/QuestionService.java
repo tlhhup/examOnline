@@ -2,6 +2,7 @@ package org.tlh.exam.service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,8 +12,11 @@ import org.tlh.exam.dto.QuestionDto;
 import org.tlh.exam.dto.QuestionQueryDto;
 import org.tlh.exam.entity.Question;
 import org.tlh.exam.holder.LoginUserHolder;
+import org.tlh.exam.mapper.KnowledgePointMapper;
 import org.tlh.exam.mapper.QuestionMapper;
+import org.tlh.exam.mapper.QuestionTagMapper;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,12 +25,19 @@ import java.util.stream.Collectors;
  * <p>
  * Github: https://github.com/tlhhup
  */
+@Slf4j
 @Service
 @Transactional(readOnly = true)
 public class QuestionService {
 
     @Autowired
     private QuestionMapper questionMapper;
+
+    @Autowired
+    private KnowledgePointMapper knowledgePointMapper;
+
+    @Autowired
+    private QuestionTagMapper questionTagMapper;
 
     public org.tlh.exam.model.PageInfo findAll(int page, int size, QuestionQueryDto questionQueryDto){
         PageHelper.startPage(page,size);
@@ -46,13 +57,33 @@ public class QuestionService {
 
     @Transactional
     public boolean create(QuestionDto questionDto){
-        Question question = this.dealDto2Question(questionDto);
-        int flag = this.questionMapper.save(question);
-        return flag>0;
+        try {
+            int[] pointIds= Arrays.stream(questionDto.getExamingPoint().split(",")).mapToInt(Integer::parseInt).toArray();
+            //1.将考点id转换为name
+            String examPoints= this.knowledgePointMapper.findKnowledgeNamesByIds(pointIds);
+            Question question = this.dealDto2Question(questionDto);
+            question.setExamingPoint(examPoints);
+            //2.保存问题信息
+            this.questionMapper.save(question);
+            //3.保存问题、知识点关联信息
+            Integer qId = question.getId();
+            this.knowledgePointMapper.insertQuestionLinks(qId,pointIds);
+            //4.保存问题、标签关联信息
+            this.questionTagMapper.insertQuestionLinks(qId,questionDto.getTagId());
+            return true;
+        } catch (Exception e) {
+            log.error("save question error",e);
+            throw e;
+        }
     }
 
     @Transactional
     public boolean deleteById(int id){
+        //1.删除考点关联
+        this.knowledgePointMapper.deleteQuestionLinks(id,true);
+        //2.删除标签关联
+        this.questionTagMapper.deleteQuestionLinks(id,true);
+        //3.删除自己
         int i = this.questionMapper.deleteById(id);
         return i>0;
     }

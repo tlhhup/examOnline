@@ -31,6 +31,9 @@ public class QuestionDto implements Serializable {
     private int creatorId;
     private String creatorName;
 
+    private int tagId;
+    private String tagName;
+
     private Date createTime;
     private Date updateTime;
     private boolean isActive;

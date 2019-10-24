@@ -28,4 +28,17 @@ public interface QuestionTagMapper {
 
     int deleteById(int id);
 
+    /**
+     * 保存问题标签关联
+     * @param qId
+     * @param tagId
+     */
+    void insertQuestionLinks(@Param("qId") Integer qId, @Param("tagId") int tagId);
+
+    /**
+     * 删除问题标签关联
+     * @param id
+     * @param isQuestion
+     */
+    void deleteQuestionLinks(@Param("id") int id,@Param("isQuestion") boolean isQuestion);
 }

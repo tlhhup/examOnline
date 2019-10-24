@@ -58,6 +58,7 @@ public class QuestionTagService {
 
     @Transactional
     public boolean deleteById(int id){
+        this.questionTagMapper.deleteQuestionLinks(id,false);
         int i = this.questionTagMapper.deleteById(id);
         return i>0;
     }

@@ -1,5 +1,6 @@
 package org.tlh.exam.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,5 +18,6 @@ import java.io.Serializable;
 public class KnowledgePointBaseDto implements Serializable {
 
     private int id;
+    @JsonProperty(value = "name")
     private String pointName;
 }

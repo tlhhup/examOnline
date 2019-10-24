@@ -30,10 +30,24 @@
         select * from et_knowledge_point where id=#{value}
     </select>
 
+    <select id="findKnowledgeNamesByIds" resultType="string">
+        SELECT GROUP_CONCAT(CONCAT_WS(' -> ',s.`name`,p.`point_name`)) FROM et_knowledge_point p INNER JOIN et_subjects s ON p.`subject_id`=s.`id` AND p.`id` IN
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </select>
+
     <insert id="save" parameterType="org.tlh.exam.entity.KnowledgePoint" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         insert into et_knowledge_point(point_name,description,is_active,subject_id) values (#{pointName},#{description},#{isActive},#{subjectId})
     </insert>
-    
+
+    <insert id="insertQuestionLinks">
+        INSERT INTO et_question_point_links VALUES
+        <foreach collection="pointIds" separator="," item="pId">
+            (#{qId},#{pId})
+        </foreach>
+    </insert>
+
     <update id="update" parameterType="org.tlh.exam.entity.KnowledgePoint">
         update et_knowledge_point
         <set>
@@ -58,6 +72,16 @@
 
     <delete id="deleteById" parameterType="int">
         delete from et_knowledge_point where id=#{value}
+    </delete>
+
+    <delete id="deleteQuestionLinks">
+        DELETE FROM et_question_point_links where
+        <if test="isQuestionId">
+            question_id=#{id}
+        </if>
+        <if test="not isQuestionId">
+            point_id=#{id}
+        </if>
     </delete>
 
 </mapper>
